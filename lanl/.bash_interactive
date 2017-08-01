@@ -1,0 +1,130 @@
+# .bashrc_interactive
+#
+# .bashrc_interactive is sourced by interactive shells from
+# .bash_profile and .bashrc
+#------------------------------------------------------------------------------#
+
+#------------------------------------------------------------------------------#
+# User Customizations
+#------------------------------------------------------------------------------#
+if test "$INTERACTIVE" = true; then
+
+  # if test -n "${verbose}"; then
+  #   echo "in ~/.bash_interactive"
+  # fi
+
+  # # Set terminal title
+  # echo -ne "\033]0;${nodename}\007"
+
+  # Aliases ---------------------------------------------------------------------#
+
+  alias cmakedebug='cmake -Wdeprecated -Wdev'
+  alias cmakebc='cmake -DGCC_ENABLE_GLIBCXX_DEBUG=ON'
+  alias cmakedebugfast='cmake -DBUILD_TESTING=OFF'
+  alias cmakerel='cmake -DCMAKE_BUILD_TYPE=RELEASE'
+  alias cmakerelfast='cmake -DCMAKE_BUILD_TYPE=RELEASE -DBUILD_TESTING=OFF'
+  alias debug='totalview $* 2>/dev/null'
+  alias eclipse='eclipse -data /var/tmp/kgt/workspace -nosplash'
+  alias ehco='echo'
+  alias em='emacsclient -c --alternate-editor=emacs'
+  if test -x /bin/emacs; then
+    alias emacs='/bin/emacs -fn Inconsolata &> $HOME/emacs.log'
+  fi
+  #alias emacs='/bin/emacs -fn 6x13 &> /dev/null'
+  alias gitk='gitk --all'
+  alias gt='gnome-terminal'
+  alias moduel='module'
+  alias mpiruntv='mpirun -tv $* 2>/dev/null'
+  alias qtcreator='qtcreator -noload Welcome'
+  alias rtt='resettermtitle'
+  alias totalview='totalview -newUI'
+  alias vdir='pushd $VENDOR_DIR'
+  alias vi='emacs -nw'
+  alias vulcan='ssh -t ihpc-gate1.lanl.gov ssh vulcan.llnl.gov'
+  alias wget='wget --user-agent=Mozilla --content-disposition -E -c'
+  alias xload='xload -fg brown -fn 6x13 -geometry 180x100+1500+0'
+  if test `which okular | wc -l` = 1; then
+    alias xpdf='okular'
+  else
+    alias xpdf='evince'
+    # atril
+  fi
+
+  if test -f ~/.ssh/xfkeytab; then
+    alias kerbp='kinit -f -l 8h -kt ~/.ssh/xfkeytab kellytpush@lanl.gov'
+  fi
+  if test -f ~/.ssh/cron.keytab; then
+    alias kerb='kinit -f -l 8h -kt ~/.ssh/cron.keytab kellyt@lanl.gov'
+  fi
+
+  # Kerberos
+  alias kerb='kinit -f -l 8h -kt ~/.ssh/cron.keytab kellyt@lanl.gov'
+
+  add_to_path /scratch/regress/draco/regression PATH
+
+  # Functions ----------------------------------------------------------------#
+  function eapde ()
+  {
+    export EAP_INHIBIT_KSM=1
+    export L_EAP_ENV=new
+    source /usr/projects/eap/dotfiles/.bashrc
+    module unload paraview
+    module list
+  }
+
+  # Tune the bash shell ------------------------------------------------------#
+  shopt -s cdspell
+  shopt -s direxpand
+
+  # colored GCC warnings and errors
+  export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+  # Convert dos2unix ---------------------------------------------------------#
+  # https://kb.iu.edu/d/acux
+  # dos2unix
+  #   awk '{ sub("\r$", ""); print }' winfile.txt > unixfile.txt
+  # unix2dos
+  #   awk 'sub("$", "\r")' unixfile.txt > winfile.txt
+
+  function dos2unix ()
+  {
+    dosfile=$1
+    unixfile=$dosfile
+    tmp=`mktemp`
+    awk '{ sub("\r$", ""); print }' $dosfile > $tmp
+    cp $tmp $unixfile
+  }
+
+  function unix2dos ()
+  {
+    unixfile=$1
+    dosfile=$unixfile
+    tmp=`mktemp`
+    awk 'sub("$", "\r")' $unixfile > $tmp
+    cp $tmp $dosfile
+  }
+
+  function = ()
+  {
+    calc="${@//p/+}";
+    calc="${calc//x/*}";
+    bc -l <<< "scale=10;$calc"
+  }
+
+  function keychain()
+  {
+    /scratch/vendors/keychain-2.8.2/keychain ~/.ssh/id_rsa
+    source ~/.keychain/${HOSTNAME}-sh
+  }
+
+  export TERM=xterm-256color
+
+case ${nodename} in
+  sn*) shopt -s direxpand ;;
+esac
+
+fi # if test "$INTERACTIVE" = "true"
+
+#------------------------------------------------------------------------------#
+# End .bash_interactive
+#------------------------------------------------------------------------------#

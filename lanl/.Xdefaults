@@ -1,0 +1,19 @@
+! .Xdefaults
+
+! NB: for .Xdefaults, comments begin with "!"
+! To reload .Xdefaults after making changes, enter:
+! 	xrdb -merge ~/.Xdefaults
+
+
+! Xload customization
+xload*foreground:	blue
+xload*background:       white	
+xload*scale:		4
+xload*jumpScroll:	1
+xload*geometry:		150x100
+xload*update:		5
+!xload*reverseVideo:	on
+xload*font: 6x9
+
+
+emacs.font: 6x13

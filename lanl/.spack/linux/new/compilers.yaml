@@ -1,0 +1,39 @@
+compilers:
+- compiler:
+    environment: {}
+    extra_rpaths: []
+    flags: {}
+    modules: []
+    operating_system: rhel7
+    paths:
+      cc: /usr/bin/gcc
+      cxx: /usr/bin/g++
+      f77: /usr/bin/gfortran
+      fc: /usr/bin/gfortran
+    spec: gcc@4.8.5
+- compiler:
+    environment: {}
+    extra_rpaths: []
+    flags: {}
+    modules: []
+    operating_system: rhel7
+    paths:
+      cc: /scratch/kellyt/spack/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/gcc-7.1.0-eqsggqrq6povf7zoe2v6fya5npb54yju/bin/gcc
+      cxx: /scratch/kellyt/spack/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/gcc-7.1.0-eqsggqrq6povf7zoe2v6fya5npb54yju/bin/g++
+      f77: /scratch/kellyt/spack/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/gcc-7.1.0-eqsggqrq6povf7zoe2v6fya5npb54yju/bin/gfortran
+      fc: /scratch/kellyt/spack/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/gcc-7.1.0-eqsggqrq6povf7zoe2v6fya5npb54yju/bin/gfortran
+    spec: gcc@7.1.0
+    target: x86_64
+- compiler:
+    environment: {}
+    extra_rpaths: []
+    flags: {}
+    modules: []
+    operating_system: rhel7
+    paths:
+      cc: /scratch/kellyt/spack/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/llvm-4.0.0-vydj4jfwuekhkirpeykv7mpnwkeozsb4/bin/clang
+      cxx: /scratch/kellyt/spack/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/llvm-4.0.0-vydj4jfwuekhkirpeykv7mpnwkeozsb4/bin/clang++
+      f77: /usr/bin/gfortran
+      fc: /usr/bin/gfortran
+    spec: clang@4.0.0
+    target: x86_64

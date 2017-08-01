@@ -1,0 +1,4 @@
+emacs.font: 6x13
+
+xterm*loginshell: true
+xterm*rightScrollBar: true

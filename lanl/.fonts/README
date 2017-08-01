@@ -1,0 +1,21 @@
+http://www.chaos.org.uk/~jf/gnome-terminal-misc-fixed-fonts.xhtml
+
+1. Get the fonts and save them at ~/.fonts
+2. Create ~/.fonts/fonts.conf
+3. fc-cache -fv
+4. logout/login
+5. gnome-terminal -> edit -> profile -> font -> Family: Fixed, Style: SemiCondensed, Size 10.
+
+Inconsolata Font
+cd ~/.fonts
+wget http://kvz.io/assets/posts/Inconsolata.ttf
+fc-cache -f -v
+
+Application Fonts:
+
+Emacs would no longer process setting the default font in ~/.emacs.  Instead,
+create an alias '/bin/emacs -fn 6x13'
+
+
+List fonts:
+fc-list

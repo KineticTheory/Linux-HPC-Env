@@ -1,0 +1,37 @@
+
+# See http://www.open-mpi.org/faq/?category=running
+
+# disable mrnet on ccs-net servers
+# http://docs.roguewave.com/totalview/2016.06/html/index.html#page/User_Guides/totalviewug-scalability.28.10.html
+dset TV::mrnet_enabled false
+
+# Check if the newly loaded image is one of the MPI starter programs
+# and start it immediately if it is.
+
+######################################################################
+### OpenMPI Version 1.3.3
+######################################################################
+### source /ccs/codes/mpi/openmpi/Linux64/1.3.3/etc/openmpi-totalview.tcl
+
+######################################################################
+### OpenMPI Version 1.5.4
+######################################################################
+### source /ccs/codes/radtran/vendors/Linux64/openmpi-1.5.4/etc/openmpi-totalview.tcl
+
+proc mpi_auto_run_starter {loaded_id} {
+    set starter_programs {mpirun mpiexec orterun}
+    set executable_name [TV::symbol get $loaded_id full_pathname]
+    set file_component [file tail $executable_name]
+
+    if {[lsearch -exact $starter_programs $file_component] != -1} {
+        puts "**************************************"
+        puts "Automatically starting $file_component"
+        puts "**************************************"
+        dgo
+    }
+}
+
+# Append this function to TotalView's image load callbacks so that
+# TotalView run this program automatically.
+
+dlappend TV::image_load_callbacks mpi_auto_run_starter
