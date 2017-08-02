@@ -1,0 +1,86 @@
+;; Object quadrature/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "quadrature/"
+  :tables
+  (list
+    (semanticdb-table "Double_Gauss.cc"
+      :major-mode 'c++-mode
+      :tags 
+        '( ("numeric" include (:system-flag t) nil [617 635])
+            ("Double_Gauss.hh" include nil nil [637 663])
+            ("Gauss_Legendre.hh" include nil nil [664 692])
+            ("ds++/to_string.hh" include nil nil [694 722])
+            ("rtt_quadrature" type
+               (:members 
+                  ( ("std" using (:type ("std" type
+                         (:prototype t
+                          :type "namespace")
+                          nil nil)) (reparse-symbol namespacesubparts) [751 771])
+                    ("rtt_dsxx::to_string" using (:type ("rtt_dsxx::to_string" type
+                         (:prototype t
+                          :type "class")
+                          nil nil)) (reparse-symbol namespacesubparts) [772 798])
+                    ("Double_Gauss" function
+                       (:constructor-flag t
+                        :parent "Double_Gauss"
+                        :arguments 
+                          ( ("sn_order" variable (:type "unsigned int") (reparse-symbol arg-sub-list) [827 845]))                          
+                        :type ("Double_Gauss" type (:type "class") nil nil))
+                        (reparse-symbol namespacesubparts) [800 1929])
+                    ("name" function
+                       (:parent "Double_Gauss"
+                        :type ("string" type (:type "class") nil nil))
+                        (reparse-symbol namespacesubparts) [2037 2097])
+                    ("parse_name" function
+                       (:parent "Double_Gauss"
+                        :type ("string" type (:type "class") nil nil))
+                        (reparse-symbol namespacesubparts) [2205 2271])
+                    ("number_of_levels" function
+                       (:parent "Double_Gauss"
+                        :type "unsigned int")
+                        (reparse-symbol namespacesubparts) [2379 2449])
+                    ("as_text" function
+                       (:parent "Double_Gauss"
+                        :arguments 
+                          ( ("indent" variable
+                               (:reference 1
+                                :constant-flag t
+                                :type ("string" type (:type "class") nil nil))
+                                (reparse-symbol arg-sub-list) [2586 2607]))                          
+                        :type ("string" type (:type "class") nil nil))
+                        (reparse-symbol namespacesubparts) [2557 2768])
+                    ("check_class_invariants" function
+                       (:parent "Double_Gauss"
+                        :type "bool")
+                        (reparse-symbol namespacesubparts) [2862 2963])
+                    ("create_level_ordinates_" function
+                       (:parent "Double_Gauss"
+                        :arguments 
+                          ( ("norm" variable
+                               (:constant-flag t
+                                :type "double")
+                                (reparse-symbol arg-sub-list) [3126 3144]))                          
+                        :type ("vector" type
+                             (:template-specifier 
+                                ( ("Ordinate" type nil nil nil))                                
+                              :type "class")
+                              nil nil))
+                        (reparse-symbol namespacesubparts) [3071 3565]))                  
+                :type "namespace")
+                nil [724 3568]))          
+      :file "Double_Gauss.cc"
+      :pointmax 3843
+      :fsize 3842
+      :lastmodtime '(22607 32314 725141 400000)
+      :unmatched-syntax nil)
+    (semanticdb-table "Double_Gauss.hh"
+      :file "Double_Gauss.hh"
+      :fsize 2219
+      :lastmodtime '(22592 61151 827918 500000))
+    (semanticdb-table "Gauss_Legendre.hh"
+      :file "Gauss_Legendre.hh"
+      :fsize 2045
+      :lastmodtime '(22592 61151 845232 800000)))
+  :file "!home!kellyt!draco!src!quadrature!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")

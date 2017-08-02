@@ -1,0 +1,191 @@
+;; Object test/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "test/"
+  :tables
+  (list
+    (semanticdb-table "tstParse_Table.cc"
+      :major-mode 'c++-mode
+      :tags 
+        '( ("ds++/Release.hh" include nil nil [630 656])
+            ("ds++/ScalarUnitTest.hh" include nil nil [657 690])
+            ("parser/File_Token_Stream.hh" include nil nil [691 729])
+            ("parser/Parse_Table.hh" include nil nil [730 762])
+            ("parser/String_Token_Stream.hh" include nil nil [763 803])
+            ("string.h" include (:system-flag t) nil [804 823])
+            ("std" using (:type ("std" type
+                 (:prototype t
+                  :type "namespace")
+                  nil nil)) nil [862 882])
+            ("rtt_parser" using (:type ("rtt_parser" type
+                 (:prototype t
+                  :type "namespace")
+                  nil nil)) nil [883 910])
+            ("rtt_dsxx" using (:type ("rtt_dsxx" type
+                 (:prototype t
+                  :type "namespace")
+                  nil nil)) nil [911 936])
+            ("color" variable
+               (:pointer 1
+                :dereference 1
+                :typemodifiers ("static")
+                :constant-flag t
+                :default-value "{\"BLACK\", \"BLUE\", \"BLUE GREEN\"}"
+                :type "char")
+                nil [1108 1170])
+            ("color_set" variable
+               (:dereference 1
+                :type "bool")
+                nil [1171 1189])
+            ("Parse_Color" function
+               (:typemodifiers ("static")
+                :arguments 
+                  ( ("" variable
+                       (:reference 1
+                        :type ("Token_Stream" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1215 1230])
+                    ("i" variable (:type "int") (reparse-symbol arg-sub-list) [1231 1237]))                  
+                :type "void")
+                nil [1191 1317])
+            ("Parse_Any_Color" function
+               (:typemodifiers ("static")
+                :arguments 
+                  ( ("tokens" variable
+                       (:reference 1
+                        :type ("Token_Stream" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [1347 1368])
+                    ("" variable (:type "int") (reparse-symbol arg-sub-list) [1369 1373]))                  
+                :type "void")
+                nil [1319 1692])
+            ("raw_table" variable
+               (:dereference 1
+                :constant-flag t
+                :default-value "{
+    {\"BLUE\", Parse_Color, 1, \"main\"},
+    {\"BLACK\", Parse_Color, 0, \"main\"},
+    {\"BLUE GREEN\", Parse_Color, 2, \"main\"},
+    {\"BLUISH GREEN\", Parse_Color, 2, \"main\"},
+    {\"lower blue\", Parse_Color, 2, \"main\"},
+    {\"COLOR\", Parse_Any_Color, 0, \"main\"},
+}"
+                :type ("Keyword" type (:type "class") nil nil))
+                nil [1694 1980])
+            ("raw_table_2" variable
+               (:dereference 1
+                :constant-flag t
+                :default-value "{
+    {\"BLUE\", Parse_Color, 1, \"main\"}, {\"BLACK\", Parse_Color, 0, \"main\"},
+}"
+                :type ("Keyword" type (:type "class") nil nil))
+                nil [2049 2156])
+            ("Error_Token_Stream" type
+               (:superclasses 
+                  ( ("Token_Stream" type
+                       (:protection "public"
+                        :type "class")
+                        nil nil))                  
+                :members 
+                  ( ("public" label nil (reparse-symbol classsubparts) [2278 2285])
+                    ("rewind" function (:type "void") (reparse-symbol classsubparts) [2288 2304])
+                    ("protected" label nil (reparse-symbol classsubparts) [2306 2316])
+                    ("report" function
+                       (:arguments 
+                          ( ("" variable
+                               (:reference 1
+                                :constant-flag t
+                                :type ("Token" type (:type "class") nil nil))
+                                (reparse-symbol arg-sub-list) [2331 2345])
+                            ("" variable
+                               (:reference 1
+                                :constant-flag t
+                                :type ("string" type (:type "class") nil nil))
+                                (reparse-symbol arg-sub-list) [2346 2369]))                          
+                        :type "void")
+                        (reparse-symbol classsubparts) [2319 2435])
+                    ("report" function
+                       (:arguments 
+                          ( ("" variable
+                               (:reference 1
+                                :constant-flag t
+                                :type ("string" type (:type "class") nil nil))
+                                (reparse-symbol arg-sub-list) [2451 2474]))                          
+                        :type "void")
+                        (reparse-symbol classsubparts) [2439 2540])
+                    ("fill_" function (:type ("Token" type (:type "class") nil nil)) (reparse-symbol classsubparts) [2544 2603]))                  
+                :type "class")
+                nil [2229 2606])
+            ("Colon_Token_Stream" type
+               (:superclasses 
+                  ( ("Token_Stream" type
+                       (:protection "public"
+                        :type "class")
+                        nil nil))                  
+                :members 
+                  ( ("public" label nil (reparse-symbol classsubparts) [2657 2664])
+                    ("Colon_Token_Stream" function
+                       (:constructor-flag t
+                        :type ("Colon_Token_Stream" type (:type "class") nil nil))
+                        (reparse-symbol classsubparts) [2667 2702])
+                    ("rewind" function (:type "void") (reparse-symbol classsubparts) [2706 2722])
+                    ("protected" label nil (reparse-symbol classsubparts) [2724 2734])
+                    ("report" function
+                       (:arguments 
+                          ( ("" variable
+                               (:reference 1
+                                :constant-flag t
+                                :type ("Token" type (:type "class") nil nil))
+                                (reparse-symbol arg-sub-list) [2749 2763])
+                            ("" variable
+                               (:reference 1
+                                :constant-flag t
+                                :type ("string" type (:type "class") nil nil))
+                                (reparse-symbol arg-sub-list) [2764 2787]))                          
+                        :type "void")
+                        (reparse-symbol classsubparts) [2737 2853])
+                    ("report" function
+                       (:arguments 
+                          ( ("" variable
+                               (:reference 1
+                                :constant-flag t
+                                :type ("string" type (:type "class") nil nil))
+                                (reparse-symbol arg-sub-list) [2869 2892]))                          
+                        :type "void")
+                        (reparse-symbol classsubparts) [2857 2958])
+                    ("fill_" function (:type ("Token" type (:type "class") nil nil)) (reparse-symbol classsubparts) [2962 3264])
+                    ("private" label nil (reparse-symbol classsubparts) [3266 3274])
+                    ("count_" variable (:type "unsigned int") (reparse-symbol classsubparts) [3277 3293]))                  
+                :type "class")
+                nil [2608 3296])
+            ("tstKeyword" function
+               (:arguments 
+                  ( ("ut" variable
+                       (:reference 1
+                        :type ("UnitTest" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [3394 3407]))                  
+                :type "void")
+                nil [3378 5079])
+            ("tstParse_Table" function
+               (:arguments 
+                  ( ("ut" variable
+                       (:reference 1
+                        :type ("UnitTest" type (:type "class") nil nil))
+                        (reparse-symbol arg-sub-list) [5181 5194]))                  
+                :type "void")
+                nil [5161 12942])
+            ("main" function
+               (:arguments 
+                  ( ("argc" variable (:type "int") (reparse-symbol arg-sub-list) [13034 13043])
+                    ("argv" variable
+                       (:pointer 1
+                        :dereference 1
+                        :type "char")
+                        (reparse-symbol arg-sub-list) [13044 13057]))                  
+                :type "int")
+                nil [13025 13176]))          
+      :file "tstParse_Table.cc"
+      :pointmax 13366
+      :fsize 13365
+      :lastmodtime '(22592 61151 717754 100000)
+      :unmatched-syntax '((punctuation 2226 . 2227) (semantic-list 2217 . 2226) (SIZEOF 2211 . 2217) (punctuation 2209 . 2210) (semantic-list 2195 . 2208) (SIZEOF 2189 . 2195) (punctuation 2187 . 2188) (symbol 2170 . 2186) (symbol 2163 . 2169) (CONST 2157 . 2162) (punctuation 2046 . 2047) (semantic-list 2037 . 2046) (SIZEOF 2031 . 2037) (punctuation 2029 . 2030) (semantic-list 2017 . 2028) (SIZEOF 2011 . 2017) (punctuation 2009 . 2010) (symbol 1994 . 2008) (symbol 1987 . 1993) (CONST 1981 . 1986))))
+  :file "!home!kellyt!draco!src!parser!test!semantic.cache"
+  :semantic-tag-version "2.0"
+  :semanticdb-version "2.2")
