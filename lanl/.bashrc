@@ -60,6 +60,8 @@ if test "$INTERACTIVE" = true; then
 
   # Set terminal title
   echo -ne "\033]0;${nodename}\007"
+  # fancy prompt
+  source ~/bash_wls.sh
 
   # home, scratchdir, modulefiles
   export CDPATH=.:/home/kellyt:/scratch:/scratch/kellyt:/scratch/vendors/Modules
