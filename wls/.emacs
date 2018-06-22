@@ -7,6 +7,13 @@
 ;; 1. byte compile draco elisp: (cd ~/draco/environment/elisp; ./compile-elisp)
 ;; 2. byte compile this file.  From emacs: M-x byte-compile-file
 ;; 3. Set draco environment directory:
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (defvar my-draco-env-dir "~/draco/environment/")
 ;; 4. Update customizations found in this file
 
@@ -184,6 +191,7 @@ Also C-x <ret> f utf-8-unix <ret>"
  '(font-lock-maximum-decoration t)
  '(global-font-lock-mode t nil (font-lock))
  '(inhibit-startup-screen t)
+ '(ring-bell-function (quote ignore))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t nil (paren))
  '(text-mode-hook (quote (turn-on-auto-fill text-mode-hook-identify)))

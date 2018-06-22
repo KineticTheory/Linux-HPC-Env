@@ -119,6 +119,7 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+set show-all-if-ambiguous on
 
 if test -d ~/spack; then
   export SPACK_ROOT=~/spack
@@ -127,10 +128,11 @@ if test -d ~/spack; then
   MODULES_HOME=`spack location -i lmod`
   if test -d $MODULES_HOME; then
     source $MODULES_HOME/lmod/lmod/init/bash
-    module use $SPACK_ROOT/share/spack/lmod/linux-ubuntu16-x86_64/Core
-    module load numdiff cmake gsl netlib-lapack ack metis random123 htop
-    module load openmpi
-    module load parmetis superlu-dist/4.3
+    module use $SPACK_ROOT/share/spack/lmod/`spack arch`/Core
+    module load numdiff cmake gsl ack metis random123 htop ccache graphviz
+    module load doxygen dia mscgen
+    module load openmpi netlib-lapack
+    module load parmetis superlu-dist trilinos
     alias ma='module avail'
     alias mld='module load'
     alias mls='module list'
@@ -148,3 +150,13 @@ keychain ~/.ssh/id_rsa
 if [[ -f ~/.keychain/`hostname`-sh ]]; then
   source ~/.keychain/`hostname`-sh
 fi
+
+# Enable docker
+
+export PATH=~/bin:$PATH
+
+#export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+#export PATH="$PATH:/mnt/c/Program\ Files/Docker/Docker/resources/bin"
+#alias docker=docker.exe
+#alias docker-compose=docker-compose.exe
+#export PATH="$PATH:/mnt/c/Program\ Files/Git/usr/bin"
