@@ -83,15 +83,18 @@ if test "$INTERACTIVE" = true; then
   # home, scratchdir, modulefiles
   export CDPATH=.:$HOME
   extra_dirs="/scratch /scratch/$USER /scratch/vendors/Modules"
-  foreach dir in $dirs; do
+  for dir in $extra_dirs; do
     if [[ -d $dir ]]; then
       export CDPATH=$CDPATH:$dir
     fi
   done
 
   # if [[ `uname -r` =~ "Microsoft" ]]; then
-  #   source ~/.bash_wls  
+  #   source ~/.bash_wls
   # fi
 
 fi
 
+#------------------------------------------------------------------------------#
+# End ~/.bashrc
+#------------------------------------------------------------------------------#
