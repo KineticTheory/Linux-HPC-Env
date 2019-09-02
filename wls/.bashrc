@@ -78,7 +78,7 @@ if test "$INTERACTIVE" = true; then
   # Set terminal title
   echo -ne "\033]0;${nodename}\007"
   # fancy prompt
-  source ~/bash_wls.sh
+  source ~/.bash_wls.sh
 
   # home, scratchdir, modulefiles
   export CDPATH=.:$HOME

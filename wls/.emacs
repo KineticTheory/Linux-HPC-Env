@@ -167,6 +167,17 @@ Also C-x <ret> f utf-8-unix <ret>"
 (require 'clang-format)
 (global-set-key [(f12)] 'clang-format-region)
 
+;; remove consecutive duplicates
+  ;; (defun uniquify-region-lines (beg end)
+  ;;   "Remove duplicate adjacent lines in region."
+  ;;   (interactive "*r")
+  ;;   (save-excursion
+  ;;     (goto-char beg)
+  ;;     (while (re-search-forward "^\\(.*\n\\)\\1+" end t)
+  ;;       (replace-match "\\1"))))
+
+
+
 ;; ========================================
 ;; GNU Emacs Custom settings
 ;; ========================================

@@ -39,6 +39,8 @@ fi
 #------------------------------------------------------------------------------#
 if [[ "${INTERACTIVE:-false}" = true ]]; then
 
+    umask 077
+
     export USERNAME=kellyt
     export NAME="Kelly (KT) Thompson"
     export EDITOR="emacs -nw"

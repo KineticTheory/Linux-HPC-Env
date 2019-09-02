@@ -56,7 +56,7 @@ if [[ "${INTERACTIVE:-false}" == "true" ]]; then
   # Kerberos
   alias kerb='kinit -f -l 8h -kt ~/.ssh/cron.keytab kellyt@lanl.gov'
 
-  add_to_path /scratch/regress/draco/regression PATH
+  # add_to_path /scratch/regress/draco/regression PATH
 
   # Functions ----------------------------------------------------------------#
   function eapde ()
@@ -99,14 +99,12 @@ if [[ "${INTERACTIVE:-false}" == "true" ]]; then
   {
     if [[ `ssh-add -L | wc -l` == 0 ]]; then
       MYHOSTNAME="`uname -n`"
-      if [[ -x $VENDOR_DIR/keychain-2.8.5/keychain ]]; then
-        eval "$VENDOR_DIR/keychain-2.8.5/keychain --agents ssh $HOME/.ssh/id_rsa"
-      elif [[ -x $VENDOR_DIR/keychain-2.8.2/keychain ]]; then
-        eval "$VENDOR_DIR/keychain-2.8.2/keychain --agents ssh $HOME/.ssh/id_rsa"
-      elif [[ -x $VENDOR_DIR/keychain-2.7.1/keychain ]]; then
-        eval "$VENDOR_DIR/keychain-2.7.1/keychain --agents ssh $HOME/.ssh/id_rsa"
-        # $HOME/.ssh/cmake_dsa"
-      elif [[ `which keychain | grep -c keychain` -gt 0 ]]; then
+      if [[ `which keychain | grep -c keychain` == 0 ]]; then
+        if [[ -x $VENDOR_DIR/keychain-2.8.5/keychain ]]; then
+          export PATH=$PATH:$VENDOR_DIR/keychain-2.8.5/keychain
+        fi
+      fi
+      if [[ `which keychain | grep -c keychain` -gt 0 ]]; then
         eval "keychain --agents ssh $HOME/.ssh/id_rsa"
       fi
       run "source $HOME/.keychain/$MYHOSTNAME-sh"

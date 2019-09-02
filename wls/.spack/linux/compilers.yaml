@@ -4,10 +4,11 @@ compilers:
     extra_rpaths: []
     flags: {}
     modules: []
-    operating_system: ubuntu16
+    operating_system: ubuntu18.04
     paths:
-      cc: /usr/bin/gcc
-      cxx: /usr/bin/g++
-      f77: /usr/bin/gfortran
-      fc: /usr/bin/gfortran
-    spec: gcc@5.4.0
+      cc: /usr/bin/gcc-7
+      cxx: /usr/bin/g++-7
+      f77: /usr/bin/gfortran-7
+      fc: /usr/bin/gfortran-7
+    spec: gcc@7.4.0
+    target: x86_64

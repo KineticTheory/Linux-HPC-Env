@@ -1,0 +1,64 @@
+packages:
+  autoconf:
+    paths:
+      autoconf@2.69: /usr
+    buildable: False
+  automake:
+    paths:
+      automake@1.15.1: /usr
+    buildable: False
+  bzip2:
+    paths:
+      bzip2@1.0.6: /
+    buildable: False
+  cairo:
+    variants: [+X]
+  doxygen:
+    variants: [+graphviz]
+  gettext:
+    paths:
+      gettext@0.19.8.1: /usr
+    buildable: False
+  git:
+    paths:
+      git@2.17.1: /usr
+    variants: [+tcltk]
+    buildable: False
+  gtkplus:
+    variants: [+X]
+  hdf5:
+    variants: [+fortran+hl+mpi]
+  hypre:
+    variants: [~internal-superlu]
+#  lua:
+#    paths:
+#      lua@5.2.4: /usr
+#    buildable: False
+  m4:
+    paths:
+      m4@1.4.18: /usr
+    buildable: False
+  matio:
+    variants: [+hdf5]
+  pango:
+    variants: [+X]
+  perl:
+    paths:
+      perl@5.26.1: /usr
+    buildable: False
+  pkg-config:
+    paths:
+      pkg-config: /
+  python:
+    variants: [+tk]
+  tar:
+    paths:
+      tar@1.29: /usr
+    buildable: False
+  trilinos:
+    variants: [+nox+superlu-dist~hypre~suite-sparse~mumps]
+  all:
+    variants: [+mpi build_type=Release]
+    providers:
+      blas: [openblas]
+      lapack: [openblas]
