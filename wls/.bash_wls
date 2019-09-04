@@ -42,9 +42,9 @@ if test -d ~/spack; then
     source $MODULES_HOME/lmod/lmod/init/bash
     module use $SPACK_ROOT/share/spack/lmod/`spack arch`/Core
     module load numdiff cmake gsl ack metis random123 htop ccache graphviz
-    module load doxygen dia mscgen
-    module load openmpi netlib-lapack
-    module load parmetis superlu-dist trilinos
+    module load doxygen openblas # mscgen netlib-lapack
+    module load openmpi
+    module load parmetis superlu-dist # trilinos
     alias ma='module avail'
     alias mld='module load'
     alias mls='module list'
