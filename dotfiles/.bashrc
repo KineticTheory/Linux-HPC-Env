@@ -14,7 +14,7 @@ fi
 
 #------------------------------------------------------------------------------#
 # CCS-2 standard setup
-#------------------------------------------------------------------------------#
+#-----------------------------------------------------------------------------#
 
 # If this is an interactive shell then the environment variable $- should
 # contain an "i":
@@ -27,6 +27,7 @@ case ${-} in
    if [[ -z "${DRACO_ENV_DIR}" ]] && [[ -f ${HOME}/.bash_profile ]]; then
      if test -n "${verbose}"; then echo "source $HOME/.bash_profile"; fi
      source $HOME/.bash_profile
+   fi
    ;;
 *) # Not an interactive shell
   export INTERACTIVE=false
@@ -73,7 +74,7 @@ if test "$INTERACTIVE" = true; then
   # fancy prompt
   source ~/.bash_prompt
   # special local setup
-  if [[ -f ~/.bashrc_wls2 ]]; then source ~/.bashrc; fi
+  if [[ -f ~/.bashrc_wls2 ]]; then source ~/.bashrc_wls2; fi
 
   # home, scratchdir, modulefiles
   export CDPATH=.:$HOME

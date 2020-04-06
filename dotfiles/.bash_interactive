@@ -138,6 +138,8 @@ if [[ "${INTERACTIVE:-false}" == "true" ]]; then
   # done
   # unset extradirs
 
+  if test -n "${verbose}"; then echo "done with ~/.bash_interactive"; fi
+
 fi # if test "$INTERACTIVE" = "true"
 
 #------------------------------------------------------------------------------#

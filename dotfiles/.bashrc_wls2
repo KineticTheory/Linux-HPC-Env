@@ -5,7 +5,7 @@
 # Customize these settings to your own preferences...
 #------------------------------------------------------------------------------#
 
-if test -n "${verbose}"; then echo "in ~/.bash_wls"; fi
+if test -n "${verbose}"; then echo "in ~/.bash_wls2"; fi
 
 #------------------------------------------------------------------------------#
 # WLS defaults
@@ -76,6 +76,8 @@ export PATH=~/bin:$PATH
 #alias docker=docker.exe
 #alias docker-compose=docker-compose.exe
 #export PATH="$PATH:/mnt/c/Program\ Files/Git/usr/bin"
+
+if test -n "${verbose}"; then echo "done with ~/.bash_wls2"; fi
 
 #------------------------------------------------------------------------------#
 # End .bash_wls
