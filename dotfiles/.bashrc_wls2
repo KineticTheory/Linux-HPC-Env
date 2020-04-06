@@ -33,8 +33,8 @@ set show-all-if-ambiguous on
 # Vendors, etc.
 #------------------------------------------------------------------------------#
 
-if test -d ~/spack; then
-  export SPACK_ROOT=~/spack-0.14.1
+export SPACK_ROOT=~/spack-0.14.1
+if [[ -d $SPACK_ROOT ]]; then
   export PATH=$SPACK_ROOT/bin:$PATH
 
   MODULES_HOME=`spack location -i lmod`
@@ -58,7 +58,6 @@ fi
 #export my_ip=`cat /etc/resolv.conf | grep nameserver | awk '{ print $2 }'`
 #export DISPLAY=${my_ip}:0
 export VENDOR_DIR=~/vendors
-export LIBGL_ALWAYS_INDIRECT=1
 
 if test -n "${verbose}"; then
   echo "DISPLAY    = $DISPLAY"
