@@ -1,0 +1,12 @@
+Windows Subsystem for Linux
+========================================
+
+FAQ:
+
+* See files in Explorer:
+  - `explorer.exe .` or
+  - navigate to \\wsl$\Ubuntu\home
+
+* Start ssh server
+  - sudo service ssh start
+  - ifconfig

@@ -1,0 +1,82 @@
+# .bashrc_wls
+#
+# .bashrc_wls is sourced by interactive shells from .bash_profile and .bashrc
+#
+# Customize these settings to your own preferences...
+#------------------------------------------------------------------------------#
+
+if test -n "${verbose}"; then echo "in ~/.bash_wls"; fi
+
+#------------------------------------------------------------------------------#
+# WLS defaults
+#------------------------------------------------------------------------------#
+
+# If set, the pattern "**" used in a pathname expansion context will match all
+# files and zero or more directories and subdirectories.  shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+set show-all-if-ambiguous on
+
+#------------------------------------------------------------------------------#
+# Vendors, etc.
+#------------------------------------------------------------------------------#
+
+if test -d ~/spack; then
+  export SPACK_ROOT=~/spack-0.14.1
+  export PATH=$SPACK_ROOT/bin:$PATH
+
+  MODULES_HOME=`spack location -i lmod`
+  if test -d $MODULES_HOME; then
+    source $MODULES_HOME/lmod/lmod/init/bash
+    module use `\ls -d $SPACK_ROOT/share/spack/lmod/*/Core`
+    module load gcc/8.3.0
+    module load numdiff cmake gsl ack htop doxygen lcov # mscgen
+    module load metis random123 openblas
+    module load eospac # ndi csk eospac
+    module load openmpi
+    module load parmetis libquo # superlu-dist trilinos
+    alias ma='module avail'
+    alias mld='module load'
+    alias mls='module list'
+  fi
+fi
+
+# Also needed to run vcxsrv with '-ac' AND disable parts of Firewall
+# https://github.com/microsoft/WSL/issues/4106#issuecomment-530006295
+#export my_ip=`cat /etc/resolv.conf | grep nameserver | awk '{ print $2 }'`
+#export DISPLAY=${my_ip}:0
+export VENDOR_DIR=~/vendors
+export LIBGL_ALWAYS_INDIRECT=1
+
+if test -n "${verbose}"; then
+  echo "DISPLAY    = $DISPLAY"
+  echo "TERM       = $TERM"
+  echo "VENDOR_DIR = $VENDOR_DIR"
+  echo "CXX        = $CXX"
+fi
+
+# Enable docker
+
+export PATH=~/bin:$PATH
+
+#export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+#export PATH="$PATH:/mnt/c/Program\ Files/Docker/Docker/resources/bin"
+#alias docker=docker.exe
+#alias docker-compose=docker-compose.exe
+#export PATH="$PATH:/mnt/c/Program\ Files/Git/usr/bin"
+
+#------------------------------------------------------------------------------#
+# End .bash_wls
+#------------------------------------------------------------------------------#
