@@ -13,12 +13,6 @@
 ;; 2. byte compile this file.  From emacs: M-x byte-compile-file
 ;; 3. Set draco environment directory:
 
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(package-initialize)
-
 (defvar my-draco-env-dir "~/draco/environment/")
 ;; 4. Update customizations found in this file
 
@@ -47,6 +41,13 @@
 ;; Personal Settings below this line
 ;;---------------------------------------------------------------------------------------
 
+;; ---------------------------------------------------------------------------
+;; MELPA package manager
+;; https://melpa.org/#/getting-started
+;; https://github.com/atilaneves/cmake-ide
+;;
+;; M-x package-install <RET> cmake-ide
+;;
 ;; package manager for emacs
 ;; M-x package-refresh-contents
 ;; M-x package-list-packages
@@ -136,18 +137,12 @@ There are two things you can do about this warning:
 ;; Dired
 (setq dired-listing-switches "-alh")
 
-;; CEDET
-;; Generate tag files for Fortran: 'gtags --gtagslabel=ctags'
-;; (defvar file-at-root-level-draco "~/.draco_ede")
-;; (defvar file-at-root-level-eap "~/cassio/.eap_ede")
-; (draco-start-ecb)
-
 ;; Allow 'emacsclient' to connect to running emacs.
-;; (if 'window-system
-;;     (require 'server)
-;;     (progn
-;;       (or (server-running-p) (server-start))
-;; ))
+(if 'window-system
+    (require 'server)
+    (progn
+      (or (server-running-p) (server-start))
+))
 
 ;; GIT customizations
 (add-to-list
@@ -173,6 +168,12 @@ There are two things you can do about this warning:
 ;; (add-hook 'c++-mode-hook
 ;;           (lambda () (modify-syntax-entry ?_ "w")))
 
+(require 'ansi-color)
+(defun display-ansi-colors ()
+  (interactive)
+  (ansi-color-apply-on-region (point-min) (point-max)))
+(if (fboundp 'display-ansi-colors)
+    (define-key text-mode-map [(f12)] 'display-ansi-colors))
 
 ;; (defun draco-dos2unix ()
 ;;   "Convert line endings to Unix style, untabify, and indent-region by mode.
@@ -297,7 +298,8 @@ auto-mode-alist."
  '(default ((t (:family "Inconsolata" :foundry "unknown" :slant normal :weight normal :height 90 :width normal :background "mint cream"))))
  '(font-lock-comment-face ((((class color) (min-colors 88) (background light)) (:foreground "purple"))))
  '(font-lock-constant-face ((((class color) (min-colors 88) (background light)) (:foreground "CadetBlue"))))
- '(font-lock-doc-face ((t (:inherit font-lock-string-face :foreground "bisque3"))))
+ '(font-lock-doc-face ((t (:inherit font-lock-string-face :foreground
+                                    "peru")))) ;; bisque
  '(font-lock-function-name-face ((((class color) (min-colors 88) (background light)) (:foreground "Blue3"))))
  '(font-lock-keyword-face ((((class color) (min-colors 88) (background light)) (:foreground "firebrick2"))))
  '(font-lock-preprocessor-face ((t (:inherit font-lock-builtin-face :foreground "hotpink"))))
