@@ -4,9 +4,9 @@
 # for examples
 #------------------------------------------------------------------------------#
 
-if [[ -f /etc/bashrc ]]; then
-  source /etc/bashrc
-fi
+#if [[ -f /etc/bashrc ]]; then
+#  source /etc/bashrc
+#fi
 
 # Making this next line active may break some commands (like scp) due to the
 # extra verbosity.
@@ -14,7 +14,7 @@ verbose=true
 
 #------------------------------------------------------------------------------#
 # CCS-2 standard setup
-#-----------------------------------------------------------------------------#
+#------------------------------------------------------------------------------#
 
 # If this is an interactive shell then the environment variable $- should
 # contain an "i":

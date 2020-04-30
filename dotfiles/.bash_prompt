@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 if test "$INTERACTIVE" = true; then
 if test -n "${verbose}"; then echo "in ~/.bash_prompt"; fi
 
@@ -1185,10 +1184,6 @@ _init_completion ()
     [[ -n ${split-} ]] && _split_longopt && split=true;
     return 0
 }
-_installed_modules ()
-{
-    COMPREPLY=($( compgen -W "$( PATH="$PATH:/sbin" lsmod |         awk '{if (NR != 1) print $1}' )" -- "$1" ))
-}
 _ip_addresses ()
 {
     local PATH=$PATH:/sbin;
@@ -1388,236 +1383,7 @@ _minimal ()
     $split && return;
     _filedir
 }
-_ml ()
-{
-    local cur="${2}" prev="${3}" cmds opts found;
-    COMPREPLY=();
-    cmds="add avail delete help keyword list load purge rm restore         save sl show spider swap unload unuse update use whatis";
-    opts="-d -D -h -q -t -v -w -s --style --expert --quiet --help         --quiet --terse --version --default --Verbose --width -r --regexp --mt";
-    case "${prev}" in
-        rm | remove | unload | switch | swap)
-            COMPREPLY=($(compgen -W "$(_module_loaded_modules)" -- "${cur}"))
-        ;;
-        restore)
-            COMPREPLY=($(compgen -W "$(_module_savelist)" -- "${cur}"))
-        ;;
-        spider)
-            COMPREPLY=($(compgen -W "$(_module_spider)" -- "${cur}"))
-        ;;
-        unuse)
-            COMPREPLY=($(IFS=: compgen -W "${MODULEPATH}" -- "${cur}"))
-        ;;
-        use | *-a*)
-            _module_dir "${cur}"
-        ;;
-        help | show | whatis)
-            COMPREPLY=($(compgen -W "$(_module_avail)" -- "${cur}"))
-        ;;
-        *)
-            case "${cur}" in
-                -*)
-                    if [ ${COMP_CWORD} -eq 1 ]; then
-                        COMPREPLY=($(compgen -W "${opts} $(_module_loaded_modules_negated)" -- "${cur}"));
-                    else
-                        COMPREPLY=($(compgen -W "        $(_module_loaded_modules_negated)" -- "${cur}"));
-                    fi
-                ;;
-                *)
-                    if [ ${COMP_CWORD} -eq 1 ]; then
-                        case "${cur}" in
-                            ls)
-                                COMPREPLY='list'
-                            ;;
-                            sw*)
-                                COMPREPLY='swap'
-                            ;;
-                            *)
-                                COMPREPLY=($(compgen -W "${cmds} $(_module_avail)" -- "${cur}"))
-                            ;;
-                        esac;
-                    else
-                        if [[ ${COMP_WORDS[COMP_CWORD-2]} == sw* ]]; then
-                            COMPREPLY=($(compgen -W "$(_module_not_yet_loaded)" -- "${cur}"));
-                        else
-                            for ((i = COMP_CWORD - 1; i > 0; i--))
-                            do
-                                case ${COMP_WORDS[$i]} in
-                                    show | whatis)
-                                        COMPREPLY=($(compgen -W "$(_module_avail)" -- "${cur}"));
-                                        found=1;
-                                        break
-                                    ;;
-                                    rm | remove | unload)
-                                        COMPREPLY=($(compgen -W "$(_module_loaded_modules)" -- "${cur}"));
-                                        found=1;
-                                        break
-                                    ;;
-                                    spider)
-                                        COMPREPLY=($(compgen -W "$(_module_spider)" -- "${cur}"));
-                                        found=1;
-                                        break
-                                    ;;
-                                esac;
-                            done;
-                            if [ -z "${found}" ]; then
-                                COMPREPLY=($(compgen -W "$(_module_avail)" -- "${cur}"));
-                            fi;
-                        fi;
-                    fi
-                ;;
-            esac
-        ;;
-    esac
-}
-_module ()
-{
-    local cur="${2}" prev="${3}" cmds opts;
-    COMPREPLY=();
-    cmds="add avail delete help keyword list load purge rm restore         save show spider swap unload unuse update use whatis";
-    opts="-d -D -h -q -t -v -w -s --style --expert --quiet --help         --quiet --terse --version --default --width -r --regexp --mt";
-    case "${prev}" in
-        add | load | try-load)
-            COMPREPLY=($(compgen -W "$(_module_not_yet_loaded)" -- "${cur}"))
-        ;;
-        rm | remove | unload | switch | swap)
-            COMPREPLY=($(compgen -W "$(_module_loaded_modules)" -- "${cur}"))
-        ;;
-        restore)
-            COMPREPLY=($(compgen -W "$(_module_savelist)" -- "${cur}"))
-        ;;
-        spider)
-            COMPREPLY=($(compgen -W "$(_module_spider)" -- "${cur}"))
-        ;;
-        unuse)
-            COMPREPLY=($(IFS=: compgen -W "${MODULEPATH}" -- "${cur}"))
-        ;;
-        use | *-a*)
-            _module_dir "${cur}"
-        ;;
-        help | show | whatis)
-            COMPREPLY=($(compgen -W "$(_module_avail)" -- "${cur}"))
-        ;;
-        collection | cc | mcc)
-            COMPREPLY=($(compgen -W "$(_module_mcc)" -- "${cur}"))
-        ;;
-        *)
-            if [ ${COMP_CWORD} -gt 2 ]; then
-                _module_long_arg_list "${cur}";
-            else
-                case "${cur}" in
-                    ls)
-                        COMPREPLY='list'
-                    ;;
-                    sw*)
-                        COMPREPLY='swap'
-                    ;;
-                    -*)
-                        COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
-                    ;;
-                    *)
-                        COMPREPLY=($(compgen -W "${cmds}" -- "${cur}"))
-                    ;;
-                esac;
-            fi
-        ;;
-    esac
-}
-_module_avail ()
-{
-    /home/kt/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.0/lmod-7.4.11-5ua5lwneglqkfxk5oxhvjffifohj6qs4/lmod/lmod/libexec/lmod bash --no_redirect -t -q avail 2>&1 > /dev/null | sed ' /:$/d; s/(@.*)//g; s#/*$##g;'
-}
-_module_dir ()
-{
-    local cur="${1}" pattern i;
-    if [[ "${cur:0:1}" == '$' ]]; then
-        pattern='^\$[[:alnum:]_]+\/$';
-        if [[ ${cur} =~ ${pattern} ]]; then
-            eval COMPREPLY[0]="${cur}";
-        else
-            COMPREPLY=($( compgen -v -P '$' -- "${cur:1}" ));
-            local -a FILTEREDCOMPREPLY;
-            for ((i=0; i < ${#COMPREPLY[@]}; i++))
-            do
-                pattern='^\$[[:alnum:]_]+$';
-                if [[ ${COMPREPLY[$i]} =~ ${pattern} ]]; then
-                    eval local env_val="${COMPREPLY[$i]}";
-                    if [ -d "${env_val}" ]; then
-                        FILTEREDCOMPREPLY+=(${COMPREPLY[$i]});
-                    fi;
-                fi;
-            done;
-            COMPREPLY=(${FILTEREDCOMPREPLY[@]});
-        fi;
-    else
-        if [[ "${cur:0:1}" == '~' ]]; then
-            if [[ "${cur}" != "${cur//\/}" ]]; then
-                eval COMPREPLY[0]="${cur%%\/*}"/'${cur#*\/}';
-            else
-                eval COMPREPLY[0]="~";
-            fi;
-        else
-            COMPREPLY=($(compgen -d -- "${cur}"));
-        fi;
-    fi;
-    if [[ ${#COMPREPLY[@]} -eq 1 ]]; then
-        pattern='\/$';
-        if [[ -d "${COMPREPLY[0]}" && ! "${COMPREPLY[0]}" =~ ${pattern} ]]; then
-            COMPREPLY[0]="${COMPREPLY[0]}/";
-        fi;
-        compopt -o nospace;
-    fi
-}
-_module_loaded_modules ()
-{
-    /home/kt/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.0/lmod-7.4.11-5ua5lwneglqkfxk5oxhvjffifohj6qs4/lmod/lmod/libexec/lmod bash -q -t --no_redirect list 2>&1 > /dev/null | sed ' /^ *$/d; /:$/d; s#/*$##g;'
-}
-_module_loaded_modules_negated ()
-{
-    /home/kt/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.0/lmod-7.4.11-5ua5lwneglqkfxk5oxhvjffifohj6qs4/lmod/lmod/libexec/lmod bash -q -t --no_redirect list 2>&1 > /dev/null | sed ' /^ *$/d; /:$/d; s#/*$##g; s|^|-|g;'
-}
-_module_long_arg_list ()
-{
-    local cur="${1}" i;
-    if [[ ${COMP_WORDS[COMP_CWORD-2]} == sw* ]]; then
-        COMPREPLY=($(compgen -W "$(_module_not_yet_loaded)" -- "${cur}"));
-        return;
-    fi;
-    for ((i = COMP_CWORD - 1; i > 0; i--))
-    do
-        case ${COMP_WORDS[${i}]} in
-            add | load)
-                COMPREPLY=($(compgen -W "$(_module_not_yet_loaded)" -- "${cur}"));
-                break
-            ;;
-            rm | remove | unload | switch | swap)
-                COMPREPLY=($(compgen -W "$(_module_loaded_modules)" -- "${cur}"));
-                break
-            ;;
-        esac;
-    done
-}
-_module_mcc ()
-{
-    /home/kt/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.0/lmod-7.4.11-5ua5lwneglqkfxk5oxhvjffifohj6qs4/lmod/lmod/libexec/lmod bash -q -t --no_redirect collection 2>&1 > /dev/null
-}
-_module_not_yet_loaded ()
-{
-    comm -23 <(_module_avail|sort) <(_module_loaded_modules|sort)
-}
-_module_savelist ()
-{
-    /home/kt/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.0/lmod-7.4.11-5ua5lwneglqkfxk5oxhvjffifohj6qs4/lmod/lmod/libexec/lmod bash -q -t --no_redirect savelist 2>&1 > /dev/null
-}
-_module_spider ()
-{
-    /home/kt/spack/opt/spack/linux-ubuntu16-x86_64/gcc-5.4.0/lmod-7.4.11-5ua5lwneglqkfxk5oxhvjffifohj6qs4/lmod/lmod/libexec/lmod bash -q -t --no_redirect spider 2>&1 > /dev/null
-}
-_modules ()
-{
-    local modpath;
-    modpath=/lib/modules/$1;
-    COMPREPLY=($( compgen -W "$( command ls -RL $modpath 2>/dev/null |         sed -ne 's/^\(.*\)\.k\{0,1\}o\(\.[gx]z\)\{0,1\}$/\1/p' )" -- "$cur" ))
-}
+
 _ncpus ()
 {
     local var=NPROCESSORS_ONLN;
@@ -1963,10 +1729,6 @@ _xinetd_services ()
         COMPREPLY+=($( compgen -W '${svcs[@]#$xinetddir/}' -- "$cur" ));
     fi
 }
-clearMT ()
-{
-    eval $($LMOD_DIR/clearMT_cmd bash)
-}
 command_not_found_handle ()
 {
     if [ -x /usr/lib/command-not-found ]; then
@@ -1986,16 +1748,7 @@ dequote ()
 {
     eval printf %s "$1" 2> /dev/null
 }
-ml ()
-{
-    eval $($LMOD_DIR/ml_cmd "$@")
-}
-declare -fx ml
-module ()
-{
-    eval $($LMOD_CMD bash "$@") && eval $(${LMOD_SETTARG_CMD:-:} -s sh)
-}
-declare -fx module
+
 quote ()
 {
     local quoted=${1//\'/\'\\\'\'};
