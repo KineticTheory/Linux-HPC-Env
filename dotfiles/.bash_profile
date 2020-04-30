@@ -74,7 +74,10 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
   fi
 
   # SSH keys ----------------------------------------------------------- #
-  reloadkeys
+  case $target in
+    nid* | cn* ) ;;
+    *) reloadkeys ;;
+  esac
 
   # Set terminal title
   # echo -ne "\033]0;${nodename}\007"
@@ -115,6 +118,16 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
       # todo: move this into ~/privatemodules
       export SPACK_ROOT=/projects/draco/vendors/spack.20181002
       export PATH=$SPACK_ROOT/bin:$PATH
+      ;;
+    tt-fey* | tt-login*)
+      # alias emacs='emacs -fn Inconsolata-9'
+      alias git='git --no-pager'
+      module load ack
+      ulimit -Sc unlimited
+      ;;
+    ba-fe* | cy-fe* | fi-fe* | ic-fe* | sn-fe*)
+      module load use.own fstools
+      ulimit -Sc unlimited
       ;;
   esac
 

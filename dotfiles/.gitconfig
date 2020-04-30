@@ -3,6 +3,7 @@
 	name = Kelly (KT) Thompson
 [svn]
         rmdir = true
+	pushmergeinfo = true
 [core]
         autocrlf = input
         editor = emacs -nw
@@ -17,8 +18,10 @@
 [url "git@github.com:"]
      insteadOf = git://github.com/
 [http]
+	sslVerify = false
         proxy = http://proxyout.lanl.gov:8080
 [https]
+	sslVerify = false
         proxy = http://proxyout.lanl.gov:8080
 [credential]
         helper = cache

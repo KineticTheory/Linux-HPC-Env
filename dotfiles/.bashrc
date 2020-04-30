@@ -75,7 +75,7 @@ if test "$INTERACTIVE" = true; then
   source ~/.bash_functions
 
   # Set terminal title
-  echo -ne "\033]0;${nodename}\007"
+  # echo -ne "\033]0;${nodename}\007"
   # fancy prompt
   source ~/.bash_prompt
   # special local setup
@@ -93,7 +93,6 @@ if test "$INTERACTIVE" = true; then
   done
 
   if test -n "${verbose}"; then echo "done with $HOME/.bashrc"; fi
-
 fi
 
 #------------------------------------------------------------------------------#
