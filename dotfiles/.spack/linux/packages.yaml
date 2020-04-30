@@ -1,48 +1,119 @@
-# -------------------------------------------------------------------------
-# This file controls default concretization preferences for Spack.
-#
-# Settings here are versioned with Spack and are intended to provide
-# sensible defaults out of the box. Spack maintainers should edit this
-# file to keep it current.
-#
-# Users can override these settings by editing the following files.
-#
-# Per-spack-instance settings (overrides defaults):
-#   $SPACK_ROOT/etc/spack/packages.yaml
-#
-# Per-user settings (overrides default and site settings):
-#   ~/.spack/packages.yaml
-# -------------------------------------------------------------------------
 packages:
-  all:
-    compiler: [gcc@4.8.5, clang@4.0.0, intel, pgi, xl, nag]
-    providers:
-      awk: [gawk]
-      blas: [netlib-lapack]
-      daal: [intel-parallel-studio+daal]
-      elf: [elfutils]
-      golang: [gcc]
-      ipp: [intel-parallel-studio+ipp]
-      lapack: [netlib-lapack]
-      mkl: [intel-parallel-studio+mkl]
-      mpe: [mpe2]
-      mpi: [openmpi, mpich]
-      opencl: [pocl]
-      openfoam: [foam-extend]
-      pil: [py-pillow]
-      scalapack: [netlib-scalapack]
-  cairo:
-    variants: +X
-  gtkplus:
-    variants: +X
-  pango:
-    variants: +X
-  m4:
+  cmake:
+    version: [3.17.0]
     paths:
-      m4@1.4.18%clang@4.0.0+sigsegv arch=linux-redhat7-x86_64: /
+      cmake@3.17.0: /ccs/opt/cmake/3.17.0
     buildable: False
-  # cmake:
-  #   version: [3.8.0]
-  #   paths:
-  #     cmake@3.8.0%clang@4.0.0 arch=linux-redhat7-x86_64: /scratch/vendors/spack.20170502/opt/spack/linux-rhel7-x86_64/gcc-4.8.5/cmake-3.8.0-xcgl3fuzvx2hmwmcmvwfh4yrddwvk2ra
-  #   buildable: False
+  cta:
+    permissions:
+      read: group
+      write: group
+      group: ccsrad
+  csk:
+    permissions:
+      read: group
+      write: group
+      group: ccsrad
+  draco:
+    permissions:
+      read: group
+      write: group
+      group: ccsrad
+  doxygen:
+    # newer version require C++11 (not compatible with gcc-4.8.5).
+    version: [1.8.15]
+    variants: [+graphviz+mscgen]
+  emacs:
+    variants: [+tls+X]
+  eospac:
+    version: [6.4.0]
+  flag:
+    permissions:
+      read: group
+      write: group
+      group: ccsrad
+  flex:
+    version: [2.5.37]
+    paths:
+      flex@2.5.37: /usr
+    buildable: False
+  git:
+    variants: [+tcltk]
+  graphviz:
+    variants: [+pangocairo]
+  hdf5:
+    variants: [+fortran+hl]
+  icu4c:
+    version: [58.2]
+  jayenne:
+    permissions:
+      read: group
+      write: group
+      group: ccsrad
+#  libtool:
+#    version: [2.4.2]
+#    paths:
+#      libtool@2.4.2: /usr
+#    buildable: False
+  m4:
+    version: [1.4.16]
+    paths:
+      m4@1.4.16: /usr
+    buildable: False
+  matio:
+    variants: [+hdf5]
+  middleman:
+    permissions:
+      read: group
+      write: group
+      group: ccsrad
+  ndi:
+    permissions:
+      read: group
+      write: group
+      group: ccsrad
+  ncurses:
+    variants: [+termlib]
+  perl:
+    version: [5.16.3]
+    paths:
+      perl@5.16.3: /usr
+    buildable: False
+  petsc:
+    variants: [+boost+hdf5]
+  pkg-config:
+    version: [0.27.1]
+    paths:
+      pkg-config@0.27.1: /usr
+    buildable: False
+  python:
+    variants: [+tk]
+    version: [3.7.4]
+  qt:
+    variants: [+dbus+opengl+phonon]
+  superlu-dist:
+    version: [5.4.0]
+  tar:
+    version: [1.26]
+    paths:
+      tar@1.26: /usr
+    buildable: False
+  trilinos:
+    variants: [+nox+superlu-dist~alloptpkgs~amesos2~boost~exodus~glm~gtest~hdf5~hypre~ifpack2~kokkos~matio~muelu~mumps~netcdf~suite-sparse~tpetra~zoltan2]
+  trt:
+    permissions:
+      read: group
+      write: group
+      group: ccsrad
+  vtk:
+    variants: [+qt+python]
+  all:
+    variants: [+mpi +X build_type=Release]
+    permissions:
+      read: world
+      write: group
+      group: user_contrib
+    providers:
+      blas: [openblas, netlib-lapack, intel-mkl]
+      lapack: [openblas, netlib-lapack, intel-mkl]
+      mkl: [intel-mkl]

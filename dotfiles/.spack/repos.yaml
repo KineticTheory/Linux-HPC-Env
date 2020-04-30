@@ -1,3 +1,3 @@
 repos:
-- /scratch/vendors/spack.lanl
+- /ccs/opt/vendors-ec/asc_spackages
 - $spack/var/spack/repos/builtin
