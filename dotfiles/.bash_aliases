@@ -13,29 +13,28 @@ if test -n "${verbose}"; then echo "in ~/.bash_aliases"; fi
 ncpus=`lscpu | grep CPU\(s\) | head -n 1 | awk '{ print $2 }'`
 
 alias ack='ack --color-lineno="bold blue"'
+alias cmakebc='cmake -DGCC_ENABLE_GLIBCXX_DEBUG=ON'
+alias cmakecov='cmake -DCODE_COVERAGE=ON'
 alias cmakect='C_FLAGS=-Werror CXX_FLAGS=-Werror cmake -Wdeprecated -Wdev -DDRACO_STATIC_ANALYZER=clang-tidy'
 alias cmakedebug='C_FLAGS=-Werror CXX_FLAGS=-Werror cmake -Wdeprecated -Wdev'
 alias cmakedebugfast='cmake -DBUILD_TESTING=OFF'
 alias cmakerel='cmake -DCMAKE_BUILD_TYPE=RELEASE'
 alias cmakerelfast='cmake -DCMAKE_BUILD_TYPE=RELEASE -DBUILD_TESTING=OFF'
-alias ctest='ctest --test-load ${ncpus:-1}'
+# alias ctest='ctest --test-load ${ncpus:-1}'
 alias debug='totalview $* 2>/dev/null'
 alias eclipse='eclipse -data /var/tmp/kgt/workspace -nosplash'
 alias ehco='echo'
 alias em='emacsclient -c --alternate-editor=emacs'
 alias pcmake='cmake-Wdeprecated -Wdev --warn-uninitialized --warn-unused-vars'
-if test -x /bin/emacs; then
-  alias emacs='/bin/emacs -fn Inconsolata &> $HOME/emacs.log'
-fi
+#if test -x /bin/emacs; then
+  alias emacs='emacs -fn Inconsolata &> $HOME/emacs.log'
+#fi
 #alias emacs='/bin/emacs -fn 6x13 &> /dev/null'
 alias gitfetch='git fetch --all --prune --tags'
 alias gitk='gitk --all'
 alias gitup='git fetch --all --prune; git merge upstream/develop'
 alias gt='gnome-terminal'
 alias moduel='module'
-alias ma='module avail'
-alias mld='module load'
-alias mls='module list'
 alias mpiruntv='mpirun -tv $* 2>/dev/null'
 alias qtcreator='qtcreator -noload Welcome'
 alias rtt='resettermtitle'

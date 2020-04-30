@@ -35,6 +35,7 @@ esac
 #------------------------------------------------------------------------------#
 export DRACO_ENV_DIR=${HOME}/draco/environment
 if [[ -f ${DRACO_ENV_DIR}/bashrc/.bashrc ]]; then
+   if test -n "${verbose}"; then echo "INTERACTIVE = $INTERACTIVE"; echo "source ~/${DRACO_ENV_DIR}/bashrc/.bashrc"; fi
   source ${DRACO_ENV_DIR}/bashrc/.bashrc
 fi
 

@@ -70,7 +70,7 @@ function reloadkeys()
 }
 
 # mark all defined functions for export
-# declare -fx
+# declare -fx reloadkeys keychain unix2dos dos2unix eapde
 
 if test -n "${verbose}"; then echo "done with $HOME/.bash_functions"; fi
 

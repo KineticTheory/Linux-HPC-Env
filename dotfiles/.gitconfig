@@ -24,7 +24,7 @@
         helper = cache
 
 [mergetool.ediff]
-    cmd = emacs --eval \"\
+    cmd = emacs -nw --eval \"\
 (progn\
   (defun ediff-write-merge-buffer ()\
     (let ((file ediff-merge-store-file))\
