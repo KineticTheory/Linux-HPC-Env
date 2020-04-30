@@ -50,6 +50,13 @@ else
   # atril
 fi
 
+case $nodename in
+  tt-fey* | tt-login*)
+    # alias emacs='emacs -fn Inconsolata-9'
+    alias git='git --no-pager'
+    ;;
+esac
+
 if [[ -f ~/.ssh/xfkeytab ]]; then
   alias kerbp='kinit -f -l 8h -kt ~/.ssh/xfkeytab kellytpush@lanl.gov'
 fi

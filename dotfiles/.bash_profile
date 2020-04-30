@@ -120,8 +120,6 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
       export PATH=$SPACK_ROOT/bin:$PATH
       ;;
     tt-fey* | tt-login*)
-      # alias emacs='emacs -fn Inconsolata-9'
-      alias git='git --no-pager'
       module load ack
       ulimit -Sc unlimited
       ;;
