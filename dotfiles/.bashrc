@@ -22,68 +22,60 @@ case ${-} in
 *i*)
    export INTERACTIVE=true
    if test -n "${verbose}"; then echo "in ~/.bashrc"; fi
-   # If this is an interactive shell and DRACO_ENV_DIR isn't set. Assume that we
-   # need to source the .bash_profile.
-   if [[ -z "${DRACO_ENV_DIR}" ]] && [[ -f ${HOME}/.bash_profile ]]; then
-     if test -n "${verbose}"; then echo "source $HOME/.bash_profile"; fi
-     source $HOME/.bash_profile
-   fi
+   # If this is an interactive shell and DRACO_ENV_DIR isn't
+   # set. Assume that we need to source the .bash_profile.
+   target=`uname -n`
+   case ${target} in
+     t[rt]-fe* | cp-loginy* )
+       # no-op; OS will source .bashrc first and then .bash_profile
+       ;;
+     t[rt]-login* | nid* )
+       # We need to source this on every connection.
+       source $HOME/.bash_profile
+       ;;
+     *)
+       if test -z "${DRACO_ENV_DIR}" && test -f ${HOME}/.bash_profile; then
+         source $HOME/.bash_profile
+       fi
+       ;;
+   esac
    ;;
-*) # Not an interactive shell
-  export INTERACTIVE=false
-  export DRACO_ENV_DIR=$HOME/draco/environment
-  ;;
+*)
+    # Not an interactive shell
+    export INTERACTIVE=false
+    export DRACO_ENV_DIR=$HOME/draco/environment
+
+    target="`uname -n | sed -e s/[.].*//`"
+    case ${target} in
+      t[rt]-fey[0-9] | t[rt]-login[0-9])
+        alias salloc='salloc --gres=craynetwork:0'
+        ;;
+      *)
+        modcmd=`declare -f module`
+        # If not found, look for it in /usr/share/Modules (Toss)
+        if [[ ! ${modcmd} ]]; then
+          if test -f /usr/share/lmod/lmod/init/bash; then
+            source /usr/share/lmod/lmod/init/bash
+          else
+            echo "ERROR: The module command was not found. No modules will be loaded."
+          fi
+        fi
+        modcmd=`declare -f module`
+        if [[ ! ${modcmd} ]]; then
+          module load ack
+        fi
+        ;;
+    esac
+
+    # end INTERACTIVE=false case
+    ;;
 esac
-
-#------------------------------------------------------------------------------#
-# Draco developer environment
-#------------------------------------------------------------------------------#
-if [[ -f ${DRACO_ENV_DIR}/bashrc/.bashrc ]]; then
-
-  source ${DRACO_ENV_DIR}/bashrc/.bashrc
-
-  # --------------- override defaults set by Draco .bashrc ---------------
-
-  # colored GCC warnings and errors
-  export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-  # export TERM=xterm-256color
-
-  # shopt options -------------------------------------------------------------#
-  # https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
-
-  #shopt -s checkwinsize # autocorrect window size
-  shopt -s cdspell # autocorrect spelling errors on cd command line.
-  #shopt -s histappend # append to the history file, don't overwrite it
-  #shopt -s direxpand
-
-  #HISTCONTROL=ignoreboth
-  #HISTSIZE=1000
-  #HISTFILESIZE=2000
-
-  #ulimit -c 0
-
-fi
 
 #------------------------------------------------------------------------------#
 # User Customizations
 #------------------------------------------------------------------------------#
 
 if test "$INTERACTIVE" = true; then
-
-  # aliases
-  source ~/.bash_aliases
-  source ~/.bash_functions
-
-  # Set terminal title
-  # echo -ne "\033]0;${nodename}\007"
-  # fancy prompt
-  source ~/.bash_prompt
-  # special local setup
-  if [[ `uname -r` =~ "Microsoft" || `uname -r` =~ "microsoft" ]] ; then
-    if [[ -f ~/.bashrc_wls2 ]]; then
-      source ~/.bashrc_wls2;
-    fi
-  fi
 
   # home, scratchdir, modulefiles
   export CDPATH=.:$HOME

@@ -35,7 +35,6 @@ esac
 #------------------------------------------------------------------------------#
 export DRACO_ENV_DIR=${HOME}/draco/environment
 if [[ -f ${DRACO_ENV_DIR}/bashrc/.bashrc ]]; then
-   if test -n "${verbose}"; then echo "INTERACTIVE = $INTERACTIVE"; echo "source ~/${DRACO_ENV_DIR}/bashrc/.bashrc"; fi
   source ${DRACO_ENV_DIR}/bashrc/.bashrc
 fi
 
@@ -72,11 +71,18 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
   elif [[ -f $HOME/.bash_prompt ]]; then
     source ~/.bash_prompt
   fi
+  if [[ `uname -r` =~ "Microsoft" || `uname -r` =~ "microsoft" ]] ; then
+    if [[ -f ~/.bashrc_wls2 ]]; then
+      source ~/.bashrc_wls2;
+    fi
+  fi
 
   # SSH keys ----------------------------------------------------------- #
   case $target in
-    nid* | cn* ) ;;
-    *) reloadkeys ;;
+    nid* | cn*  ) ;;
+    *)
+      if [[ -z $SLURM_NODELIST ]]; then reloadkeys ; fi
+      ;;
   esac
 
   # Set terminal title
