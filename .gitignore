@@ -1,7 +1,8 @@
-*~
 *.elc
 *.pyc
-TAGS
+*~
+.uuid
 GPATH
-GTABS
 GRTAGS
+GTABS
+TAGS

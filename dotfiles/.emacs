@@ -3,6 +3,11 @@
 ;; Ref: www.emacswiki.org
 ;;      www.linuxpowered.com/html/tutorials/emacs.html
 
+
+;; FAQ
+;;
+;; - increase font size: C-x X-+
+
 ;; Use:
 ;; 1. byte compile draco elisp: (cd ~/draco/environment/elisp; ./compile-elisp)
 ;; 2. byte compile this file.  From emacs: M-x byte-compile-file
@@ -38,9 +43,9 @@
 (load-library (concat my-draco-env-dir "elisp/draco-setup"))
 ;;(setq draco_vendor_dir (getenv "VENDOR_DIR"))
 
-;;
-;; Personal settings
-;;
+;;---------------------------------------------------------------------------------------
+;; Personal Settings below this line
+;;---------------------------------------------------------------------------------------
 
 ;; package manager for emacs
 ;; M-x package-refresh-contents
@@ -62,8 +67,6 @@ There are two things you can do about this warning:
   ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
   )
 (package-initialize)
-
-
 
 ;; Useful for Windows and Gnome/KDE users.  Note: Also enables
 ;; transient-mark-mode.  Turns on C-z, C-x, C-c C-v like windows.  Allow
@@ -95,53 +98,56 @@ There are two things you can do about this warning:
 (setq x-alt-keysym 'meta)
 ;;(setq x-super-keysym 'meta) ;; Use Windows or penguin key as Meta.
 
+;; Disable C-x C-z keybinding (suspend-frame)
+(global-unset-key (kbd "C-x C-z"))
+
 ;; Email
 (setq user-mail-address "kgt@lanl.gov")
 
 ;; Set the frame size base on the current resolution.
-(defun set-frame-size-according-to-resolution ()
-  (interactive)
-  (if window-system
-      (progn
-        ;; use 120 char wide window for largeish displays
-        ;; and smaller 80 column windows for smaller displays
-        ;; pick whatever numbers make sense for you.
-        (defvar kt-emacs-width 80)
-        (defvar kt-emacs-height 24)
-        (if (> (x-display-pixel-height) 1100)
-            (progn
-              (setq kt-emacs-width 85)
-              (setq kt-emacs-height 80)
-              ;; Check that the height still fits on the monitor
-              (setq max-emacs-height (/ (x-display-pixel-height)
-                                        (frame-char-height) ))
-              (if (> kt-emacs-height max-emacs-height)
-                  (setq kt-emacs-height (- max-emacs-height 10)))
+;; (defun set-frame-size-according-to-resolution ()
+;;   (interactive)
+;;   (if window-system
+;;       (progn
+;;         ;; use 120 char wide window for largeish displays
+;;         ;; and smaller 80 column windows for smaller displays
+;;         ;; pick whatever numbers make sense for you.
+;;         (defvar kt-emacs-width 80)
+;;         (defvar kt-emacs-height 24)
+;;         (if (> (x-display-pixel-height) 1100)
+;;             (progn
+;;               (setq kt-emacs-width 85)
+;;               (setq kt-emacs-height 80)
+;;               ;; Check that the height still fits on the monitor
+;;               (setq max-emacs-height (/ (x-display-pixel-height)
+;;                                         (frame-char-height) ))
+;;               (if (> kt-emacs-height max-emacs-height)
+;;                   (setq kt-emacs-height (- max-emacs-height 10)))
 
-              ) ; progn
-          ) ; endif
+;;               ) ; progn
+;;           ) ; endif
 
-        (set-frame-size (selected-frame) kt-emacs-width
-                        kt-emacs-height)
-        )))
-(set-frame-size-according-to-resolution)
-(global-set-key [(shift f12)] 'set-frame-size-according-to-resolution)
+;;         (set-frame-size (selected-frame) kt-emacs-width
+;;                         kt-emacs-height)
+;;         )))
+;; (set-frame-size-according-to-resolution)
+;; (global-set-key [(shift f12)] 'set-frame-size-according-to-resolution)
 
 ;; Dired
 (setq dired-listing-switches "-alh")
 
 ;; CEDET
 ;; Generate tag files for Fortran: 'gtags --gtagslabel=ctags'
-(defvar file-at-root-level-draco "~/.draco_ede")
-(defvar file-at-root-level-eap "~/cassio/.eap_ede")
+;; (defvar file-at-root-level-draco "~/.draco_ede")
+;; (defvar file-at-root-level-eap "~/cassio/.eap_ede")
 ; (draco-start-ecb)
 
 ;; Allow 'emacsclient' to connect to running emacs.
-(if 'window-system
-    (require 'server)
-    (progn
-      (or (server-running-p) (server-start))
-))
+;; (if 'window-system
+;;     (require 'server)
+;;     (progn
+;;       (or (server-running-p) (server-start))
+;; ))
 
 ;; GIT customizations
 (add-to-list
@@ -168,27 +174,74 @@ There are two things you can do about this warning:
 ;;           (lambda () (modify-syntax-entry ?_ "w")))
 
 
-(defun draco-dos2unix ()
-  "Convert line endings to Unix style, untabify, and indent-region by mode.
-http://www.emacswiki.org/emacs/EndOfLineTips
-Also C-x <ret> f utf-8-unix <ret>"
-    (interactive)
-    (set-fill-column 80)
-    (progn
-      (untabify (point-min) (point-max))
-      (indent-region (point-min) (point-max))
-      (add-hook 'before-save-hook 'delete-trailing-whitespace)
-      (set-buffer-file-coding-system 'iso-latin-1-unix t)
-      )
-    )
+;; (defun draco-dos2unix ()
+;;   "Convert line endings to Unix style, untabify, and indent-region by mode.
+;; http://www.emacswiki.org/emacs/EndOfLineTips
+;; Also C-x <ret> f utf-8-unix <ret>"
+;;     (interactive)
+;;     (set-fill-column 80)
+;;     (progn
+;;       (untabify (point-min) (point-max))
+;;       (indent-region (point-min) (point-max))
+;;       (add-hook 'before-save-hook 'delete-trailing-whitespace)
+;;       (set-buffer-file-coding-system 'iso-latin-1-unix t)
+;;       )
+;;     )
 ; (define-key global-map [(f12)] 'draco-dos2unix)
 
-;(require 'fill-column-indicator)
+; (require 'fill-column-indicator)
 ; fci-mode
 
+
+;; ========================================
+;; Yaml mode
+;; ========================================
+
+(require 'yaml-mode)
+(defun draco-setup-yaml-mode ()
+  "Autoload cmake-mode and append the appropriate suffixes to
+auto-mode-alist."
+  (interactive)
+  (progn
+    (autoload 'yaml-mode "yaml-mode" "Yaml editing mode." t)
+    (setq auto-mode-alist
+          (append '(("\\.yaml"         . yaml-mode)
+                    ("\\.yaml\\.in"    . yaml-mode))
+                  auto-mode-alist))
+    (defun draco-yaml-mode-hook ()
+      "DRACO hooks added to Yaml mode."
+      (defvar yaml-tab-width 2)
+      (local-set-key [(control c)(control c)] 'comment-region)
+      (local-set-key [(f5)] 'draco-makefile-divider)
+      (local-set-key [(f6)] 'draco-makefile-comment-divider)
+      (turn-on-draco-mode)
+      (turn-off-auto-fill)
+      (set-fill-column draco-code-comment-width)
+      (require 'fill-column-indicator)
+      (fci-mode))
+    (add-hook 'yaml-mode-hook 'draco-yaml-mode-hook)))
+(draco-setup-yaml-mode)
+
+;; ========================================
 ;; clang-format
+;; ========================================
+
 (require 'clang-format)
 (global-set-key [(f12)] 'clang-format-region)
+
+;; See https://www.emacswiki.org/emacs/IndentingC
+;; (if (fboundp 'clang-format)
+;;     (add-hook 'c++-mode-hook
+;;               (lambda ()
+;;                 (add-hook 'before-save-hook 'clang-format-buffer)))
+;;   )
+
+;; This command makes the font the default on all graphical frames
+;; created after restarting Emacs.
+;; http://ergoemacs.org/emacs/emacs_list_and_set_font.html
+(add-to-list 'default-frame-alist '(font . "Inconsolata"))
+(setq initial-frame-alist '((font . "Inconsolata-9") ))
+(setq default-frame-alist '((font . "Inconsolata-9") ))
 
 ;; remove consecutive duplicates
   ;; (defun uniquify-region-lines (beg end)
@@ -200,10 +253,9 @@ Also C-x <ret> f utf-8-unix <ret>"
   ;;       (replace-match "\\1"))))
 
 
-
-;; ========================================
-;; GNU Emacs Custom settings
-;; ========================================
+;;------------------------------------------------------------------------------
+;; GNU EMacs "Options" below (controlled via menu)
+;;------------------------------------------------------------------------------
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -236,6 +288,7 @@ Also C-x <ret> f utf-8-unix <ret>"
 
 ;; wikipedia.org/wiki/X11_color_names
 ;; (setq load-home-init-file t) ; don't load init file from ~/.xemacs/init.el
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -254,6 +307,6 @@ Also C-x <ret> f utf-8-unix <ret>"
  '(mode-line ((t (:background "wheat" :foreground "black" :box (:line-width -1 :style released-button) :weight bold :height 0.9 :width normal :foundry "inconsolata" :family "unknown"))))
  '(mode-line-emphasis ((t (:foreground "red" :weight bold))))
  '(mode-line-inactive ((t (:background "wheat" :family "Inconsolata" :foundry "unknown" :slant normal :weight normal :height 90 :width normal))))
- '(modeline ((t (:family "Inconsolata" :foundry "unknown" :slant normal :weight normal :height 90 :width normal))))
+ '(modeline ((t (:family "Inconsolata" :foundry "unknown" :slant normal :weight normal :height 100 :width normal))))
  '(modeline-face ((((class color) (min-colors 88) (background light)) (:background "wheat")))))
 (setq x-alt-keysym 'meta)

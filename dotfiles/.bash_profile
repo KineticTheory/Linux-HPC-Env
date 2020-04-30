@@ -2,9 +2,9 @@
 #
 # ~/.bash_profile is sourced only for login shells.
 #------------------------------------------------------------------------------#
-if test -f /etc/bashrc; then
-  source /etc/bashrc
-fi
+#if test -f /etc/bashrc; then
+#  source /etc/bashrc
+#fi
 
 if [ "$(umask)" == "0000" ]; then
   umask 0077
@@ -43,13 +43,12 @@ fi
 #------------------------------------------------------------------------------#
 if [[ "${INTERACTIVE:-false}" = true ]]; then
 
-  umask 077
+  umask 0077
 
   export USERNAME=kellyt
   export NAME="Kelly (KT) Thompson"
   export EDITOR="emacs -nw"
   export LPDEST=gumibears
-  export COVFILE=${HOME}/test.cov
 
   # Silence warnings from GTK/Gnome
   export NO_AT_BRIDGE=1
@@ -69,26 +68,12 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
       test -z "`declare -f npwd | grep npwd`"; then
     export PS1="\h:\w [\!] % "
     export LS_COLORS=''
-    #    else
-    #      found=`declare -f npwd | wc -l`
-    #      if test ${found} != 0; then
-    #        export PS1="\[\033[34m\]\h:\[\033[32m\]\$(npwd)\[\033[35m\]\$(parse_git_branch)\[\033[00m\] [\!] % "
-    #      fi
+  elif [[ -f $HOME/.bash_prompt ]]; then
+    source ~/.bash_prompt
   fi
-
-  #    if [[ `uname -r` =~ "Microsoft" ]]; then
-  #      source ~/.bash_wls
-  #    fi
 
   # SSH keys ----------------------------------------------------------- #
   reloadkeys
-
-  # Modules ------------------------------------------------------------ #
-  if test -n "$MODULESHOME"; then
-    if test `uname -m` = x86_64; then
-      module load htop
-    fi
-  fi
 
   # Set terminal title
   # echo -ne "\033]0;${nodename}\007"
@@ -98,7 +83,7 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
 
   shopt -s cdspell # attempt to fix mispelled directory names
   case ${nodename} in
-    sn*) shopt -s direxpand ;;
+    sn* | darwin* | cn*) shopt -s direxpand ;; # do not escape env variables when doing tab completion.
   esac
 
   # LaTeX ---------------------------------------------------------------------- #
@@ -123,11 +108,17 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
   # done
   # unset extradirs
 
+  # Special setup per platform ------------------------------------------------- #
+  case ${nodename} in
+    darwin* | cn*)
+      # todo: move this into ~/privatemodules
+      export SPACK_ROOT=/projects/draco/vendors/spack.20181002
+      export PATH=$SPACK_ROOT/bin:$PATH
+      ;;
+  esac
+
   if test -n "${verbose}"; then echo "done with ~/.bash_profile"; fi
-
 fi # if test "$INTERACTIVE" = "true"
-
-# ssh -t ml-fey bash --norc --noprofile
 
 #------------------------------------------------------------------------------#
 # end ~/.bash_profile
