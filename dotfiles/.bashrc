@@ -21,9 +21,9 @@ verbose=true
 case ${-} in
 *i*)
    export INTERACTIVE=true
-   if test -n "${verbose}"; then echo "in ~/.bashrc"; fi
-   # If this is an interactive shell and DRACO_ENV_DIR isn't
-   # set. Assume that we need to source the .bash_profile.
+   if [[ "${verbose:=false}" ==  "true" ]]; then echo "in ~/.bashrc"; fi
+   # If this is an interactive shell and DRACO_ENV_DIR isn't set. Assume that we
+   # need to source the .bash_profile.
    target=`uname -n`
    case ${target} in
      t[rt]-fe* | cp-loginy* )
@@ -34,9 +34,7 @@ case ${-} in
        source $HOME/.bash_profile
        ;;
      *)
-       if test -z "${DRACO_ENV_DIR}" && test -f ${HOME}/.bash_profile; then
-         source $HOME/.bash_profile
-       fi
+       if [[ -f $HOME/.bash_profile ]]; then source $HOME/.bash_profile; fi
        ;;
    esac
    ;;
@@ -84,7 +82,7 @@ if test "$INTERACTIVE" = true; then
     if [[ -d $dir ]]; then export CDPATH=$CDPATH:$dir; fi
   done
 
-  if test -n "${verbose}"; then echo "done with $HOME/.bashrc"; fi
+  if [[ "${verbose}" == "true" ]]; then echo "done with $HOME/.bashrc"; fi
 fi
 
 #------------------------------------------------------------------------------#
