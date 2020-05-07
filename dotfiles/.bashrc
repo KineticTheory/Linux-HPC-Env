@@ -34,7 +34,9 @@ case ${-} in
        source $HOME/.bash_profile
        ;;
      *)
-       if [[ -f $HOME/.bash_profile ]]; then source $HOME/.bash_profile; fi
+       if [[ `alias bash_aliases_pragma_once 2>&1 | grep -c "bash: alias"` != 0 ]]; then
+         source $HOME/.bash_profile
+       fi
        ;;
    esac
    ;;
