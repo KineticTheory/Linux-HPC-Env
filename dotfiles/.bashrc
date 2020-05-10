@@ -4,9 +4,9 @@
 # for examples
 #------------------------------------------------------------------------------#
 
-#if [[ -f /etc/bashrc ]]; then
-#  source /etc/bashrc
-#fi
+if [[ -f /etc/bashrc && `uname -n` =~ ccscs[1-9] ]]; then
+  source /etc/bashrc
+fi
 
 # Making this next line active may break some commands (like scp) due to the
 # extra verbosity.
