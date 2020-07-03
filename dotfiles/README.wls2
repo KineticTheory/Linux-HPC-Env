@@ -10,3 +10,9 @@ FAQ:
 * Start ssh server
   - sudo service ssh start
   - ifconfig
+
+* Allow X11 directly from WSL2
+  - export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
+  - export LIBGL_ALWAYS_INDIRECT=1
+  - From Elevated Powershell: Set-NetFirewallProfile -DisabledInterfaceAliases 'vEthernet (WSL)'
+  - https://stackoverflow.com/questions/61110603/how-to-set-up-working-x11-forwarding-on-wsl2

@@ -57,11 +57,18 @@ if [[ `type bash_functions_pragma_once 2>&1 | grep -c "bash: type: "` != 0 ]]; t
     bc -l <<< "scale=10;$calc"
   }
 
-  function keychain()
-  {
-    /scratch/vendors/keychain-2.8.5/keychain ~/.ssh/id_rsa
-    source ~/.keychain/${HOSTNAME}-sh
-  }
+function keychain()
+{
+  local kc=`which keychain`
+  if [[ $? != 0 ]]; then
+    kc=/scratch/vendors/keychain-2.8.5/keychain
+    if ! [[ -x $kc ]]; then
+      echo "Keychain not found" && exit 1
+    fi
+  fi
+  $kc ~/.ssh/id_rsa
+  source ~/.keychain/${HOSTNAME}-sh
+}
 
   function reloadkeys()
   {
