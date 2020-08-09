@@ -168,12 +168,26 @@ There are two things you can do about this warning:
 ;; (add-hook 'c++-mode-hook
 ;;           (lambda () (modify-syntax-entry ?_ "w")))
 
+
+;; ========================================
+;; ANSI COLOR
+;; - https://emacs.stackexchange.com/questions/24698/ansi-escape-sequences-in-compilation-mode
+;; ========================================
+
 (require 'ansi-color)
 (defun display-ansi-colors ()
   (interactive)
   (ansi-color-apply-on-region (point-min) (point-max)))
 (if (fboundp 'display-ansi-colors)
     (define-key text-mode-map [(f12)] 'display-ansi-colors))
+(defun endless/colorize-compilation ()
+  "Colorize from `compilation-filter-start' to `point'."
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region
+     compilation-filter-start (point))))
+(add-hook 'compilation-filter-hook
+          #'endless/colorize-compilation)
+
 
 ;; (defun draco-dos2unix ()
 ;;   "Convert line endings to Unix style, untabify, and indent-region by mode.
@@ -222,6 +236,8 @@ auto-mode-alist."
       (fci-mode))
     (add-hook 'yaml-mode-hook 'draco-yaml-mode-hook)))
 (draco-setup-yaml-mode)
+
+(setq vc-follow-symlinks t)
 
 ;; ========================================
 ;; clang-format
@@ -273,7 +289,7 @@ auto-mode-alist."
  '(font-lock-maximum-decoration t)
  '(global-font-lock-mode t nil (font-lock))
  '(inhibit-startup-screen t)
- '(package-selected-packages (quote (yaml-mode cmake-mode)))
+ '(package-selected-packages (quote (ansi yaml-mode cmake-mode)))
  '(ring-bell-function (quote ignore))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t nil (paren))
@@ -298,8 +314,7 @@ auto-mode-alist."
  '(default ((t (:family "Inconsolata" :foundry "unknown" :slant normal :weight normal :height 90 :width normal :background "mint cream"))))
  '(font-lock-comment-face ((((class color) (min-colors 88) (background light)) (:foreground "purple"))))
  '(font-lock-constant-face ((((class color) (min-colors 88) (background light)) (:foreground "CadetBlue"))))
- '(font-lock-doc-face ((t (:inherit font-lock-string-face :foreground
-                                    "peru")))) ;; bisque
+ '(font-lock-doc-face ((t (:inherit font-lock-string-face :foreground "peru"))))
  '(font-lock-function-name-face ((((class color) (min-colors 88) (background light)) (:foreground "Blue3"))))
  '(font-lock-keyword-face ((((class color) (min-colors 88) (background light)) (:foreground "firebrick2"))))
  '(font-lock-preprocessor-face ((t (:inherit font-lock-builtin-face :foreground "hotpink"))))
