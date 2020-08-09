@@ -95,6 +95,9 @@ There are two things you can do about this warning:
 ;; of emacs).
 (global-auto-revert-mode t)
 
+;; load symlinks w/o a question
+(setq vc-follow-symlinks t)
+
 ;; Bind Alt as Meta
 (setq x-alt-keysym 'meta)
 ;;(setq x-super-keysym 'meta) ;; Use Windows or penguin key as Meta.
