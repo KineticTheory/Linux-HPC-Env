@@ -111,14 +111,14 @@ There are two things you can do about this warning:
 ;;   (if window-system
 ;;       (progn
 ;;         ;; use 120 char wide window for largeish displays
-;;         ;; and smaller 80 column windows for smaller displays
+;;         ;; and smaller 100 column windows for smaller displays
 ;;         ;; pick whatever numbers make sense for you.
-;;         (defvar kt-emacs-width 80)
+;;         (defvar kt-emacs-width 100)
 ;;         (defvar kt-emacs-height 24)
 ;;         (if (> (x-display-pixel-height) 1100)
 ;;             (progn
 ;;               (setq kt-emacs-width 85)
-;;               (setq kt-emacs-height 80)
+;;               (setq kt-emacs-height 100)
 ;;               ;; Check that the height still fits on the monitor
 ;;               (setq max-emacs-height (/ (x-display-pixel-height)
 ;;                                         (frame-char-height) ))
@@ -156,13 +156,13 @@ There are two things you can do about this warning:
   (auto-fill-mode 1)
   (setq fill-prefix "  ")
   (set (make-local-variable 'tab-stop-list)
-       (number-sequence 4 80 4))
+       (number-sequence 4 100 4))
   (setq indent-tabs-mode nil
-        fill-column 80
+        fill-column 100
         truncate-lines t))
 
 (setq cursor-type '(bar . 2))
-(setq fill-column 80)
+(setq fill-column 100)
 ;(setq draco-code-comment-width 132)
 
 ;; (add-hook 'c++-mode-hook
@@ -194,7 +194,7 @@ There are two things you can do about this warning:
 ;; http://www.emacswiki.org/emacs/EndOfLineTips
 ;; Also C-x <ret> f utf-8-unix <ret>"
 ;;     (interactive)
-;;     (set-fill-column 80)
+;;     (set-fill-column 100)
 ;;     (progn
 ;;       (untabify (point-min) (point-max))
 ;;       (indent-region (point-min) (point-max))
@@ -283,7 +283,7 @@ auto-mode-alist."
  '(compilation-auto-jump-to-first-error nil)
  '(compilation-scroll-output (quote first-error))
  '(cua-mode t nil (cua-base))
- '(draco-code-comment-width 80)
+ '(draco-code-comment-width 100)
  '(draco-elisp-dir "/home/kellyt/draco/environment/elisp/")
  '(draco-env-dir "/home/kellyt/draco/environment/")
  '(font-lock-maximum-decoration t)
