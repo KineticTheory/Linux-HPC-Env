@@ -38,6 +38,9 @@ if [[ -f ${DRACO_ENV_DIR}/bashrc/.bashrc ]]; then
   source ${DRACO_ENV_DIR}/bashrc/.bashrc
 fi
 
+export OPUS=/usr/projects/jayenne/devs/kellyt/lap/flag
+export SUITE=CTS1Ifast
+
 #------------------------------------------------------------------------------#
 # User Customizations
 #------------------------------------------------------------------------------#
@@ -126,11 +129,11 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
       export PATH=$SPACK_ROOT/bin:$PATH
       ;;
     tt-fey* | tt-login*)
-      module load ack
+#      module load ack
       ulimit -Sc unlimited
       ;;
     ba-fe* | cy-fe* | fi-fe* | ic-fe* | sn-fe*)
-      module load use.own fstools
+#      module load use.own fstools
       ulimit -Sc unlimited
       ;;
   esac

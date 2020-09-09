@@ -1,0 +1,137 @@
+# -*- yaml -*-
+modules:
+  enable::
+    - tcl
+  tcl:
+    hash_length: 0
+    blacklist:
+      - autoconf
+      - adiak
+      - automake
+      - binutils
+      - bzip2
+      - cmake
+      - curl
+      - diffutils
+      - expat
+      - freetype
+      - gettext
+      - gdbm
+      - glm
+      - gmake
+      - hwloc
+      - intel-mkl
+      - libarchive
+      - libbsd
+      - libedit
+      - libffi
+      - libgit2
+      - libiconv
+      - libjpeg-turbo
+      - libpciaccess
+      - libpfm4
+      - libpng
+      - libsigsegv
+      - libssh2
+      - libtool
+      - libunwind
+      - libuv
+      - libxml2
+      - lz4
+      - lzo
+      - m4
+      - mpich
+      - nasm
+      - ncurses
+      - nettle
+      - openssl
+      - papi
+      - pcre
+      - perl
+      - perl-data-dumper
+      - pkg-config
+      - pkgconf
+      - py-alabaster
+      - py-babel
+      - py-certifi
+      - py-chardet
+      - py-cycler
+      - py-idna
+      - py-imagesize
+      - py-jinja2
+      - py-markupsafe
+      - py-matplotlib
+      - py-numpy
+      - py-packaging
+      - py-pybind11
+      - py-pygments
+      - py-pyparsing
+      - py-pytest-runner
+      - py-python-dateutil
+      - py-pytz
+      - py-requests
+      - py-scipy
+      - py-setuptools
+      - py-setuptools-scm
+      - py-six
+      - py-snowballstemmer
+      - py-sphinx
+      - py-sphinxcontrib-applehelp
+      - py-sphinxcontrib-devhelp
+      - py-sphinxcontrib-htmlhelp
+      - py-sphinxcontrib-jsmath
+      - py-sphinxcontrib-qthelp
+      - py-sphinxcontrib-serializinghtml
+      - qhull
+      - readline
+      - rhash
+      - sqlite
+      - tar
+      - texinfo
+      - util-macros
+      - xz
+      - ze
+      - zlib
+    eospac:
+      environment:
+        set:
+          SESPATHU: /usr/projects/data/eos
+          SESAMEPATH: /usr/projects/data/eos
+#      filter:
+#        environment_blacklist: ['PATH']
+    ndi:
+      environment:
+        set:
+          NDI_ROOT_DIR: ${PREFIX}
+          NDI_GENDIR_PATH: /projects/data/nuclear/ndi/${VERSION}/share/gendir
+          EPDL_DATA_PATH: /projects/draco/vendors-ec/physical_data/epdl-2014
+    ^python:
+      autoload: 'direct'
+    projections:
+      all:          '{name}/{version}-{compiler.name}-{compiler.version}'
+      '%gcc@7.5.0': '{name}/{version}'
+      ^mpi^lapack:  '{name}/{version}-{compiler.name}-{compiler.version}-{^mpi.name}-{^mpi.version}-{^lapack.name}'
+      ^lapack:      '{name}/{version}-{compiler.name}-{compiler.version}-{^lapack.name}'
+      ^mpi:         '{name}/{version}-{compiler.name}-{compiler.version}-{^mpi.name}-{^mpi.version}'
+    all:
+      conflict:
+        - '{name}'
+      environment:
+        set:
+          SPACK_MODULE_PACKAGE: "${PACKAGE}"
+          SPACK_MODULE_VERSION: "${VERSION}"
+          SPACK_MODULE_PREFIX: "${PREFIX}"
+          SPACK_MODULE_SPEC: "${SPEC}"
+          SPACK_MODULE_HASH: "${HASH}"
+          SPACK_MODULE_ARCHITECTURE: "${ARCHITECTURE}"
+          SPACK_MODULE_COMPILERNAME: "${COMPILERNAME}"
+          SPACK_MODULE_COMPILERVER: "${COMPILERVER}"
+          SPACK_MODULE_COMPILERFLAGS: "${COMPILERFLAGS}"
+      filter:
+        environment_blacklist:
+          - "MANPATH"
+          - "ACLOCAL_PATH"
+          - "LIBRARY_PATH"
+          - "LD_LIBRARY_PATH"
+          - "CPATH"
+          - "PKG_CONFIG_PATH"

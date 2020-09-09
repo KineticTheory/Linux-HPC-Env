@@ -1,0 +1,5 @@
+# -*- yaml -*-
+mirrors:
+  local-filesystem: file:///usr/projects/packages/user_contrib/spack.mirror
+  lanl-yellow: https://pe-serve.lanl.gov/spack-mirror/
+#  spack-public: https://spack-llnl-mirror.s3-us-west-2.amazonaws.com/

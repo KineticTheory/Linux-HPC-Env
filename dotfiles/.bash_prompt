@@ -2,7 +2,7 @@
 
 if test "$INTERACTIVE" = true; then
 
-  # pragma once
+   # pragma once
   if [[ `type bash_prompt_pragma_once 2>&1 | grep -c "bash: type: "` != 0 ]]; then
     function bash_prompt_pragma_once () {
       echo "bppo"

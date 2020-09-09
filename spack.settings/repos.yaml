@@ -1,0 +1,4 @@
+# -*- yaml -*-
+repos:
+  - /usr/projects/user_contrib/asc_spackages
+  - $spack/var/spack/repos/builtin

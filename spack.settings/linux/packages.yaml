@@ -1,0 +1,174 @@
+packages:
+  boost:
+    variants: [+python+mpi+pic cxxstd=11]
+  cairo:
+    variants: [+fc+ft+pdf+png+svg+X]
+  cmake:
+    version: [3.17.2]
+    paths:
+      cmake@3.17.0: /usr/projects/hpcsoft/toss3/common/x86_64/cmake/3.17.2
+    buildable: False
+  cta:
+    permissions:
+      read: group
+      write: group
+      group: ccsrad
+  csk:
+    permissions:
+      read: group
+      write: group
+      group: ccsrad
+  draco:
+    permissions:
+      read: group
+      write: group
+      group: ccsrad
+  doxygen:
+    # newer versions require C++11 (not compatible with gcc-4.8.5).
+    version: [1.8.15]
+    variants: [+graphviz+mscgen]
+  emacs:
+    variants: [+tls+X]
+  eospac:
+    version: [6.4.0]
+  flag:
+    permissions:
+      read: group
+      write: group
+      group: ccsrad
+  flex:
+    version: [2.5.37]
+    paths:
+      flex@2.5.37: /usr
+    buildable: False
+  git:
+    variants: [+tcltk]
+  graphviz:
+    variants: [+pangocairo]
+  hdf5:
+    variants: [+fortran+hl]
+  icu4c:
+    version: [58.2]
+  jayenne:
+    permissions:
+      read: group
+      write: group
+      group: ccsrad
+#  libtool:
+#    version: [2.4.2]
+#    paths:
+#      libtool@2.4.2: /usr
+#    buildable: False
+#  m4:
+#    version: [1.4.16]
+#    paths:
+#      m4@1.4.16: /usr
+#    buildable: False
+  matio:
+    variants: [+hdf5]
+#  meson:
+#    version: [0.49.2]
+#    paths:
+#      meson@0.49.2: /ccs/opt/vendors/spack.20200429/opt/spack/linux-rhel7-sandybridge/gcc-4.8.5/meson-0.49.2-ysfcrccllmp5ypha4v5cfun5gq4rtov7
+#      meson@0.49.2 % gcc@9.3.0: /ccs/opt/vendors/spack.20200429/opt/spack/linux-rhel7-sandybridge/gcc-9.3.0/meson-0.49.2-36vjjrhq7hjtkfhtkeiavoq3uf4ne5hc
+#      meson@0.49.2 % gcc@4.8.5: /ccs/opt/vendors/spack.20200429/opt/spack/linux-rhel7-sandybridge/gcc-4.8.5/meson-0.49.2-ysfcrccllmp5ypha4v5cfun5gq4rtov7
+#      meson@0.54.0 % gcc@9.3.0: /ccs/opt/vendors/spack.20200429/opt/spack/linux-rhel7-sandybridge/gcc-9.3.0/meson-0.54.0-knvbgvqu5izei3iro74pavshuyyr4d42
+#      meson@0.54.0 % gcc@4.8.5: /ccs/opt/vendors/spack.20200429/opt/spack/linux-rhel7-sandybridge/gcc-4.8.5/meson-0.54.0-gsxgto73a3raz34pr7qplxlutxwqyq7u
+#    buildable: False
+  middleman:
+    permissions:
+      read: group
+      write: group
+      group: ccsrad
+  ndi:
+    permissions:
+      read: group
+      write: group
+      group: ccsrad
+  ncurses:
+    variants: [+termlib]
+  openmpi:
+    version: [2.1.2]
+#    modules:
+#      openmpi@2.1.2: openmpi/2.1.2
+#      openmpi@1.10.5: openmpi/1.10.5
+    paths:
+      openmpi@2.1.2 % gcc@4.8.5: /usr/projects/hpcsoft/toss3/snow/openmpi/2.1.2-gcc-4.8.5
+      openmpi@2.1.2 % gcc@8.3.0: /usr/projects/hpcsoft/toss3/snow/openmpi/2.1.2-gcc-8.3.0
+      openmpi@2.1.2 % llvm@10.0.1: /usr/projects/hpcsoft/toss3/snow/openmpi/2.1.2-gcc-8.3.0
+      openmpi@2.1.2 % intel@17.0.4: /usr/projects/hpcsoft/toss3/snow/openmpi/2.1.2-intel-17.0.4
+      openmpi@2.1.2 % intel@19.0.4: /usr/projects/hpcsoft/toss3/snow/openmpi/2.1.2-intel-19.0.4
+      openmpi@3.1.6 % intel@19.0.4: /usr/projects/hpcsoft/toss3/snow/openmpi/3.1.6-intel-19.0.4
+    buildable: False
+  pango:
+    variants: [+X]
+  papi:
+    version: [5.5.1]
+    paths:
+      papi@5.5.1: /usr/projects/hpcsoft/toss3/common/papi/5.5.1
+    buildable: False
+  perl:
+    version: [5.16.3]
+    paths:
+      perl@5.16.3: /usr
+    buildable: False
+  petsc:
+    variants: [+boost+hdf5]
+  pkg-config:
+    version: [0.27.1]
+    paths:
+      pkg-config@0.27.1: /usr
+    buildable: False
+  py-tws-cassio:
+    permissions:
+      read: group
+      write: group
+      group: eapucni
+  py-tws-xrage:
+    permissions:
+      read: group
+      write: group
+      group: dacodes
+  python:
+    compiler: [gcc@4.8.5]
+    variants: [+tk]
+    version: [3.7.4]
+    paths:
+      python@3.7.4: /yellow/usr/projects/user_contrib/spack.20200809/opt/spack/linux-rhel7-haswell/gcc-4.8.5/python-3.7.4-waih7yzsq57dox5xyujmt2f77vh3ef3k
+    buildable: False
+  qt:
+    variants: [+dbus+opengl+phonon]
+  superlu-dist:
+    version: [5.4.0]
+  tar:
+    version: [1.26]
+    paths:
+      tar@1.26: /usr
+    buildable: False
+  trilinos:
+    variants: [+nox+superlu-dist~alloptpkgs~amesos2~boost~exodus~glm~gtest~hdf5~hypre~ifpack2~kokkos~matio~muelu~mumps~netcdf~suite-sparse~tpetra~zoltan2]
+  trt:
+    permissions:
+      read: group
+      write: group
+      group: ccsrad
+  vtk:
+    variants: [+qt+python]
+  z3:
+    compiler: [gcc@4.8.5]
+    version: [4.8.7]
+    paths:
+      z3@4.8.7: /yellow/usr/projects/user_contrib/spack.20200809/opt/spack/linux-rhel7-haswell/gcc-4.8.5/z3-4.8.7-qrbicz76sjepuvmdzcpovymqij5c2dji
+    buildable: False
+  all:
+    variants: [+mpi +X build_type=Release]
+    permissions:
+      read: world
+      write: group
+      group: user_contrib
+    providers:
+      blas: [openblas, netlib-lapack, intel-mkl]
+      lapack: [openblas, netlib-lapack, intel-mkl]
+      mkl: [intel-mkl]
+      mpi: [openmpi@2.1.2]
+#      iconv: [libiconv]
