@@ -27,12 +27,13 @@ case ${-} in
    target=`uname -n`
    case ${target} in
      t[rt]-fe* | cp-loginy* )
-       # no-op; OS will source .bashrc first and then .bash_profile
+       # On an initial loginc, .bashrc is sources first and then .bash_profile
+       if ! [[ ${SHLVL} == 1 ]]; then source ~/.bash_profile; fi
        ;;
-     t[rt]-login* | nid* )
+#     t[rt]-login* | nid* )
        # We need to source this on every connection.
-       source $HOME/.bash_profile
-       ;;
+#       source $HOME/.bash_profile
+#       ;;
      *)
        if [[ `alias bash_aliases_pragma_once 2>&1 | grep -c "bash: alias"` != 0 ]]; then
          source $HOME/.bash_profile
@@ -79,7 +80,7 @@ if test "$INTERACTIVE" = true; then
 
   # home, scratchdir, modulefiles
   export CDPATH=.:$HOME
-  extra_dirs="/scratch /scratch/$USER"
+  extra_dirs="/scratch /scratch/$USER /lustre/ttscratch1"
   for dir in $extra_dirs; do
     if [[ -d $dir ]]; then export CDPATH=$CDPATH:$dir; fi
   done
