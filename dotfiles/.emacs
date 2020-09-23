@@ -2,6 +2,7 @@
 
 ;; Ref: www.emacswiki.org
 ;;      www.linuxpowered.com/html/tutorials/emacs.html
+;;      http://ergoemacs.org/emacs/elisp_basics.html
 
 
 ;; FAQ
@@ -46,27 +47,13 @@
 ;; https://melpa.org/#/getting-started
 ;; https://github.com/atilaneves/cmake-ide
 ;;
-;; M-x package-install <RET> cmake-ide
-;;
 ;; package manager for emacs
 ;; M-x package-refresh-contents
 ;; M-x package-list-packages
 ;; M-x package install
 (require 'package)
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (proto (if no-ssl "http" "https")))
-  (when no-ssl (warn "\
-Your version of Emacs does not support SSL connections,
-which is unsafe because it allows man-in-the-middle attacks.
-There are two things you can do about this warning:
-1. Install an Emacs version that does support SSL and be safe.
-2. Remove this warning from your init file so you won't see it again."))
-  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-  ;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
-  ;; and `package-pinned-packages`. Most users will not need or want to do this.
-  ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
-  )
+(add-to-list 'package-archives (cons "melpa"  "https://melpa.org/packages/") t)
+;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
 (package-initialize)
 
 ;; Useful for Windows and Gnome/KDE users.  Note: Also enables
@@ -120,8 +107,8 @@ There are two things you can do about this warning:
 ;;         (defvar kt-emacs-height 24)
 ;;         (if (> (x-display-pixel-height) 1100)
 ;;             (progn
-;;               (setq kt-emacs-width 85)
-;;               (setq kt-emacs-height 100)
+;;               (setq kt-emacs-width 105)
+;;               (setq kt-emacs-height 80)
 ;;               ;; Check that the height still fits on the monitor
 ;;               (setq max-emacs-height (/ (x-display-pixel-height)
 ;;                                         (frame-char-height) ))
@@ -146,6 +133,18 @@ There are two things you can do about this warning:
     (progn
       (or (server-running-p) (server-start))
 ))
+;; (if  linux-x-p
+;;     (progn
+;;         (server-start)
+;;         (add-hook 'server-switch-hook
+;;             (lambda ()
+;;                 (when (current-local-map)
+;;                     (use-local-map (copy-keymap (current-local-map))))
+;;                 (when server-buffer-clients
+;;                     (local-set-key (kbd "C-c C-c") 'server-edit))))))
+
+;; EDIFF customization
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 ;; GIT customizations
 (add-to-list
@@ -210,72 +209,9 @@ There are two things you can do about this warning:
 ; (require 'fill-column-indicator)
 ; fci-mode
 
-
 ;; ========================================
-;; Yaml mode
+;; GNU Emacs Custom settings
 ;; ========================================
-
-(require 'yaml-mode)
-(defun draco-setup-yaml-mode ()
-  "Autoload cmake-mode and append the appropriate suffixes to
-auto-mode-alist."
-  (interactive)
-  (progn
-    (autoload 'yaml-mode "yaml-mode" "Yaml editing mode." t)
-    (setq auto-mode-alist
-          (append '(("\\.yaml"         . yaml-mode)
-                    ("\\.yaml\\.in"    . yaml-mode))
-                  auto-mode-alist))
-    (defun draco-yaml-mode-hook ()
-      "DRACO hooks added to Yaml mode."
-      (defvar yaml-tab-width 2)
-      (local-set-key [(control c)(control c)] 'comment-region)
-      (local-set-key [(f5)] 'draco-makefile-divider)
-      (local-set-key [(f6)] 'draco-makefile-comment-divider)
-      (turn-on-draco-mode)
-      (turn-off-auto-fill)
-      (set-fill-column draco-code-comment-width)
-      (require 'fill-column-indicator)
-      (fci-mode))
-    (add-hook 'yaml-mode-hook 'draco-yaml-mode-hook)))
-(draco-setup-yaml-mode)
-
-(setq vc-follow-symlinks t)
-
-;; ========================================
-;; clang-format
-;; ========================================
-
-(require 'clang-format)
-(global-set-key [(f12)] 'clang-format-region)
-
-;; See https://www.emacswiki.org/emacs/IndentingC
-;; (if (fboundp 'clang-format)
-;;     (add-hook 'c++-mode-hook
-;;               (lambda ()
-;;                 (add-hook 'before-save-hook 'clang-format-buffer)))
-;;   )
-
-;; This command makes the font the default on all graphical frames
-;; created after restarting Emacs.
-;; http://ergoemacs.org/emacs/emacs_list_and_set_font.html
-(add-to-list 'default-frame-alist '(font . "Inconsolata"))
-(setq initial-frame-alist '((font . "Inconsolata-9") ))
-(setq default-frame-alist '((font . "Inconsolata-9") ))
-
-;; remove consecutive duplicates
-  ;; (defun uniquify-region-lines (beg end)
-  ;;   "Remove duplicate adjacent lines in region."
-  ;;   (interactive "*r")
-  ;;   (save-excursion
-  ;;     (goto-char beg)
-  ;;     (while (re-search-forward "^\\(.*\n\\)\\1+" end t)
-  ;;       (replace-match "\\1"))))
-
-
-;;------------------------------------------------------------------------------
-;; GNU EMacs "Options" below (controlled via menu)
-;;------------------------------------------------------------------------------
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -300,7 +236,7 @@ auto-mode-alist."
  '(tool-bar-mode nil)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
 
-;; this fails, but 'emacs -fn 6x13' works so create an alias:
+;; '(default ((t (:inherit nil :stipple nil :background "ivory" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width semi-condensed :family "Fixed" :foundry "Misc"))))
 
  ;; '(default ((t (:family "Fixed" :foundry "Misc" :slant
  ;;                        normal :weight normal :height 98 :width
@@ -314,7 +250,7 @@ auto-mode-alist."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Inconsolata" :foundry "unknown" :slant normal :weight normal :height 90 :width normal :background "mint cream"))))
+ '(default ((t (:inherit nil :stipple nil :background "ivory" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 87 :width medium :family "Inconsolata" :foundry "unknown"))))
  '(font-lock-comment-face ((((class color) (min-colors 88) (background light)) (:foreground "purple"))))
  '(font-lock-constant-face ((((class color) (min-colors 88) (background light)) (:foreground "CadetBlue"))))
  '(font-lock-doc-face ((t (:inherit font-lock-string-face :foreground "peru"))))
