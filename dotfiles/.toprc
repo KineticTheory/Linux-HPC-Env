@@ -1,8 +1,8 @@
-RCfile for "top with windows"		# shameless braggin'
 Id:a, Mode_altscr=0, Mode_irixps=1, Delay_time=1.000, Curwin=0
 Def	fieldscur=ABEHIOQTWKNMcdfgjplrsuvyzX
 	winflags=130329, sortindx=10, maxtasks=25
-	summclr=4, msgsclr=2, headclr=4, taskclr=0
+:Q!
+summclr=4, msgsclr=2, headclr=4, taskclr=0
 Job	fieldscur=ABcefgjlrstuvyzMKNHIWOPQDX
 	winflags=62777, sortindx=0, maxtasks=0
 	summclr=6, msgsclr=6, headclr=7, taskclr=6

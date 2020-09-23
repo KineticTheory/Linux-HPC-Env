@@ -33,7 +33,7 @@ set show-all-if-ambiguous on
 # Vendors, etc.
 #------------------------------------------------------------------------------#
 
-export SPACK_ROOT=~/spack-0.15.0
+export SPACK_ROOT=~/spack
 if [[ -d $SPACK_ROOT ]]; then
   export PATH=$SPACK_ROOT/bin:$PATH
 
@@ -41,7 +41,7 @@ if [[ -d $SPACK_ROOT ]]; then
   if test -d $MODULES_HOME; then
     source $MODULES_HOME/lmod/lmod/init/bash
     module use `\ls -d $SPACK_ROOT/share/spack/lmod/*/Core`
-    module load random123 numdiff cmake ack htop lcov mscgen # doxygen graphviz
+    module load random123 numdiff cmake ack htop lcov mscgen doxygen graphviz
     # module load gcc/10.1.0
     module load gsl metis openblas
     module load eospac # ndi csk
@@ -49,11 +49,16 @@ if [[ -d $SPACK_ROOT ]]; then
     module load parmetis libquo caliper # superlu-dist trilinos
   fi
 fi
+export CXX=$(which g++)
+export CC=$(which gcc)
+export FC=$(which gfortran)
 
 # Also needed to run vcxsrv with '-ac' AND disable parts of Firewall
 # https://github.com/microsoft/WSL/issues/4106#issuecomment-530006295
-#export my_ip=`cat /etc/resolv.conf | grep nameserver | awk '{ print $2 }'`
-#export DISPLAY=${my_ip}:0
+if [[ "${DISPLAY:-notset}" == "notset" ]]; then
+  export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
+fi
+export LIBGL_ALWAYS_INDIRECT=1
 export VENDOR_DIR=~/vendors
 
 if test -n "${verbose}"; then
@@ -72,6 +77,8 @@ export PATH=~/bin:$PATH
 #alias docker=docker.exe
 #alias docker-compose=docker-compose.exe
 #export PATH="$PATH:/mnt/c/Program\ Files/Git/usr/bin"
+
+keychain
 
 if test -n "${verbose}"; then echo "done with ~/.bash_wls2"; fi
 
