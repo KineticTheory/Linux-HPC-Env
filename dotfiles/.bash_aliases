@@ -30,7 +30,7 @@ if [[ `alias bash_aliases_pragma_once 2>&1 | grep -c "bash: alias"` != 0 ]]; the
   alias em='emacsclient -c --alternate-editor=emacs'
   alias pcmake='cmake-Wdeprecated -Wdev --warn-uninitialized --warn-unused-vars'
   #if test -x /bin/emacs; then
-  alias emacs='emacs -fn Inconsolata &> $HOME/emacs.log'
+  alias emacs='emacs -g 100x70 -fn Inconsolata &> $HOME/emacs.log'
   #fi
   #alias emacs='/bin/emacs -fn 6x13 &> /dev/null'
   alias gitfetch='git fetch --all --prune --tags'

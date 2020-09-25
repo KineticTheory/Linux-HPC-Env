@@ -1,0 +1,64 @@
+packages:
+  autoconf:
+    externals:
+    - spec: autoconf@2.69
+      prefix: /usr
+  automake:
+    externals:
+    - spec: automake@1.16.1
+      prefix: /
+  bash:
+    externals:
+    - spec: bash@5.0.17
+      prefix: /
+  findutils:
+    externals:
+    - spec: findutils@4.7.0
+      prefix: /
+  gcc:
+    externals:
+    - spec: gcc@9.3.0 languages=c,c++,fortran
+      prefix: /mnt/c/msys64/mingw64
+      extra_attributes:
+        compilers:
+          c: /mnt/c/msys64/mingw64/bin/x86_64-w64-mingw32-gcc-9.3.0.exe
+          cxx: /mnt/c/msys64/mingw64/bin/x86_64-w64-mingw32-g++.exe
+          fortran: /mnt/c/msys64/mingw64/bin/x86_64-w64-mingw32-gfortran.exe
+  git:
+    externals:
+    - spec: git@2.25.1~tcltk
+      prefix: /
+  gmake:
+    externals:
+    - spec: gmake@4.2.1
+      prefix: /
+  libtool:
+    externals:
+    - spec: libtool@2.4.6
+      prefix: /usr
+  m4:
+    externals:
+    - spec: m4@1.4.18
+      prefix: /
+#  openssl:
+#    externals:
+#    - spec: openssl@1.1.1f
+#      prefix: /usr
+  perl:
+    externals:
+    - spec: perl@5.30.0~cpanm+shared+threads
+      prefix: /
+  pkg-config:
+    externals:
+    - spec: pkg-config@0.29.1
+      prefix: /usr
+  python:
+    externals:
+    - spec: python@2.7.18rc1+bz2+ctypes+dbm~lzma+nis+pyexpat+readline+sqlite3+ssl~tix~tkinter+uuid+zlib
+      prefix: /
+    - spec: python@3.8.2+bz2+ctypes+dbm+lzma+nis+pyexpat+readline+sqlite3+ssl~tix~tkinter+uuid+zlib
+      prefix: /
+  texinfo:
+    externals:
+    - spec: texinfo@6.7
+      prefix: /
