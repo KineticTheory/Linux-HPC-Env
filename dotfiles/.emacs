@@ -228,7 +228,7 @@
  '(font-lock-maximum-decoration t)
  '(global-font-lock-mode t nil (font-lock))
  '(inhibit-startup-screen t)
- '(package-selected-packages (quote (ansi yaml-mode cmake-mode)))
+ '(package-selected-packages (quote (lua-mode ansi yaml-mode cmake-mode)))
  '(ring-bell-function (quote ignore))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t nil (paren))

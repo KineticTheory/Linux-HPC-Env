@@ -41,7 +41,7 @@ if [[ -d $SPACK_ROOT ]]; then
   if test -d $MODULES_HOME; then
     source $MODULES_HOME/lmod/lmod/init/bash
     module use `\ls -d $SPACK_ROOT/share/spack/lmod/*/Core`
-    module load random123 numdiff cmake ack htop lcov # mscgen doxygen graphviz
+    module load random123 numdiff cmake ack htop lcov mscgen doxygen graphviz
     # module load gcc/10.1.0
     module load gsl metis openblas
     module load eospac # ndi csk
