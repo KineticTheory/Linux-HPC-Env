@@ -40,7 +40,7 @@ if [[ `type bash_functions_pragma_once 2>&1 | grep -c "bash: type: "` != 0 ]]; t
         echo "Keychain not found" && exit 1
       fi
     fi
-    $kc ~/.ssh/id_rsa
+    $kc --nogui ~/.ssh/id_rsa
     source ~/.keychain/${HOSTNAME}-sh
   }
 
