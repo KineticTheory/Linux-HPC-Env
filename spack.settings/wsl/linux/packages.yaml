@@ -11,6 +11,8 @@ packages:
     externals:
     - spec: bash@5.0.17
       prefix: /
+  doxygen:
+    variants: [+graphviz+mscgen]
   findutils:
     externals:
     - spec: findutils@4.7.0
@@ -33,7 +35,7 @@ packages:
     - spec: gmake@4.2.1
       prefix: /
   graphviz:
-    variants: [+graphviz+mscgen]
+    variants: [+expat+ghostscript+libgd]
   libtool:
     externals:
     - spec: libtool@2.4.6
@@ -64,3 +66,5 @@ packages:
     externals:
     - spec: texinfo@6.7
       prefix: /
+  all:
+    variants: [+x build_type=Release]

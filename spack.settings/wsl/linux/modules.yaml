@@ -53,6 +53,7 @@ modules:
           FC: gfortran
           LCOMPILER: ${PACKAGE}
           LCOMPILERVER: ${VERSION}
+          LD_LIBRARY_PATH: ${PREFIX}/lib
     whitelist:
       - totalview
     blacklist:
