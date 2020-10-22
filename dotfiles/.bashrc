@@ -63,7 +63,7 @@ case ${-} in
         fi
         modcmd=`declare -f module`
         if [[ ! ${modcmd} ]]; then
-          module load ack
+          module load ack # texlive
         fi
         ;;
     esac
@@ -84,7 +84,16 @@ if test "$INTERACTIVE" = true; then
   for dir in $extra_dirs; do
     if [[ -d $dir ]]; then export CDPATH=$CDPATH:$dir; fi
   done
-
+  add_to_path $HOME/bin PATH
+  case $target in
+    ccscs*)
+    add_to_path /ccs/opt/keychain-2.8.5 PATH
+    rm_from_path /home/kellyt/.composer/vendor/bin PATH
+    rm_from_path /usr/lib64/qt-3.3/bin PATH
+    rm_from_path /opt/rh/php55/root/usr/bin PATH
+    rm_from_path /opt/rh/php55/root/usr/sbin PATH
+    ;;
+  esac
   if [[ "${verbose}" == "true" ]]; then echo "done with $HOME/.bashrc"; fi
 fi
 

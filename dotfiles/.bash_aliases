@@ -15,7 +15,7 @@ if [[ `alias bash_aliases_pragma_once 2>&1 | grep -c "bash: alias"` != 0 ]]; the
 
   ncpus=`lscpu | grep CPU\(s\) | head -n 1 | awk '{ print $2 }'`
 
-  alias ack='ack --color-lineno="bold blue"'
+  # alias ack='ack --color-lineno="bold blue"'
   alias cmakebc='cmake -DGCC_ENABLE_GLIBCXX_DEBUG=ON'
   alias cmakecov='cmake -DCODE_COVERAGE=ON'
   alias cmakect='C_FLAGS=-Werror CXX_FLAGS=-Werror cmake -Wdeprecated -Wdev -DDRACO_STATIC_ANALYZER=clang-tidy'
@@ -30,7 +30,7 @@ if [[ `alias bash_aliases_pragma_once 2>&1 | grep -c "bash: alias"` != 0 ]]; the
   alias em='emacsclient -c --alternate-editor=emacs'
   alias pcmake='cmake-Wdeprecated -Wdev --warn-uninitialized --warn-unused-vars'
   #if test -x /bin/emacs; then
-  alias emacs='emacs -g 100x70 -fn Inconsolata &> $HOME/emacs.log'
+  alias emacs='emacs -g 110x70 -fn Inconsolata &> $HOME/emacs.log'
   #fi
   #alias emacs='/bin/emacs -fn 6x13 &> /dev/null'
   alias gitfetch='git fetch --all --prune --tags'
@@ -42,6 +42,7 @@ if [[ `alias bash_aliases_pragma_once 2>&1 | grep -c "bash: alias"` != 0 ]]; the
   alias qtcreator='qtcreator -noload Welcome'
   alias rtt='resettermtitle'
   alias rzansel='ssh -t ihpc-gate1.lanl.gov ssh rzansel.llnl.gov'
+  alias sshclean='function _sshclean(){ssh -t $1 bash --noprofile --norc};_sshclean'
   alias vdir='pushd $VENDOR_DIR'
   alias vi='emacs -nw'
   alias wget='wget --user-agent=Mozilla --content-disposition -E -c'
@@ -70,7 +71,7 @@ if [[ `alias bash_aliases_pragma_once 2>&1 | grep -c "bash: alias"` != 0 ]]; the
   # Kerberos
   alias kerb='kinit -f -l 8h -kt ~/.ssh/cron.keytab kellyt@lanl.gov'
 
-  if test -n "${verbose}"; then echo "done with ~/.bash_aliases"; fi
+  if test -n "${verbose}"; then echo "in ~/.bash_aliases ... done"; fi
 fi
 
 #------------------------------------------------------------------------------#

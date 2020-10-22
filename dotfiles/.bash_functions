@@ -9,7 +9,7 @@ if [[ `type bash_functions_pragma_once 2>&1 | grep -c "bash: type: "` != 0 ]]; t
   function bash_functions_pragma_once () {
     echo "bfpo"
   }
-  if test -n "${verbose}"; then echo "source $HOME/.bash_functions"; fi
+  if test -n "${verbose}"; then echo "in ~/.bash_functions"; fi
 
   #------------------------------------------------------------------------------#
   # User Customizations
@@ -58,7 +58,7 @@ if [[ `type bash_functions_pragma_once 2>&1 | grep -c "bash: type: "` != 0 ]]; t
   # mark all defined functions for export
   # declare -fx reloadkeys keychain unix2dos dos2unix eapde
 
-  if test -n "${verbose}"; then echo "done with $HOME/.bash_functions"; fi
+  if test -n "${verbose}"; then echo "in ~/.bash_functions ... done"; fi
 fi
 
 #------------------------------------------------------------------------------#

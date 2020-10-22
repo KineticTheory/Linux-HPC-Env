@@ -1778,6 +1778,6 @@ else
 fi
 
 #------------------------------------------------------------------------------#
-    if test -n "${verbose}"; then echo "done with ~/.bash_prompt"; fi
+    if test -n "${verbose}"; then echo "in ~/.bash_prompt ... done"; fi
   fi
 fi # "$INTERACTIVE" = true

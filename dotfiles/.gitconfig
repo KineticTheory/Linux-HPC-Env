@@ -17,6 +17,8 @@
      insteadOf = git://cmake.org/
 [url "git@github.com:"]
      insteadOf = git://github.com/
+[url "ssh://git@re-git.lanl.gov:10022/"]
+     insteadOf = git@re-git.lanl.gov:
 [http]
 	sslVerify = false
 [https]

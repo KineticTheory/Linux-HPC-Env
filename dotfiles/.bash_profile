@@ -99,14 +99,15 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
     sn* | darwin* | cn*) shopt -s direxpand ;; # do not escape env variables when doing tab completion.
   esac
 
-  # LaTeX ---------------------------------------------------------------------- #
+  # LaTeX -------------------------------------------------------------------- #
 
   # extradirs="$HOME/imcdoc/sty"
-  # for mydir in ${extradirs}; do
-  #     if test -z "`echo $TEXINPUTS | grep $mydir`" && test -d $mydir; then
-  #         export TEXINPUTS=$mydir:$TEXINPUTS
-  #     fi
-  # done
+  extradirs="$HOME/dracodoc/latex"
+  for mydir in ${extradirs}; do
+    if test -z "`echo $TEXINPUTS | grep $mydir`" && test -d $mydir; then
+      export TEXINPUTS=$mydir:$TEXINPUTS
+    fi
+  done
   # extradirs="$HOME/imcdoc/bib"
   # for mydir in ${extradirs}; do
   #     if test -z "`echo $BSTINPUTS | grep $mydir`" && test -d $mydir; then
@@ -138,7 +139,7 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
       ;;
   esac
 
-  if test -n "${verbose}"; then echo "done with ~/.bash_profile"; fi
+  if test -n "${verbose}"; then echo "in ~/.bash_profile ... done"; fi
 fi # if test "$INTERACTIVE" = "true"
 
 #------------------------------------------------------------------------------#

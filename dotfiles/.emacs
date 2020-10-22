@@ -96,6 +96,7 @@
 (setq user-mail-address "kgt@lanl.gov")
 
 ;; Set the frame size base on the current resolution.
+(when window-system (set-frame-size (selected-frame) 110 70))
 ;; (defun set-frame-size-according-to-resolution ()
 ;;   (interactive)
 ;;   (if window-system
@@ -126,6 +127,7 @@
 
 ;; Dired
 (setq dired-listing-switches "-alh")
+(setq dired-recursive-deletes t)
 
 ;; Allow 'emacsclient' to connect to running emacs.
 (if 'window-system
@@ -133,15 +135,6 @@
     (progn
       (or (server-running-p) (server-start))
 ))
-;; (if  linux-x-p
-;;     (progn
-;;         (server-start)
-;;         (add-hook 'server-switch-hook
-;;             (lambda ()
-;;                 (when (current-local-map)
-;;                     (use-local-map (copy-keymap (current-local-map))))
-;;                 (when server-buffer-clients
-;;                     (local-set-key (kbd "C-c C-c") 'server-edit))))))
 
 ;; EDIFF customization
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
@@ -208,6 +201,7 @@
 
 ; (require 'fill-column-indicator)
 ; fci-mode
+
 
 ;; ========================================
 ;; GNU Emacs Custom settings
