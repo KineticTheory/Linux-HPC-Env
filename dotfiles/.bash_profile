@@ -38,8 +38,10 @@ if [[ -f ${DRACO_ENV_DIR}/bashrc/.bashrc ]]; then
   source ${DRACO_ENV_DIR}/bashrc/.bashrc
 fi
 
-export OPUS=/usr/projects/jayenne/devs/kellyt/lap/flag
-export SUITE=CTS1Ifast
+if [[ -d /usr/projects/jayenne/devs/kellyt/lap/flag ]]; then
+  export OPUS=/usr/projects/jayenne/devs/kellyt/lap/flag
+  export SUITE=CTS1Ifast
+fi
 
 #------------------------------------------------------------------------------#
 # User Customizations
@@ -75,8 +77,8 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
     source ~/.bash_prompt
   fi
   if [[ `uname -r` =~ "Microsoft" || `uname -r` =~ "microsoft" ]] ; then
-    if [[ -f ~/.bashrc_wls2 ]]; then
-      source ~/.bashrc_wls2;
+    if [[ -f ~/.bashrc_wsl2 ]]; then
+      source ~/.bashrc_wsl2;
     fi
   fi
 
