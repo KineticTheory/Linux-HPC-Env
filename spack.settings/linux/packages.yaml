@@ -1,28 +1,16 @@
 packages:
-  autoconf:
-    externals:
-      - spec: autoconf@2.69
-        prefix: /usr
-    buildable: False
-  automake:
-    externals:
-    - spec: automake@1.16.1
-      prefix: /usr
-  bash:
-    externals:
-    - spec: bash@5.0.17
-      prefix: /
-  binutils:
-    variants: [+nls]
-  boost:
-    variants: [+python+mpi+pic cxxstd=11]
-  cairo:
-    variants: [+ft+fc+png+X] # +svg+pdf
-#  cmake:
-#    version: [3.17.2]
-#    paths:
-#      cmake@3.17.0: /usr/projects/hpcsoft/toss3/common/x86_64/cmake/3.17.2
-#    buildable: False
+  all:
+    variants: [+X +tk +mpi build_type=Release]
+    permissions:
+      read: world
+      write: group
+      group: user_contrib
+    providers:
+      blas: [openblas, netlib-lapack, intel-mkl]
+      lapack: [openblas, netlib-lapack, intel-mkl]
+      mkl: [intel-mkl]
+      mpi: [openmpi@2.1.2]
+# ------------------------------------------------------------------------------ #
   cta:
     permissions:
       read: group
@@ -38,65 +26,16 @@ packages:
       read: group
       write: group
       group: ccsrad
-  doxygen:
-    # newer versions require C++11 (not compatible with gcc-4.8.5).
-    # version: [1.8.15]
-    variants: [+graphviz+mscgen]
-  emacs:
-    variants: [+tls+X]
-  eospac:
-    version: [6.4.0]
-  findutils:
-    externals:
-    - spec: findutils@4.7.0
-      prefix: /usr
-#  gcc:
-#    externals:
-#    - spec: gcc@9.3.0 languages=c,c++,fortran
-#      prefix: /usr
-#      extra_attributes:
-#        compilers:
-#          c: /usr/bin/x86_64-linux-gnu-gcc-9
-#          cxx: /usr/bin/x86_64-linux-gnu-g++-9
-#          fortran: /usr/bin/x86_64-linux-gnu-gfortran-9
   flag:
     permissions:
       read: group
       write: group
       group: ccsrad
-  flex:
-    externals:
-      - spec: flex@2.5.37
-        prefix: /usr
-    buildable: False
-  git:
-#    variants: [+tcltk]
-    externals:
-    - spec: git@2.25.1+tcltk
-      prefix: /usr
-  gmake:
-    externals:
-    - spec: gmake@4.2.1
-      prefix: /usr
-  graphviz:
-    variants: [+pangocairo]
-  hdf5:
-    variants: [+fortran+hl]
-  icu4c:
-    version: [58.2]
   jayenne:
     permissions:
       read: group
       write: group
       group: ccsrad
-  hypre:
-    variants: [~internal-superlu]
-  m4:
-    externals:
-    - spec: m4@1.4.18
-      prefix: /usr
-  matio:
-    variants: [+hdf5]
   middleman:
     permissions:
       read: group
@@ -107,9 +46,54 @@ packages:
       read: group
       write: group
       group: ccsrad
+  py-tws-cassio:
+    permissions:
+      read: group
+      write: group
+      group: eapucni
+  py-tws-xrage:
+    permissions:
+      read: group
+      write: group
+      group: dacodes
+  trt:
+    permissions:
+      read: group
+      write: group
+      group: ccsrad
+# ------------------------------------------------------------------------------ #
+  binutils:
+    variants: [+nls]
+  boost:
+    variants: [+python+mpi+pic cxxstd=11]
+  cairo:
+    variants: [+ft+fc+png+X] # +svg+pdf
+#  cmake:
+#    version: [3.17.2]
+#    paths:
+#      cmake@3.17.0: /usr/projects/hpcsoft/toss3/common/x86_64/cmake/3.17.2
+#    buildable: False
+  doxygen:
+    # newer versions require C++11 (not compatible with gcc-4.8.5).
+    # version: [1.8.15]
+    variants: [+graphviz+mscgen]
+  emacs:
+    variants: [+tls+X]
+  eospac:
+    version: [6.4.0]
+  graphviz:
+    variants: [+pangocairo]
+  hdf5:
+    variants: [+fortran+hl]
+  icu4c:
+    version: [58.2]
+  hypre:
+    variants: [~internal-superlu]
+  matio:
+    variants: [+hdf5]
   ncurses:
     variants: [+termlib]
-  openmpi:
+#  openmpi:
 #    variants: [+thread_multiple~vt]
 #    version: [2.1.2]
 #    paths:
@@ -122,47 +106,14 @@ packages:
 #    buildable: False
   pango:
     variants: [+X]
-  perl:
-    externals:
-    - spec: perl@5.30.0~cpanm+shared+threads
-      prefix: /usr
   petsc:
     variants: [+boost+hdf5]
-  pkg-config:
-    externals:
-    - spec: pkg-config@0.29.1
-      prefix: /usr
-  py-tws-cassio:
-    permissions:
-      read: group
-      write: group
-      group: eapucni
-  py-tws-xrage:
-    permissions:
-      read: group
-      write: group
-      group: dacodes
-  python:
-    externals:
-    - spec: python@2.7.18rc1+bz2+ctypes+dbm~lzma+nis+pyexpat+readline+sqlite3+ssl~tix~tkinter+uuid+zlib
-      prefix: /usr
-    - spec: python@3.8.2+bz2+ctypes+dbm+lzma+nis+pyexpat+readline+sqlite3+ssl~tix~tkinter+uuid+zlib
-      prefix: /usr
   qt:
     variants: [+dbus+opengl+phonon]
   superlu-dist:
     version: [5.4.0]
-  texinfo:
-    externals:
-    - spec: texinfo@6.7
-      prefix: /usr
   trilinos:
     variants: [+nox+superlu-dist~alloptpkgs~amesos2~boost~exodus~glm~gtest~hdf5~hypre~ifpack2~kokkos~matio~muelu~mumps~netcdf~suite-sparse~tpetra~zoltan2]
-  trt:
-    permissions:
-      read: group
-      write: group
-      group: ccsrad
   vtk:
     variants: [+qt+python]
 #  z3:
@@ -171,14 +122,3 @@ packages:
 #    paths:
 #      z3@4.8.7: /yellow/usr/projects/user_contrib/spack.20200809/opt/spack/linux-rhel7-haswell/gcc-4.8.5/z3-4.8.7-qrbicz76sjepuvmdzcpovymqij5c2dji
 #    buildable: False
-  all:
-    variants: [+X +tk +mpi build_type=Release]
-    permissions:
-      read: world
-      write: group
-      group: user_contrib
-    providers:
-      blas: [openblas, netlib-lapack, intel-mkl]
-      lapack: [openblas, netlib-lapack, intel-mkl]
-      mkl: [intel-mkl]
-      mpi: [openmpi@2.1.2]
