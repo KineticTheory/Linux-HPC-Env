@@ -3,23 +3,22 @@
 # .bashrc_wls is sourced by interactive shells from .bash_profile and .bashrc
 #
 # Customize these settings to your own preferences...
-#------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------ #
 
-if test -n "${verbose}"; then echo "in ~/.bash_wls2"; fi
+[[ "${verbose:-false}" == "true" ]] && echo "in ~/.bash_wsl2"
 
-#------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------ #
 # WLS defaults
-#------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------ #
 
-# If set, the pattern "**" used in a pathname expansion context will match all
-# files and zero or more directories and subdirectories.  shopt -s globstar
+# If set, the pattern "**" used in a pathname expansion context will match all files and zero or
+# more directories and subdirectories.  shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
+# enable programmable completion features (you don't need to enable this, if it's already enabled in
+# /etc/bash.bashrc and /etc/profile sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion
@@ -29,16 +28,16 @@ if ! shopt -oq posix; then
 fi
 set show-all-if-ambiguous on
 
-#------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------ #
 # Vendors, etc.
-#------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------ #
 
 export SPACK_ROOT=~/spack
 if [[ -d $SPACK_ROOT ]]; then
   export PATH=$SPACK_ROOT/bin:$PATH
 
   MODULES_HOME=`spack location -i lmod`
-  if test -d $MODULES_HOME; then
+  if [[ -d $MODULES_HOME ]]; then
     source $MODULES_HOME/lmod/lmod/init/bash
     module use `\ls -d $SPACK_ROOT/share/spack/lmod/*/Core`
     module load random123 numdiff cmake ack htop lcov mscgen doxygen graphviz
@@ -47,7 +46,7 @@ if [[ -d $SPACK_ROOT ]]; then
     module load eospac # ndi csk
     module load openmpi
     module load parmetis libquo caliper # superlu-dist trilinos
-    module load clang-format
+    # module load clang-format
   fi
 fi
 export CXX=$(which g++)
@@ -57,7 +56,11 @@ export FC=$(which gfortran)
 # Also needed to run vcxsrv with '-ac' AND disable parts of Firewall
 # https://github.com/microsoft/WSL/issues/4106#issuecomment-530006295
 if [[ "${DISPLAY:-notset}" == "notset" ]]; then
-  export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
+  if [[ -f /etc/resolv.conf ]]; then
+    export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
+  else
+    echo "/etc/resolv.conf missing. Not setting DISPLAY"
+  fi
 fi
 export LIBGL_ALWAYS_INDIRECT=1
 export VENDOR_DIR=~/vendors
@@ -81,8 +84,8 @@ export PATH=~/bin:$PATH
 
 keychain
 
-if test -n "${verbose}"; then echo "done with ~/.bash_wls2"; fi
+[[ "${verbose:-false}" == "true" ]] && echo "done with ~/.bash_wsl2"
 
-#------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------ #
 # End .bash_wls
-#------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------ #
