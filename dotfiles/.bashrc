@@ -26,12 +26,13 @@ case ${-} in
    # .bash_profile.
    target=`uname -n`
    case ${target} in
-     t[rt]-fe* | cp-loginy* )
-       # On an initial loginc, .bashrc is sourced first and then .bash_profile
+     t[rt]-rfe* | cp-rlogin* )
+       # On an initial loginc, .bashrc is sources first and then .bash_profile
        if ! [[ ${SHLVL} == 1 ]]; then source ~/.bash_profile; fi
        ;;
      *)
-       if [[ `alias bash_aliases_pragma_once 2>&1 | grep -c "bash: alias"` != 0 ]]; then
+       if [[ -z ${CI} ]] || \
+             [[ `alias bash_aliases_pragma_once 2>&1 | grep -c "bash: alias"` != 0 ]]; then
          source $HOME/.bash_profile
        fi
        ;;
@@ -45,7 +46,7 @@ case ${-} in
     target="`uname -n | sed -e s/[.].*//`"
     case ${target} in
       t[rt]-fey[0-9] | t[rt]-login[0-9])
-        alias salloc='salloc --gres=craynetwork:0'
+        alias salloc='salloc --gres=craynetwork:0 --x11'
         ;;
       *)
         modcmd=`declare -f module`
@@ -58,9 +59,6 @@ case ${-} in
           fi
         fi
         modcmd=`declare -f module`
-        if [[ ! ${modcmd} ]]; then
-          module load ack # texlive
-        fi
         ;;
     esac
 

@@ -24,6 +24,7 @@ case ${-} in
     ;;
   *) # Not an interactive shell
     export INTERACTIVE=false
+    if test -n "${verbose}"; then echo "in ~/.bash_profile (NI)"; fi
     ;;
 esac
 
@@ -81,9 +82,7 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
   # SSH keys ----------------------------------------------------------- #
   case $target in
     nid* | cn*  ) ;;
-    *)
-      if [[ -z $SLURM_NODELIST ]]; then reloadkeys ; fi
-      ;;
+    *) [[ -z $SLURM_NODELIST ]] && reloadkeys ;;
   esac
 
   # Set terminal title

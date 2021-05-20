@@ -42,3 +42,5 @@
                                    \\\"$BASE\\\" nil \\\"$MERGED\\\"))\"
 [push]
         default = simple
+[pull]
+	rebase = false

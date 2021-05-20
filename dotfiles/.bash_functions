@@ -33,9 +33,10 @@ if [[ `type bash_functions_pragma_once 2>&1 | grep -c "bash: type: "` != 0 ]]; t
 
   function keychain()
   {
+    unset keychain
     local kc=`which keychain`
     if [[ $? != 0 ]]; then
-      kc=/scratch/vendors/keychain-2.8.5/keychain
+      kc=/ccs/opt/bin/keychain
       if ! [[ -x $kc ]]; then
         echo "Keychain not found" && exit 1
       fi
@@ -44,14 +45,35 @@ if [[ `type bash_functions_pragma_once 2>&1 | grep -c "bash: type: "` != 0 ]]; t
     source ~/.keychain/${HOSTNAME}-sh
   }
 
-  function reloadkeys()
-  {
-    if [[ `ssh-add -L | wc -l` = 0 ]]; then
-      MYHOSTNAME="`uname -n`"
-      if [[ -x $VENDOR_DIR/keychain-2.8.5/keychain ]]; then
-        eval "$VENDOR_DIR/keychain-2.8.5/keychain --agents ssh $HOME/.ssh/id_rsa"
-      fi
-      run "source $HOME/.keychain/$MYHOSTNAME-sh"
+  # function reloadkeys()
+  # {
+  #   if [[ `ssh-add -L | wc -l` = 0 ]]; then
+  #     MYHOSTNAME="`uname -n`"
+  #     if [[ -x $VENDOR_DIR/keychain-2.8.5/keychain ]]; then
+  #       eval "$VENDOR_DIR/keychain-2.8.5/keychain --agents ssh $HOME/.ssh/id_rsa"
+  #     fi
+  #     run "source $HOME/.keychain/$MYHOSTNAME-sh"
+  #   fi
+  # }
+
+  # If on clean develop, fetch new information and prune old branchs when upstream is gone.
+  function gitup {
+    local curr_branch=$(git branch | grep \* | sed -e 's/.*[ ]//')
+    local dirty=$(git diff --name-only | wc -l)
+    if [[ "${curr_branch}" == "develop" ]] && [[ ${dirty} -eq 0 ]]; then
+      run "git fetch --all -p"
+      stalebranches=$(git branch -av | grep '\[gone]' | awk '{print $1}')
+      for b in $stalebranches; do
+        run "git branch -D $b"
+      done
+      upstream=$(git remote -v | grep fetch | grep -E "losalamos|lanl" | awk '{ print $1 }')
+      if [[ ${upstream} =~ upstream ]]; then upstream="upstream"; else upstream="origin"; fi
+      run "git reset --hard ${upstream}/develop"
+    else
+      echo -e "\nBranch is not develop or is dirty."
+      echo -e "   branch = $curr_branch"
+      dirty=$(git diff --name-only)
+      echo -e "   locally modified files: $dirty \n"
     fi
   }
 

@@ -1,0 +1,4 @@
+# https://beyondgrep.com/documentation/ack-v3.4.0-man.html#THE-.ackrc-FILE
+--type-add=ruby=.haml,.rake
+--type-add=css=.less
+# --color-colno='bold blue'

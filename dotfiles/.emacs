@@ -4,7 +4,6 @@
 ;;      www.linuxpowered.com/html/tutorials/emacs.html
 ;;      http://ergoemacs.org/emacs/elisp_basics.html
 
-
 ;; FAQ
 ;;
 ;; - increase font size: C-x X-+
@@ -13,7 +12,6 @@
 ;; 1. byte compile draco elisp: (cd ~/draco/environment/elisp; ./compile-elisp)
 ;; 2. byte compile this file.  From emacs: M-x byte-compile-file
 ;; 3. Set draco environment directory:
-
 (defvar my-draco-env-dir "~/draco/environment/")
 ;; 4. Update customizations found in this file
 
@@ -73,13 +71,12 @@
 ;;       ediff-control-frame-upward-shift          40)
 
 ;; RefTeX
-(setq reftex-bibpath-environment-variables
-      '("BIBINPUTS" "TEXBIB" "!kpsewhich -show-path=.bib"))
+; (setq reftex-bibpath-environment-variables
+;      '("BIBINPUTS" "TEXBIB" "!kpsewhich -show-path=.bib"))
 ;;       '("/home/kellyt/imcdoc/bib/"))
 
 ;; Automatically keep buffers synchronized with file system
-;; (i.e. reload the buffer automatically if the file changes outside
-;; of emacs).
+;; (i.e. reload the buffer automatically if the file changes outside of emacs).
 (global-auto-revert-mode t)
 
 ;; load symlinks w/o a question
@@ -180,8 +177,17 @@
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region
      compilation-filter-start (point))))
-(add-hook 'compilation-filter-hook
-          #'endless/colorize-compilation)
+(add-hook 'compilation-filter-hook 'endless/colorize-compilation)
+
+;; ========================================
+;; highlight-doxygen-mode
+;; https://github.com/Lindydancer/highlight-doxygen
+;; ========================================
+(highlight-doxygen-global-mode 1)
+;; font-lock-doc-face
+;; highlight-doxygen-code-block
+;; highlight-doxygen-comment
+
 
 
 ;; (defun draco-dos2unix ()
@@ -222,8 +228,8 @@
  '(font-lock-maximum-decoration t)
  '(global-font-lock-mode t nil (font-lock))
  '(inhibit-startup-screen t)
- '(package-selected-packages (quote (lua-mode ansi yaml-mode cmake-mode)))
- '(ring-bell-function (quote ignore))
+ '(package-selected-packages (quote (highlight-doxygen lua-mode ansi yaml-mode cmake-mode)))
+ '(ring-bell-function (quote ignore) t)
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t nil (paren))
  '(text-mode-hook (quote (turn-on-auto-fill text-mode-hook-identify)))
@@ -247,12 +253,14 @@
  '(default ((t (:inherit nil :stipple nil :background "ivory" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 87 :width medium :family "Inconsolata" :foundry "unknown"))))
  '(font-lock-comment-face ((((class color) (min-colors 88) (background light)) (:foreground "purple"))))
  '(font-lock-constant-face ((((class color) (min-colors 88) (background light)) (:foreground "CadetBlue"))))
- '(font-lock-doc-face ((t (:inherit font-lock-string-face :foreground "peru"))))
+ '(font-lock-doc-face ((t (:inherit font-lock-comment-face :foreground "peru"))))
  '(font-lock-function-name-face ((((class color) (min-colors 88) (background light)) (:foreground "Blue3"))))
  '(font-lock-keyword-face ((((class color) (min-colors 88) (background light)) (:foreground "firebrick2"))))
  '(font-lock-preprocessor-face ((t (:inherit font-lock-builtin-face :foreground "hotpink"))))
  '(font-lock-string-face ((((class color) (min-colors 88) (background light)) (:foreground "orange3"))))
  '(font-lock-variable-name-face ((((class color) (min-colors 88) (background light)) (:foreground "Royalblue"))))
+ '(highlight-doxygen-code-block ((t nil)))
+ '(highlight-doxygen-comment ((t (:inherit font-lock-comment-face))))
  '(menu ((((type x-toolkit)) (:weight bold :height 0.8 :family "helvetica"))))
  '(mode-line ((t (:background "wheat" :foreground "black" :box (:line-width -1 :style released-button) :weight bold :height 0.9 :width normal :foundry "inconsolata" :family "unknown"))))
  '(mode-line-emphasis ((t (:foreground "red" :weight bold))))
