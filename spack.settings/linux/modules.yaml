@@ -337,5 +337,20 @@ modules:
       - z3
       - zip
       - zlib
+      - berkeley-db
+      - findutils
+      - libevent
+      - libmd
+      - libunwind
+      - lmod
+      - lua
+      - openssh
+      - openssh
+      - papi
+      - pkgconf
+      - python
+      - swig
+      - unzip
+      - util-linux-uuid
 
 # https://github.com/epfl-scitas/spack-packagelist/blob/releases/cornalin.v1/configuration/modules.yaml
