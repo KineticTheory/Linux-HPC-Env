@@ -80,6 +80,7 @@ fi
 if ! [[ "${DISPLAY:-notset}" == "notset" ]]; then
   if ! [[ $(timeout 1s xset q &> /dev/null) ]]; then
     echo "X11 not working, attempting to fix..."
+    add_to_xauth="false"
     # No X11
     # 1. Sync up .Xauthority if it exists, or create it.
     # 2. Print a message about running vcxsrv on win10.
@@ -87,6 +88,13 @@ if ! [[ "${DISPLAY:-notset}" == "notset" ]]; then
       echo "No ~/.Xauthority file found."
       # create .Xauthority
       touch $HOME/.Xauthority
+      add_to_xauth="true"
+    elif [[ $(xauth list | head -n 1 | awk '{ print $1 }') !=  "${DISPLAY}" ]]; then
+      echo "Regenerating ~/.Xauthority."
+      rm "$HOME/.Xauthority" && touch $HOME/.Xauthority
+      add_to_xauth="true"
+    fi
+    if [[ ${add_to_xauth} == "true" ]]; then
       echo "Creating .Xauthority. Please enter a passphrase:"
       read passphrase
       magiccookie=$(echo "$passphrase"|tr -d '\n\r'|md5sum|gawk '{print $1}')
@@ -94,10 +102,11 @@ if ! [[ "${DISPLAY:-notset}" == "notset" ]]; then
       unset magiccookie
       unset passphrase
     fi
+    unset add_to_xauth
     #echo "Trying to sync .Xauthority file. Please provide your Windows USERNAME:"
     # read windowsusername
     userprofile=$(wslpath $(/mnt/c/Windows/System32/cmd.exe /C "echo %USERPROFILE%" 2>/dev/null | tr -d '\r\n'))
-    if [[ $(diff $HOME/.Xauthority $userprofile/.Xauthority) ]]; then
+    if [[ -f $HOME/.Xauthority ]] && [[ $(diff $HOME/.Xauthority $userprofile/.Xauthority) ]]; then
       run "cp $HOME/.Xauthority ${userprofile}/."
     fi
     # unset windowsusername
