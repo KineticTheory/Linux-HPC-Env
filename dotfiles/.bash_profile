@@ -1,25 +1,22 @@
 # .bash_profile
 #
 # ~/.bash_profile is sourced only for login shells.
-#------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------ #
+
 #if test -f /etc/bashrc; then
 #  source /etc/bashrc
 #fi
 
-if [ "$(umask)" == "0000" ]; then
-  umask 0077
-fi
+[[ "$(umask)" == "0000" ]] && umask 0007
 
-# Making this next line active may break some commands (like scp) due to the
-# extra verbosity.
+# Making this next line active may break some commands (like scp) due to the extra verbosity.
 verbose=true
 
-#------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------ #
 # CCS-2 standard setup
-#------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------ #
 
-# If this is an interactive shell then the environment variable $- should
-# contain an "i":
+# If this is an interactive shell then the environment variable $- should contain an "i":
 case ${-} in
   *i*)
     export INTERACTIVE=true
@@ -27,26 +24,29 @@ case ${-} in
     ;;
   *) # Not an interactive shell
     export INTERACTIVE=false
+    if test -n "${verbose}"; then echo "in ~/.bash_profile (NI)"; fi
     ;;
 esac
 
-#------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------ #
 # Draco Developer Environment
-#------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------ #
 export DRACO_ENV_DIR=${HOME}/draco/environment
 if [[ -f ${DRACO_ENV_DIR}/bashrc/.bashrc ]]; then
   source ${DRACO_ENV_DIR}/bashrc/.bashrc
 fi
 
-export OPUS=/usr/projects/jayenne/devs/kellyt/lap/flag
-export SUITE=CTS1Ifast
+if [[ -d /usr/projects/jayenne/devs/kellyt/lap/flag ]]; then
+  export OPUS=/usr/projects/jayenne/devs/kellyt/lap/flag
+  export SUITE=CTS1Ifast
+fi
 
-#------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------ #
 # User Customizations
-#------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------ #
 if [[ "${INTERACTIVE:-false}" = true ]]; then
 
-  umask 0077
+  umask 0007
 
   export USERNAME=kellyt
   export NAME="Kelly (KT) Thompson"
@@ -66,26 +66,23 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
   # Prompt ----------------------------------------------------------------------#
   # - see http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/
 
-  if test "$TERM" = emacs || \
-      test "$TERM" = dumb  || \
-      test -z "`declare -f npwd | grep npwd`"; then
+  if [[ "$TERM" = emacs ]] || [[ "$TERM" = dumb ]] || [[ -z "`declare -f npwd | grep npwd`" ]];
+  then
     export PS1="\h:\w [\!] % "
     export LS_COLORS=''
   elif [[ -f $HOME/.bash_prompt ]]; then
     source ~/.bash_prompt
   fi
   if [[ `uname -r` =~ "Microsoft" || `uname -r` =~ "microsoft" ]] ; then
-    if [[ -f ~/.bashrc_wls2 ]]; then
-      source ~/.bashrc_wls2;
+    if [[ -f ~/.bashrc_wsl2 ]]; then
+      source ~/.bashrc_wsl2;
     fi
   fi
 
   # SSH keys ----------------------------------------------------------- #
   case $target in
     nid* | cn*  ) ;;
-    *)
-      if [[ -z $SLURM_NODELIST ]]; then reloadkeys ; fi
-      ;;
+    *) [[ -z $SLURM_NODELIST ]] && reloadkeys ;;
   esac
 
   # Set terminal title
@@ -96,17 +93,19 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
 
   shopt -s cdspell # attempt to fix mispelled directory names
   case ${nodename} in
-    sn* | darwin* | cn*) shopt -s direxpand ;; # do not escape env variables when doing tab completion.
+    # do not escape env variables when doing tab completion.
+    sn* | darwin* | cn*) shopt -s direxpand ;;
   esac
 
-  # LaTeX ---------------------------------------------------------------------- #
+  # LaTeX -------------------------------------------------------------------- #
 
   # extradirs="$HOME/imcdoc/sty"
-  # for mydir in ${extradirs}; do
-  #     if test -z "`echo $TEXINPUTS | grep $mydir`" && test -d $mydir; then
-  #         export TEXINPUTS=$mydir:$TEXINPUTS
-  #     fi
-  # done
+  extradirs="$HOME/dracodoc/latex"
+  for mydir in ${extradirs}; do
+    if test -z "`echo $TEXINPUTS | grep $mydir`" && test -d $mydir; then
+      export TEXINPUTS=$mydir:$TEXINPUTS
+    fi
+  done
   # extradirs="$HOME/imcdoc/bib"
   # for mydir in ${extradirs}; do
   #     if test -z "`echo $BSTINPUTS | grep $mydir`" && test -d $mydir; then
@@ -129,18 +128,16 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
       export PATH=$SPACK_ROOT/bin:$PATH
       ;;
     tt-fey* | tt-login*)
-#      module load ack
       ulimit -Sc unlimited
       ;;
     ba-fe* | cy-fe* | fi-fe* | ic-fe* | sn-fe*)
-#      module load use.own fstools
       ulimit -Sc unlimited
       ;;
   esac
 
-  if test -n "${verbose}"; then echo "done with ~/.bash_profile"; fi
+  if test -n "${verbose}"; then echo "in ~/.bash_profile ... done"; fi
 fi # if test "$INTERACTIVE" = "true"
 
-#------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------ #
 # end ~/.bash_profile
-#------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------------------------ #
