@@ -80,10 +80,10 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
   fi
 
   # SSH keys ----------------------------------------------------------- #
-  case $target in
-    nid* | cn*  ) ;;
-    *) [[ -z $SLURM_NODELIST ]] && reloadkeys ;;
-  esac
+  # case $target in
+  #   nid* | cn*  ) ;;
+  #   *) [[ -z $SLURM_NODELIST ]] && reloadkeys ;;
+  # esac
 
   # Set terminal title
   # echo -ne "\033]0;${nodename}\007"

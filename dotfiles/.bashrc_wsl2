@@ -76,9 +76,14 @@ if [[ "${DISPLAY:-notset}" == "notset" ]]; then
     echo "/etc/resolv.conf missing. Not setting DISPLAY"
   fi
 fi
+
 # Test if X11 is working
-if ! [[ "${DISPLAY:-notset}" == "notset" ]]; then
-  if ! [[ $(timeout 1s xset q &> /dev/null) ]]; then
+if [[ "${DISPLAY:-notset}" != "notset" ]]; then
+  # If this fails, something is still wrong.
+  $(timeout 1s xset q &> /dev/null)
+  errstatus=$?
+  echo $errstatus
+  if [[ "$errstatus" != "0" ]]; then
     echo "X11 not working, attempting to fix..."
     add_to_xauth="false"
     # No X11

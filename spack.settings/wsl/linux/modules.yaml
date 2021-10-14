@@ -146,7 +146,7 @@ modules:
       - libtool
       - libunistring
       - libunwind
-      - libuuid
+#      - libuuid
       - libx11
       - libxau
       - libxcb
