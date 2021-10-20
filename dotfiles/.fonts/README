@@ -9,6 +9,7 @@ http://www.chaos.org.uk/~jf/gnome-terminal-misc-fixed-fonts.xhtml
 Inconsolata Font
 cd ~/.fonts
 wget http://kvz.io/assets/posts/Inconsolata.ttf
+wget ....CascadiaCodePL.ttf
 fc-cache -f -v
 
 Application Fonts:

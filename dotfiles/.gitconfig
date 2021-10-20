@@ -9,8 +9,6 @@
         editor = emacs -nw
 [color]
         ui = auto
-[merge]
-        tool = meld
 [diff]
         tool = meld
 [url "http://public.kitware.com/"]
@@ -25,7 +23,10 @@
 	sslVerify = false
 [credential]
         helper = cache
-
+[merge]
+        tool = meld
+[mergetool "meld"]
+        cmd = meld --diff "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
 [mergetool.ediff]
     cmd = emacs -nw --eval \"\
 (progn\
@@ -43,4 +44,6 @@
 [push]
         default = simple
 [pull]
-	rebase = false
+	rebase = true
+[fetch]
+       prune = true
