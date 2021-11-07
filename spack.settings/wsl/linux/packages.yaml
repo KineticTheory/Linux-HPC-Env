@@ -11,6 +11,8 @@ packages:
     externals:
     - spec: bash@5.0.17
       prefix: /
+  curl:
+    variants: [+gssapi]
   doxygen:
     variants: [+graphviz+mscgen]
   findutils:
