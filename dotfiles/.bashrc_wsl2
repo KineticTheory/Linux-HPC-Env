@@ -79,48 +79,61 @@ if [[ "${DISPLAY:-notset}" == "notset" ]]; then
 fi
 echo "2. DISPLAY = $DISPLAY"
 
+# https://www.zuut.com/wsl2-x11-server/
+function fixxauth()
+{
+  rm $HOME/.Xauthority
+  touch $HOME/.Xauthority
+  # magiccookie=$(echo '{some-pass-phrase}'|tr -d '\n\r'|md5sum|gawk '{print $1}')
+  magiccookie=$(mcookie)
+  xauth add $DISPLAY . $magiccookie
+  xauth list
+  userprofile=$(wslpath $(/mnt/c/Windows/System32/cmd.exe /C "echo %USERPROFILE%" | tr -d '\r\n'))
+  cp $HOME/.Xauthority "$userprofile"
+}
+
 # Test if X11 is working
-if [[ "${DISPLAY:-notset}" != "notset" ]]; then
-  mybool=$(timeout 1s xset q | grep -c Screen)
-  echo "==> mybool = $mybool"
-  if [[ "$mybool" != "0" ]]; then
-    echo "X11 not working, attempting to fix..."
-    add_to_xauth="false"
-    # No X11
-    # 1. Sync up .Xauthority if it exists, or create it.
-    # 2. Print a message about running vcxsrv on win10.
-    if ! [[ -f $HOME/.Xauthority ]]; then
-      echo "No ~/.Xauthority file found."
-      # create .Xauthority
-      touch $HOME/.Xauthority
-      add_to_xauth="true"
-    elif [[ $(xauth list | head -n 1 | awk '{ print $1 }') !=  "${DISPLAY}" ]]; then
-      echo "Regenerating ~/.Xauthority."
-      # rm "$HOME/.Xauthority" && touch $HOME/.Xauthority
-      add_to_xauth="true"
-    fi
-    if [[ ${add_to_xauth} == "true" ]]; then
-      echo "Creating .Xauthority. Please enter a passphrase:"
-      read passphrase
-      magiccookie=$(echo "$passphrase"|tr -d '\n\r'|md5sum|gawk '{print $1}')
-      run "xauth add $DISPLAY . $magiccookie"
-      unset magiccookie
-      unset passphrase
-    fi
-    unset add_to_xauth
-    #echo "Trying to sync .Xauthority file. Please provide your Windows USERNAME:"
-    # read windowsusername
-    userprofile=$(wslpath $(/mnt/c/Windows/System32/cmd.exe /C "echo %USERPROFILE%" 2>/dev/null | tr -d '\r\n'))
-    if [[ -f $HOME/.Xauthority ]] && [[ $(diff $HOME/.Xauthority $userprofile/.Xauthority) ]]; then
-      run "cp $HOME/.Xauthority ${userprofile}/."
-    fi
-    # unset windowsusername
-    # unset userprofile
-    echo "On Win10, run \"vcxsrv.exe -multiwindow -clipboard -wgl -auth %USERPROFILE%\.Xauthority\""
-    echo "You might need to exit from vcxsrv.exe and restart it with the proper options."
-    echo -e "Optional: delete ~/.Xauthority and %USERPROFILE%\.Xauthority and try again.\n"
-  fi
-fi
+# if [[ "${DISPLAY:-notset}" != "notset" ]]; then
+#   mybool=$(timeout 1s xset q | grep -c Screen)
+#   echo "==> mybool = $mybool"
+#   if [[ "$mybool" != "0" ]]; then
+#     echo "X11 not working, attempting to fix..."
+#     add_to_xauth="false"
+#     # No X11
+#     # 1. Sync up .Xauthority if it exists, or create it.
+#     # 2. Print a message about running vcxsrv on win10.
+#     if ! [[ -f $HOME/.Xauthority ]]; then
+#       echo "No ~/.Xauthority file found."
+#       # create .Xauthority
+#       touch $HOME/.Xauthority
+#       add_to_xauth="true"
+#     elif [[ $(xauth list | head -n 1 | awk '{ print $1 }') !=  "${DISPLAY}" ]]; then
+#       echo "Regenerating ~/.Xauthority."
+#       # rm "$HOME/.Xauthority" && touch $HOME/.Xauthority
+#       add_to_xauth="true"
+#     fi
+#     if [[ ${add_to_xauth} == "true" ]]; then
+#       echo "Creating .Xauthority. Please enter a passphrase:"
+#       read passphrase
+#       magiccookie=$(echo "$passphrase"|tr -d '\n\r'|md5sum|gawk '{print $1}')
+#       run "xauth add $DISPLAY . $magiccookie"
+#       unset magiccookie
+#       unset passphrase
+#     fi
+#     unset add_to_xauth
+#     #echo "Trying to sync .Xauthority file. Please provide your Windows USERNAME:"
+#     # read windowsusername
+#     userprofile=$(wslpath $(/mnt/c/Windows/System32/cmd.exe /C "echo %USERPROFILE%" 2>/dev/null | tr -d '\r\n'))
+#     if [[ -f $HOME/.Xauthority ]] && [[ $(diff $HOME/.Xauthority $userprofile/.Xauthority) ]]; then
+#       run "cp $HOME/.Xauthority ${userprofile}/."
+#     fi
+#     # unset windowsusername
+#     # unset userprofile
+#     echo "On Win10, run \"vcxsrv.exe -multiwindow -clipboard -wgl -auth %USERPROFILE%\.Xauthority\""
+#     echo "You might need to exit from vcxsrv.exe and restart it with the proper options."
+#     echo -e "Optional: delete ~/.Xauthority and %USERPROFILE%\.Xauthority and try again.\n"
+#   fi
+# fi
 
 export LIBGL_ALWAYS_INDIRECT=1
 export VENDOR_DIR=~/vendors
