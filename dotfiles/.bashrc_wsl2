@@ -43,9 +43,9 @@ if [[ -d $SPACK_ROOT ]]; then
   if [[ -d $MODULES_HOME ]]; then
     source $MODULES_HOME/lmod/lmod/init/bash
     module use `\ls -d $SPACK_ROOT/share/spack/lmod/*/Core`
-    module load random123 numdiff cmake ack htop lcov mscgen doxygen graphviz
+    module load random123 numdiff cmake ack htop lcov mscgen doxygen graphviz cppcheck
     module load py-fprettify py-autopep8 py-cmake-format
-    module load gsl metis openblas
+    module load ccache gsl metis openblas
     module load eospac csk # ndi
     module load openmpi
     module load parmetis libquo caliper # superlu-dist trilinos
@@ -157,7 +157,25 @@ export PATH=~/bin:$PATH
 #alias docker-compose=docker-compose.exe
 #export PATH="$PATH:/mnt/c/Program\ Files/Git/usr/bin"
 
-keychain
+# keychain
+
+# SSH keys --------------------------------------
+
+# Try to re-use authentication known by Pageant on the Windows host.
+# https://github.com/BlackReloaded/wsl2-ssh-pageant
+
+export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
+if ! [[ $(ss -a | grep -q "$SSH_AUTH_SOCK") ]]; then
+  rm -f "$SSH_AUTH_SOCK"
+  if [[ -x "$HOME/bin/wsl2-ssh-pageant.exe" ]]; then
+    (setsid nohup socat UNIX-LISTEN:"$SSH_AUTH_SOCK,fork" \
+            EXEC:"$HOME/bin/wsl2-ssh-pageant.exe" >/dev/null 2>&1 &)
+  else
+    echo >&2 "WARNING: $wsl2_ssh_pageant_bin is not executable or not found."
+  fi
+fi
+
+# Prompt ----------------------------------------
 
 # https://www.hanselman.com/blog/how-to-make-a-pretty-prompt-in-windows-terminal-with-powerline-nerd-fonts-cascadia-code-wsl-and-ohmyposh
 GOPATH=$HOME/go

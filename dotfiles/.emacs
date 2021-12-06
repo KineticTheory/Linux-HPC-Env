@@ -230,7 +230,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (highlight-doxygen lua-mode ansi yaml-mode cmake-mode)))
+    (magit highlight-doxygen lua-mode ansi yaml-mode cmake-mode)))
  '(ring-bell-function (quote ignore))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t nil (paren))

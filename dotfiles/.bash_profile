@@ -135,6 +135,8 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
       ;;
   esac
 
+  [[ -d $HOME/.local/bin ]] && export PATH+=":$HOME/.local/bin"
+
   if test -n "${verbose}"; then echo "in ~/.bash_profile ... done"; fi
 fi # if test "$INTERACTIVE" = "true"
 
