@@ -6,3 +6,5 @@ GPATH
 GRTAGS
 GTABS
 TAGS
+dotfiles/.emacs.d/elpa
+dotfiles/.emacs.d/transient
