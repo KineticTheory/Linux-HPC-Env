@@ -167,9 +167,10 @@ export PATH=~/bin:$PATH
 export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
 if ! [[ $(ss -a | grep -q "$SSH_AUTH_SOCK") ]]; then
   rm -f "$SSH_AUTH_SOCK"
-  if [[ -x "$HOME/bin/wsl2-ssh-pageant.exe" ]]; then
-    (setsid nohup socat UNIX-LISTEN:"$SSH_AUTH_SOCK,fork" \
-            EXEC:"$HOME/bin/wsl2-ssh-pageant.exe" >/dev/null 2>&1 &)
+  # wsp="$HOME/bin/wsl2-ssh-pageant.exe"
+  wsp="/mnt/c/work/vendors64/bin/wsl2-ssh-pageant.exe"
+  if [[ -x "$wsp" ]]; then
+    (setsid nohup socat UNIX-LISTEN:"$SSH_AUTH_SOCK,fork" EXEC:"$wsp" >/dev/null 2>&1 &)
   else
     echo >&2 "WARNING: $wsl2_ssh_pageant_bin is not executable or not found."
   fi
