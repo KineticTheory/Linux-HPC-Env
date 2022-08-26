@@ -160,7 +160,6 @@
 ;; (add-hook 'c++-mode-hook
 ;;           (lambda () (modify-syntax-entry ?_ "w")))
 
-
 ;; ========================================
 ;; ANSI COLOR
 ;; - https://emacs.stackexchange.com/questions/24698/ansi-escape-sequences-in-compilation-mode
@@ -207,6 +206,8 @@
 
 ; (require 'fill-column-indicator)
 ; fci-mode
+
+
 
 
 ;; ========================================
