@@ -1,16 +1,20 @@
 [user]
-	email = kgt@lanl.gov
-	name = Kelly (KT) Thompson
+     email = kgt@lanl.gov
+     name = Kelly (KT) Thompson
 [svn]
-        rmdir = true
-	pushmergeinfo = true
+     rmdir = true
+     pushmergeinfo = true
 [core]
-        autocrlf = input
-        editor = emacs -nw
+     autocrlf = input
+     editor = emacs -nw
 [color]
-        ui = auto
+     ui = auto
 [diff]
-        tool = meld
+     tool = meld
+[difftool]
+     prompt = false
+[difftool "meld"]
+     cmd = meld "$LOCAL" "$REMOTE"
 [url "http://public.kitware.com/"]
      insteadOf = git://cmake.org/
 [url "git@github.com:"]
@@ -18,17 +22,17 @@
 [url "ssh://git@re-git.lanl.gov:10022/"]
      insteadOf = git@re-git.lanl.gov:
 [http]
-	sslVerify = false
+     sslVerify = false
 [https]
-	sslVerify = false
+     sslVerify = false
 [credential]
-        helper = cache
+     helper = cache
 [merge]
-        tool = meld
+     tool = meld
 [mergetool "meld"]
-        cmd = meld --diff "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
+     cmd = meld --diff "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
 [mergetool.ediff]
-    cmd = emacs -nw --eval \"\
+     cmd = emacs -nw --eval \"\
 (progn\
   (defun ediff-write-merge-buffer ()\
     (let ((file ediff-merge-store-file))\
@@ -42,8 +46,8 @@
   (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\"\
                                    \\\"$BASE\\\" nil \\\"$MERGED\\\"))\"
 [push]
-        default = simple
+     default = simple
 [pull]
-	rebase = true
+     rebase = true
 [fetch]
-       prune = true
+     prune = true

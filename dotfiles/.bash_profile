@@ -66,13 +66,13 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
   # Prompt ----------------------------------------------------------------------#
   # - see http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/
 
-  if [[ "$TERM" = emacs ]] || [[ "$TERM" = dumb ]] || [[ -z "`declare -f npwd | grep npwd`" ]];
-  then
-    export PS1="\h:\w [\!] % "
-    export LS_COLORS=''
-  elif [[ -f $HOME/.bash_prompt ]]; then
-    source ~/.bash_prompt
-  fi
+  #if [[ "$TERM" = emacs ]] || [[ "$TERM" = dumb ]] || [[ -z "`declare -f npwd | grep npwd`" ]];
+  #then
+  #  export PS1="\h:\w [\!] % "
+  #  export LS_COLORS=''
+  #elif [[ -f $HOME/.bash_prompt ]]; then
+  #  source ~/.bash_prompt
+  #fi
   if [[ `uname -r` =~ "Microsoft" || `uname -r` =~ "microsoft" ]] ; then
     if [[ -f ~/.bashrc_wsl2 ]]; then
       source ~/.bashrc_wsl2;

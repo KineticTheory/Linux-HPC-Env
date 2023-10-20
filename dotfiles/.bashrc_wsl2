@@ -17,6 +17,9 @@
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
+# don't escape dollar.
+shopt -s direxpand
+
 # enable programmable completion features (you don't need to enable this, if it's already enabled in
 # /etc/bash.bashrc and /etc/profile sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
@@ -38,19 +41,21 @@ export KRB5CCNAME=FILE:/tmp/tgt
 export SPACK_ROOT=~/spack
 if [[ -d $SPACK_ROOT ]]; then
   export PATH=$SPACK_ROOT/bin:$PATH
-
-  MODULES_HOME=`spack location -i lmod`
+  echo "==> found spack_root"
+  # MODULES_HOME=`spack location -i lmod`
+  MODULES_HOME=/home/kellyt/spack.20230421/opt/spack/linux-ubuntu20.04-skylake_avx512/gcc-9.4.0/lmod-8.7.20-avay7wu
   if [[ -d $MODULES_HOME ]]; then
+    echo "==> found modules_home"
     source $MODULES_HOME/lmod/lmod/init/bash
     module use `\ls -d $SPACK_ROOT/share/spack/lmod/*/Core`
     module load random123 numdiff cmake ack htop lcov mscgen doxygen graphviz cppcheck
-    module load py-fprettify py-autopep8 py-cmake-format
-    module load ccache gsl metis openblas ninja
-    module load eospac csk ndi
-    module load openmpi
+    module load py-fprettify py-autopep8 py-cmake-format/0.6.10
+    module load gsl metis openblas ninja
+    module load eospac ndi
+    module load openmpi hwloc
     module load parmetis libquo caliper superlu-dist trilinos
     # clang-format
-    export PATH=$PATH:$SPACK_ROOT/opt/spack/linux-ubuntu20.04-skylake_avx512/gcc-9.4.0/llvm-12.0.1-wmfe2q4/bin
+    export PATH=$PATH:$SPACK_ROOT/opt/spack/linux-ubuntu20.04-skylake_avx512/gcc-9.4.0/llvm-12.0.1-ykspmvjcz2jduoe3vo6hhnghgisai4ce/bin
     export SESAMEPATH=$HOME/physical_data/eos
   fi
 fi
@@ -84,21 +89,21 @@ fi
 #   fi
 # fi
 # echo "2. DISPLAY = $DISPLAY"
-export DISPLAY=141.111.148.22:0
+# export DISPLAY=141.111.148.22:0
 # ipconfig.exe | grep -A 4 "Ethernet adapter Ethernet" | tail -n 1 | sed -e 's/.*: //'
 
 # https://www.zuut.com/wsl2-x11-server/
-function fixxauth()
-{
-  rm $HOME/.Xauthority
-  touch $HOME/.Xauthority
-  # magiccookie=$(echo '{some-pass-phrase}'|tr -d '\n\r'|md5sum|gawk '{print $1}')
-  magiccookie=$(mcookie)
-  xauth add $DISPLAY . $magiccookie
-  xauth list
-  userprofile=$(wslpath $(/mnt/c/Windows/System32/cmd.exe /C "echo %USERPROFILE%" | tr -d '\r\n'))
-  cp $HOME/.Xauthority "$userprofile"
-}
+# function fixxauth()
+# {
+#   rm $HOME/.Xauthority
+#   touch $HOME/.Xauthority
+#   # magiccookie=$(echo '{some-pass-phrase}'|tr -d '\n\r'|md5sum|gawk '{print $1}')
+#   magiccookie=$(mcookie)
+#   xauth add $DISPLAY . $magiccookie
+#   xauth list
+#   userprofile=$(wslpath $(/mnt/c/Windows/System32/cmd.exe /C "echo %USERPROFILE%" | tr -d '\r\n'))
+#   cp $HOME/.Xauthority "$userprofile"
+# }
 
 # Test if X11 is working
 # if [[ "${DISPLAY:-notset}" != "notset" ]]; then
@@ -148,12 +153,12 @@ export VENDOR_DIR=~/vendors
 
 export DISPLAY
 
-if test -n "${verbose}"; then
-  echo "DISPLAY    = $DISPLAY"
-  echo "TERM       = $TERM"
-  echo "VENDOR_DIR = $VENDOR_DIR"
-  echo "CXX        = $CXX"
-fi
+# if test -n "${verbose}"; then
+#   echo "DISPLAY    = $DISPLAY"
+#   echo "TERM       = $TERM"
+#   echo "VENDOR_DIR = $VENDOR_DIR"
+#   echo "CXX        = $CXX"
+# fi
 
 # Enable docker
 
