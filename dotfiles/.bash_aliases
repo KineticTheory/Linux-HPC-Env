@@ -36,6 +36,7 @@ if [[ `alias bash_aliases_pragma_once 2>&1 | grep -c "bash: alias"` != 0 ]]; the
   #alias emacs='/bin/emacs -fn 6x13 &> /dev/null'
   alias gitfetch='git fetch --all -p -t'
   alias gitk='gitk --all'
+  alias gittrigger='git commit --allow-empty -m "trigger pipeline" && git push'
   # alias gitup='git fetch --all --prune; git merge upstream/develop'
   alias gt='gnome-terminal'
   alias moduel='module'

@@ -153,7 +153,9 @@
         fill-column 100
         truncate-lines t))
 
-(setq cursor-type '(bar . 2))
+(when (window-system)
+  (setq-default cursor-type '(bar . 2)))
+
 (setq fill-column 100)
 ;(setq draco-code-comment-width 132)
 
@@ -207,6 +209,12 @@
 ; (require 'fill-column-indicator)
 ; fci-mode
 
+;; fill paragraph settings
+
+;; The original value is "\f\\|[      ]*$", so we add the bullets (-), (+), and (*).
+;; There is no need for "^" as the regexp is matched at the beginning of line.
+(setq paragraph-start "\f\\|[ \t]*$\\|[ \t]*[-+*] ")
+
 
 
 
@@ -223,6 +231,9 @@
  '(compilation-auto-jump-to-first-error nil)
  '(compilation-scroll-output (quote first-error))
  '(cua-mode t nil (cua-base))
+ '(custom-safe-themes
+   (quote
+    ("ac4e7594ffa3029b4576a77202ff6ce54f614dabdb7dfff196e203d64012d4ca" default)))
  '(draco-code-comment-width 100)
  '(draco-elisp-dir "/home/kellyt/draco/environment/elisp/")
  '(draco-env-dir "/home/kellyt/draco/environment/")
@@ -231,7 +242,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (magit highlight-doxygen lua-mode ansi yaml-mode cmake-mode)))
+    (highlight-doxygen lua-mode ansi yaml-mode cmake-mode)))
  '(ring-bell-function (quote ignore))
  '(scroll-bar-mode (quote right))
  '(show-paren-mode t nil (paren))
@@ -248,6 +259,7 @@
 ;; wikipedia.org/wiki/X11_color_names
 ;; (setq load-home-init-file t) ; don't load init file from ~/.xemacs/init.el
 
+(if window-system
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -272,5 +284,10 @@
  '(mode-line-emphasis ((t (:foreground "red" :weight bold))))
  '(mode-line-inactive ((t (:background "wheat" :family "Inconsolata" :foundry "unknown" :slant normal :weight normal :height 90 :width normal))))
  '(modeline ((t (:family "Inconsolata" :foundry "unknown" :slant normal :weight normal :height 100 :width normal))))
- '(modeline-face ((((class color) (min-colors 88) (background light)) (:background "wheat")))))
+ '(modeline-face ((((class color) (min-colors 88) (background light)) (:background "wheat"))))))
 (setq x-alt-keysym 'meta)
+(when (not window-system)
+  (load-theme 'tango-dark))
+;  (progn
+;    (set-face-attribute 'default nil :inherit nil :background "#F8F8F8")
+;   (set-cursor-color "#ff0000")))

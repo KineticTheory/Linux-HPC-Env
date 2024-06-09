@@ -89,8 +89,6 @@ fi
 #   fi
 # fi
 # echo "2. DISPLAY = $DISPLAY"
-# export DISPLAY=141.111.148.22:0
-# ipconfig.exe | grep -A 4 "Ethernet adapter Ethernet" | tail -n 1 | sed -e 's/.*: //'
 
 # https://www.zuut.com/wsl2-x11-server/
 # function fixxauth()
@@ -178,16 +176,18 @@ export PATH=~/bin:$PATH
 # https://github.com/BlackReloaded/wsl2-ssh-pageant
 
 export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
-if ! [[ $(ss -a | grep -q "$SSH_AUTH_SOCK") ]]; then
+if ! [[ $(ss -a 2> /dev/null | grep -q "$SSH_AUTH_SOCK") ]]; then
   rm -f "$SSH_AUTH_SOCK"
-  # wsp="$HOME/bin/wsl2-ssh-pageant.exe"
-  wsp="/mnt/c/work/vendors64/bin/wsl2-ssh-pageant.exe"
-  if [[ -x "$wsp" ]]; then
-    (setsid nohup socat UNIX-LISTEN:"$SSH_AUTH_SOCK,fork" EXEC:"$wsp" >/dev/null 2>&1 &)
+  if [[ -x "$HOME/bin/wsl2-ssh-pageant.exe" ]]; then
+    (setsid nohup socat UNIX-LISTEN:"$SSH_AUTH_SOCK,fork" \
+            EXEC:"$HOME/bin/wsl2-ssh-pageant.exe" >/dev/null 2>&1 &)
   else
     echo >&2 "WARNING: $wsl2_ssh_pageant_bin is not executable or not found."
   fi
 fi
+
+# VPN tunnel for laptop -------------------------
+alias vpnkit='wsl.exe -d wsl-vpnkit --cd /app wsl-vpnkit'
 
 # Prompt ----------------------------------------
 

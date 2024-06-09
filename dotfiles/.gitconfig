@@ -6,7 +6,7 @@
      pushmergeinfo = true
 [core]
      autocrlf = input
-     editor = emacs -nw
+     editor = code --wait
 [color]
      ui = auto
 [diff]
