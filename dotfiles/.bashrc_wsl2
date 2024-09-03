@@ -38,30 +38,32 @@ export KRB5CCNAME=FILE:/tmp/tgt
 # Vendors, etc.
 # ------------------------------------------------------------------------------------------------ #
 
-export SPACK_ROOT=~/spack
+export SPACK_ROOT=~/devops/dracose/spack
 if [[ -d $SPACK_ROOT ]]; then
-  export PATH=$SPACK_ROOT/bin:$PATH
   echo "==> found spack_root"
-  # MODULES_HOME=`spack location -i lmod`
-  MODULES_HOME=/home/kellyt/spack.20230421/opt/spack/linux-ubuntu20.04-skylake_avx512/gcc-9.4.0/lmod-8.7.20-avay7wu
+  source $SPACK_ROOT/share/spack/setup-env.sh
+  # export PATH=$SPACK_ROOT/bin:$PATH
+  MODULES_HOME=`spack location -i lmod`
+  # MODULES_HOME=/home/kellyt/spack.20230421/opt/spack/linux-ubuntu20.04-skylake_avx512/gcc-9.4.0/lmod-8.7.20-avay7wu
   if [[ -d $MODULES_HOME ]]; then
     echo "==> found modules_home"
     source $MODULES_HOME/lmod/lmod/init/bash
     module use `\ls -d $SPACK_ROOT/share/spack/lmod/*/Core`
     module load random123 numdiff cmake ack htop lcov mscgen doxygen graphviz cppcheck
-    module load py-fprettify py-autopep8 py-cmake-format/0.6.10
-    module load gsl metis openblas ninja
+    module load py-fprettify py-autopep8 py-cmake-format py-six
+    module load gsl metis openblas ninja python
     module load eospac ndi
     module load openmpi hwloc
-    module load parmetis libquo caliper superlu-dist trilinos
+    module load parmetis libquo caliper superlu-dist trilinos xtl xsimd xtensor xtensor-blas lua
     # clang-format
-    export PATH=$PATH:$SPACK_ROOT/opt/spack/linux-ubuntu20.04-skylake_avx512/gcc-9.4.0/llvm-12.0.1-ykspmvjcz2jduoe3vo6hhnghgisai4ce/bin
+    export PATH=$PATH:$(spack location -i llvm)/bin
     export SESAMEPATH=$HOME/physical_data/eos
   fi
 fi
 export CXX=$(which g++)
 export CC=$(which gcc)
 export FC=$(which gfortran)
+export OMP_NUM_THREADS=4
 
 if [[ $(declare -f run &> /dev/null) != 0 ]]; then
    function run() {
@@ -175,16 +177,17 @@ export PATH=~/bin:$PATH
 # Try to re-use authentication known by Pageant on the Windows host.
 # https://github.com/BlackReloaded/wsl2-ssh-pageant
 
-export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
-if ! [[ $(ss -a 2> /dev/null | grep -q "$SSH_AUTH_SOCK") ]]; then
-  rm -f "$SSH_AUTH_SOCK"
-  if [[ -x "$HOME/bin/wsl2-ssh-pageant.exe" ]]; then
-    (setsid nohup socat UNIX-LISTEN:"$SSH_AUTH_SOCK,fork" \
-            EXEC:"$HOME/bin/wsl2-ssh-pageant.exe" >/dev/null 2>&1 &)
-  else
-    echo >&2 "WARNING: $wsl2_ssh_pageant_bin is not executable or not found."
-  fi
-fi
+# export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
+# if ! [[ $(ss -a | grep -q "$SSH_AUTH_SOCK") ]]; then
+#   rm -f "$SSH_AUTH_SOCK"
+#   # wsp="$HOME/bin/wsl2-ssh-pageant.exe"
+#   wsp="/mnt/c/work/vendors64/bin/wsl2-ssh-pageant.exe"
+#   if [[ -x "$wsp" ]]; then
+#     (setsid nohup socat UNIX-LISTEN:"$SSH_AUTH_SOCK,fork" EXEC:"$wsp" >/dev/null 2>&1 &)
+#   else
+#     echo >&2 "WARNING: $wsl2_ssh_pageant_bin is not executable or not found."
+#   fi
+# fi
 
 # VPN tunnel for laptop -------------------------
 alias vpnkit='wsl.exe -d wsl-vpnkit --cd /app wsl-vpnkit'
@@ -199,6 +202,8 @@ function _update_ps1() {
 if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 fi
+
+proxy
 
 
 [[ "${verbose:-false}" == "true" ]] && echo "done with ~/.bash_wsl2"
