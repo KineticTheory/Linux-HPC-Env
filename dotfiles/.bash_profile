@@ -122,17 +122,31 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
 
   # Special setup per platform ------------------------------------------------- #
   case ${nodename} in
-    darwin* | cn*)
+    #darwin* | cn*)
       # todo: move this into ~/privatemodules
-      export SPACK_ROOT=/projects/draco/vendors/spack.20181002
-      export PATH=$SPACK_ROOT/bin:$PATH
-      ;;
+      #export SPACK_ROOT=/projects/draco/vendors/spack.20181002
+      #export PATH=$SPACK_ROOT/bin:$PATH
+      #;;
     tt-fey* | tt-login*)
       ulimit -Sc unlimited
       ;;
     ba-fe* | cy-fe* | fi-fe* | ic-fe* | sn-fe*)
       ulimit -Sc unlimited
       ;;
+    darwin-fe*)
+      add_to_path /projects/draco/vendors/bin PATH
+      GOPATH=/projects/draco/vendors
+      function _update_ps1() {
+        # see options by running 'powerline-go -h'
+        # https://github.com/justjanne/powerline-go
+        # theme opts: {default, low-contrast, gruvbox, solarized-dark16, solarized-light16}
+        # might need '-mode compatible
+        PS1="$($GOPATH/bin/powerline-go -theme default -error $?)"
+      }
+      if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
+        PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+      fi
+     ;;
   esac
 
   [[ -d $HOME/.local/bin ]] && export PATH+=":$HOME/.local/bin"

@@ -1771,6 +1771,10 @@ quote_readline ()
 
 npwd_found=`declare -f npwd | wc -l`
 git_ps1_found=`declare -f __git_ps1 | wc -l`
+
+# if TITLEPREFIX not set and HOSTNAME is set, then use $HOSTNAME
+[[ -z ${TITLEPREFIX+x} ]] && [[ -n ${HOSTNAME+x} ]] && export TITLEPREFIX=${HOSTNAME//.*/}
+
 if [[ ${npwd_found} == 0 || ${git_ps1_found} == 0 ]]; then
   export PS1="\[\033]0;$nodename:${PWD//[^[:ascii:]]/?}\007\]\n\[\033[32m\]\u@\h \[\033[35m\]$MSYSTEM \[\033[33m\]\w\[\033[36m\]`__git_ps1`\[\033[0m\]\n$ "
 else

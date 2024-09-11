@@ -54,8 +54,8 @@ case ${-} in
         if [[ ! ${modcmd} ]]; then
           if [[ -f /usr/share/lmod/lmod/init/bash ]]; then
             source /usr/share/lmod/lmod/init/bash
-          else
-            echo "ERROR: The module command was not found. No modules will be loaded."
+#          else
+#            echo "ERROR: The module command was not found. No modules will be loaded."
           fi
         fi
         modcmd=`declare -f module`
