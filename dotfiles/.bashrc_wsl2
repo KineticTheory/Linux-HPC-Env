@@ -38,7 +38,7 @@ export KRB5CCNAME=FILE:/tmp/tgt
 # Vendors, etc.
 # ------------------------------------------------------------------------------------------------ #
 
-export SPACK_ROOT=~/devops/dracose/spack
+export SPACK_ROOT=~/devops-2025.01.16/dracose/spack
 if [[ -d $SPACK_ROOT ]]; then
   echo "==> found spack_root"
   source $SPACK_ROOT/share/spack/setup-env.sh
@@ -49,19 +49,22 @@ if [[ -d $SPACK_ROOT ]]; then
     echo "==> found modules_home"
     source $MODULES_HOME/lmod/lmod/init/bash
     module use `\ls -d $SPACK_ROOT/share/spack/lmod/*/Core`
-    module load random123 numdiff cmake ack htop lcov mscgen doxygen graphviz cppcheck
+    module load random123 numdiff cmake ack htop lcov mscgen doxygen graphviz ghostscript
     module load py-fprettify py-autopep8 py-cmake-format py-six
-    module load gsl metis openblas ninja python
+    module load gsl metis openblas ninja python boost catch2 fmt spdlog
     module load eospac ndi
-    module load openmpi hwloc
+    module load openmpi hwloc avalanche hdf5 hypre shacl-physics shacl-storm valgrind
+    module load njoy-acetk njoy-fast-float njoy-tools ndatk
     module load parmetis libquo caliper superlu-dist trilinos xtl xsimd xtensor xtensor-blas lua
-    # clang-format
+    module load llvm
+    # clang-format and clang-format-diff.py
     export PATH=$PATH:$(spack location -i llvm)/bin
+    export PATH=$PATH:$(spack location -i llvm)/share/clang
     export SESAMEPATH=$HOME/physical_data/eos
   fi
 fi
-export CXX=$(which g++)
-export CC=$(which gcc)
+export CXX=$(which clang++)
+export CC=$(which clang)
 export FC=$(which gfortran)
 export OMP_NUM_THREADS=4
 
@@ -203,7 +206,7 @@ if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 fi
 
-proxy
+# proxy
 
 
 [[ "${verbose:-false}" == "true" ]] && echo "done with ~/.bash_wsl2"

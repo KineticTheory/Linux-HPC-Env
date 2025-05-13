@@ -10,7 +10,7 @@
 [[ "$(umask)" == "0000" ]] && umask 0007
 
 # Making this next line active may break some commands (like scp) due to the extra verbosity.
-verbose=true
+verbose=
 
 # ------------------------------------------------------------------------------------------------ #
 # CCS-2 standard setup
@@ -22,7 +22,8 @@ case ${-} in
     export INTERACTIVE=true
     if test -n "${verbose}"; then echo "in ~/.bash_profile"; fi
     ;;
-  *) # Not an interactive shell
+  *)
+    # Not an interactive shell
     export INTERACTIVE=false
     if test -n "${verbose}"; then echo "in ~/.bash_profile (NI)"; fi
     ;;
@@ -94,43 +95,26 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
   shopt -s cdspell # attempt to fix mispelled directory names
   case ${nodename} in
     # do not escape env variables when doing tab completion.
-    sn* | darwin* | cn*) shopt -s direxpand ;;
+    ve* | ro* | darwin* | cn*) shopt -s direxpand ;;
   esac
 
   # LaTeX -------------------------------------------------------------------- #
 
-  # extradirs="$HOME/imcdoc/sty"
-  extradirs="$HOME/dracodoc/latex"
-  for mydir in ${extradirs}; do
-    if test -z "`echo $TEXINPUTS | grep $mydir`" && test -d $mydir; then
-      export TEXINPUTS=$mydir:$TEXINPUTS
-    fi
-  done
-  # extradirs="$HOME/imcdoc/bib"
+  # extradirs="$HOME/dracodoc/latex"
   # for mydir in ${extradirs}; do
-  #     if test -z "`echo $BSTINPUTS | grep $mydir`" && test -d $mydir; then
-  #         export BSTINPUTS=$mydir:$BSTINPUTS
-  #     fi
+  #   if test -z "`echo $TEXINPUTS | grep $mydir`" && test -d $mydir; then
+  #     export TEXINPUTS=$mydir:$TEXINPUTS
+  #   fi
   # done
-  # extradirs="$HOME/imcdoc/bib"
-  # for mydir in ${extradirs}; do
-  #     if test -z "`echo $BIBINPUTS | grep $mydir`" && test -d $mydir; then
-  #         export BIBINPUTS=$mydir:$BIBINPUTS
-  #     fi
-  # done
-  # unset extradirs
 
   # Special setup per platform ------------------------------------------------- #
   case ${nodename} in
     #darwin* | cn*)
       # todo: move this into ~/privatemodules
-      #export SPACK_ROOT=/projects/draco/vendors/spack.20181002
-      #export PATH=$SPACK_ROOT/bin:$PATH
-      #;;
-    tt-fey* | tt-login*)
-      ulimit -Sc unlimited
+      export SPACK_ROOT=/projects/draco/vendors/spack.20181002
+      export PATH=$SPACK_ROOT/bin:$PATH
       ;;
-    ba-fe* | cy-fe* | fi-fe* | ic-fe* | sn-fe*)
+    fg-rfe* | cy-fe*)
       ulimit -Sc unlimited
       ;;
     darwin-fe*)
@@ -157,3 +141,6 @@ fi # if test "$INTERACTIVE" = "true"
 # ------------------------------------------------------------------------------------------------ #
 # end ~/.bash_profile
 # ------------------------------------------------------------------------------------------------ #
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/kellyt/.lmstudio/bin"
