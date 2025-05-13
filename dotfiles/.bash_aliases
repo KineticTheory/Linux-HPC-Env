@@ -16,6 +16,7 @@ if [[ `alias bash_aliases_pragma_once 2>&1 | grep -c "bash: alias"` != 0 ]]; the
   ncpus=`lscpu | grep CPU\(s\) | head -n 1 | awk '{ print $2 }'`
 
   # alias ack='ack --color-lineno="bold blue"'
+  alias ack='ack --ignore-dir=install --ignore-dir=build'
   alias cmakebc='cmake -DGCC_ENABLE_GLIBCXX_DEBUG=ON'
   alias cmakecov='cmake -DCODE_COVERAGE=ON'
   alias cmakect='C_FLAGS=-Werror CXX_FLAGS=-Werror cmake -Wdeprecated -Wdev -DDRACO_STATIC_ANALYZER=clang-tidy'

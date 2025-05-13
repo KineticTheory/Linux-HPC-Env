@@ -39,6 +39,9 @@ export KRB5CCNAME=FILE:/tmp/tgt
 # ------------------------------------------------------------------------------------------------ #
 
 export SPACK_ROOT=~/devops-2025.01.16/dracose/spack
+export SPACK_USER_CACHE_PATH=${SPACK_ROOT}/.spack
+export SPACK_DISABLE_LOCAL_CONFIG=true
+
 if [[ -d $SPACK_ROOT ]]; then
   echo "==> found spack_root"
   source $SPACK_ROOT/share/spack/setup-env.sh
