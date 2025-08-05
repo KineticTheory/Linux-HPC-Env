@@ -81,8 +81,8 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
   # Oh-my-posh Prompt
   if [[ -x /home/kellyt/bin/oh-my-posh ]]; then
     #  cd $HOME && curl -s https://ohmyposh.dev/install.sh | bash -s
-    export PATH="/home/kellyt/bin:$PATH"
-    export OHMYPOSH_THEME_DIR=" /home/kellyt/.cache/oh-my-posh/themes"
+    export PATH="${HOME}/bin:$PATH"
+    export OHMYPOSH_THEME_DIR="${HOME}/.cache/oh-my-posh/themes"
     eval "$(oh-my-posh init bash --config ${OHMYPOSH_THEME_DIR}/marcduiker.omp.json)"
   else
     echo "==> consider installing oh-my-posh for fancy prompt management."
