@@ -3,10 +3,6 @@
 # ~/.bash_profile is sourced only for login shells.
 # ------------------------------------------------------------------------------------------------ #
 
-#if test -f /etc/bashrc; then
-#  source /etc/bashrc
-#fi
-
 [[ "$(umask)" == "0000" ]] && umask 0007
 
 # Making this next line active may break some commands (like scp) due to the extra verbosity.
@@ -46,8 +42,6 @@ fi
 # User Customizations
 # ------------------------------------------------------------------------------------------------ #
 if [[ "${INTERACTIVE:-false}" = true ]]; then
-
-  umask 0007
 
   export USERNAME=kellyt
   export NAME="Kelly (KT) Thompson"
@@ -94,8 +88,7 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
     echo "==> consider installing oh-my-posh for fancy prompt management."
   fi 
 
-  [[ -n "${verbose}" ]]; && echo "in ~/.bash_profile ... done"
-
+  [[ -n "${verbose}" ]] && echo "in ~/.bash_profile ... done"
 fi # if test "$INTERACTIVE" = "true"
 
 # ------------------------------------------------------------------------------------------------ #
