@@ -79,13 +79,15 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
   fi
 
   # Oh-my-posh Prompt
-  if [[ -x /home/kellyt/.local/bin/oh-my-posh ]]; then
-    #  curl -s https://ohmyposh.dev/install.sh | bash -s 
-    export PATH="/home/kellyt/.local/bin:$PATH"
+  if [[ -x /home/kellyt/bin/oh-my-posh ]]; then
+    #  cd $HOME && curl -s https://ohmyposh.dev/install.sh | bash -s
+    export PATH="/home/kellyt/bin:$PATH"
     export OHMYPOSH_THEME_DIR=" /home/kellyt/.cache/oh-my-posh/themes"
     eval "$(oh-my-posh init bash --config ${OHMYPOSH_THEME_DIR}/marcduiker.omp.json)"
   else
     echo "==> consider installing oh-my-posh for fancy prompt management."
+    echo "    cd $HOME && curl -s https://ohmyposh.dev/install.sh | bash -s"
+    echo "==> exit and log back in."
   fi 
 
   [[ -n "${verbose}" ]] && echo "in ~/.bash_profile ... done"
