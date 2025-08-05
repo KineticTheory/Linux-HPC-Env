@@ -49,6 +49,9 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
 
   umask 0007
 
+  export USERNAME=kellyt
+  export NAME="Kelly (KT) Thompson"
+
   # Silence warnings from GTK/Gnome
   export NO_AT_BRIDGE=1
   export LIBGL_ALWAYS_INDIRECT=1
@@ -59,22 +62,6 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
   source ~/.bash_aliases
   source ~/.bash_functions
 
-  # Prompt ----------------------------------------------------------------------#
-  # - see http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/
-
-  #if [[ "$TERM" = emacs ]] || [[ "$TERM" = dumb ]] || [[ -z "`declare -f npwd | grep npwd`" ]];
-  #then
-  #  export PS1="\h:\w [\!] % "
-  #  export LS_COLORS=''
-  #elif [[ -f $HOME/.bash_prompt ]]; then
-  #  source ~/.bash_prompt
-  #fi
-  if [[ `uname -r` =~ "Microsoft" || `uname -r` =~ "microsoft" ]] ; then
-    if [[ -f ~/.bashrc_wsl2 ]]; then
-      source ~/.bashrc_wsl2;
-    fi
-  fi
-
   # shopt options -------------------------------------------------------------#
   # https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
 
@@ -84,33 +71,32 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
     ve* | ro* | darwin* | cn*) shopt -s direxpand ;;
   esac
 
-  # Special setup per platform ------------------------------------------------- #
-  case ${nodename} in
-    darwin-fe*)
-      add_to_path /projects/draco/vendors/bin PATH
-      GOPATH=/projects/draco/vendors
-      function _update_ps1() {
-        # see options by running 'powerline-go -h'
-        # https://github.com/justjanne/powerline-go
-        # theme opts: {default, low-contrast, gruvbox, solarized-dark16, solarized-light16}
-        # might need '-mode compatible
-        PS1="$($GOPATH/bin/powerline-go -theme default -error $?)"
-      }
-      if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
-        PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-      fi
-     ;;
-  esac
+  # Added by LM Studio CLI (lms)
+  if [[ -d /home/kellyt/.lmstudio/bin ]]; then
+    export PATH="$PATH:/home/kellyt/.lmstudio/bin"
+  fi
 
-  [[ -d $HOME/.local/bin ]] && export PATH+=":$HOME/.local/bin"
+  # Prompt ----------------------------------------------------------------------#
+  #if [[ -f $HOME/.bash_prompt ]]; then source ~/.bash_prompt; fi
+  if [[ `uname -r` =~ "Microsoft" || `uname -r` =~ "microsoft" ]] ; then
+    if [[ -f ~/.bashrc_wsl2 ]]; then
+      source ~/.bashrc_wsl2;
+    fi
+  fi
 
-  if test -n "${verbose}"; then echo "in ~/.bash_profile ... done"; fi
+  # Oh-my-posh Prompt
+  if [[ -x /home/kellyt/.local/bin/oh-my-posh ]]; then
+    #  curl -s https://ohmyposh.dev/install.sh | bash -s 
+    export PATH="/home/kellyt/.local/bin:$PATH"
+    export OHMYPOSH_THEME_DIR=" /home/kellyt/.cache/oh-my-posh/themes"
+    eval "$(oh-my-posh init bash --config ${OHMYPOSH_THEME_DIR}/marcduiker.omp.json)"
+  else
+    echo "==> consider installing oh-my-posh for fancy prompt management."
+  fi 
+
+  [[ -n "${verbose}" ]]; && echo "in ~/.bash_profile ... done"
+
 fi # if test "$INTERACTIVE" = "true"
-
-# Added by LM Studio CLI (lms)
-if [[ -d /home/kellyt/.lmstudio/bin ]]; then
-  export PATH="$PATH:/home/kellyt/.lmstudio/bin"
-fi
 
 # ------------------------------------------------------------------------------------------------ #
 # end ~/.bash_profile

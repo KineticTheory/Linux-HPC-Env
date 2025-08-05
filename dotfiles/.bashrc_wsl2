@@ -5,7 +5,7 @@
 # Customize these settings to your own preferences...
 # ------------------------------------------------------------------------------------------------ #
 
-[[ "${verbose:-false}" == "true" ]] && echo "in ~/.bash_wsl2"
+[[ "${verbose:-false}" == "true" ]] && echo "in ~/.bashrc_wsl2"
 
 # ------------------------------------------------------------------------------------------------ #
 # WLS defaults
@@ -38,27 +38,26 @@ export KRB5CCNAME=FILE:/tmp/tgt
 # Vendors, etc.
 # ------------------------------------------------------------------------------------------------ #
 
-export SPACK_ROOT=~/devops-2025.01.16/dracose/spack
+export SPACK_ROOT=~/devops-2025-05-15/dracose/spack
 export SPACK_USER_CACHE_PATH=${SPACK_ROOT}/.spack
 export SPACK_DISABLE_LOCAL_CONFIG=true
 
 if [[ -d $SPACK_ROOT ]]; then
   echo "==> found spack_root"
   source $SPACK_ROOT/share/spack/setup-env.sh
-  # export PATH=$SPACK_ROOT/bin:$PATH
   MODULES_HOME=`spack location -i lmod`
-  # MODULES_HOME=/home/kellyt/spack.20230421/opt/spack/linux-ubuntu20.04-skylake_avx512/gcc-9.4.0/lmod-8.7.20-avay7wu
   if [[ -d $MODULES_HOME ]]; then
     echo "==> found modules_home"
     source $MODULES_HOME/lmod/lmod/init/bash
     module use `\ls -d $SPACK_ROOT/share/spack/lmod/*/Core`
-    module load random123 numdiff cmake ack htop lcov mscgen doxygen graphviz ghostscript
+    module load random123 numdiff ack htop lcov mscgen doxygen graphviz 
     module load py-fprettify py-autopep8 py-cmake-format py-six
     module load gsl metis openblas ninja python boost catch2 fmt spdlog
     module load eospac ndi
-    module load openmpi hwloc avalanche hdf5 hypre shacl-physics shacl-storm valgrind
-    module load njoy-acetk njoy-fast-float njoy-tools ndatk
+    module load openmpi hwloc hdf5 hypre 
+    module load njoy-acetk njoy-fast-float njoy-tools ndatk mpark-variant avalanche shacl-physics shacl-storm 
     module load parmetis libquo caliper superlu-dist trilinos xtl xsimd xtensor xtensor-blas lua
+    module load ghostscript git gmake py-flake8 py-sphinx py-sphinx-rtd-theme qt valgrind
     module load llvm
     # clang-format and clang-format-diff.py
     export PATH=$PATH:$(spack location -i llvm)/bin
@@ -84,133 +83,11 @@ if [[ -d "/mnt/c/Users/107638/AppData/Local/Programs/Microsoft VS Code" ]]; then
   export PATH=$PATH:"/mnt/c/Users/107638/AppData/Local/Programs/Microsoft VS Code"
 fi
 
-# X11 via VcXSrv and xauth
-# https://github.com/microsoft/WSL/issues/4106#issuecomment-530006295
-# https://sourceforge.net/p/vcxsrv/wiki/VcXsrv%20%26%20Win10/
-
-# echo "1. DISPLAY = $DISPLAY"
-# if [[ "${DISPLAY:-notset}" == "notset" ]]; then
-#   if [[ -f /etc/resolv.conf ]]; then
-#     DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
-#   else
-#     echo "/etc/resolv.conf missing. Not setting DISPLAY"
-#   fi
-# fi
-# echo "2. DISPLAY = $DISPLAY"
-
-# https://www.zuut.com/wsl2-x11-server/
-# function fixxauth()
-# {
-#   rm $HOME/.Xauthority
-#   touch $HOME/.Xauthority
-#   # magiccookie=$(echo '{some-pass-phrase}'|tr -d '\n\r'|md5sum|gawk '{print $1}')
-#   magiccookie=$(mcookie)
-#   xauth add $DISPLAY . $magiccookie
-#   xauth list
-#   userprofile=$(wslpath $(/mnt/c/Windows/System32/cmd.exe /C "echo %USERPROFILE%" | tr -d '\r\n'))
-#   cp $HOME/.Xauthority "$userprofile"
-# }
-
-# Test if X11 is working
-# if [[ "${DISPLAY:-notset}" != "notset" ]]; then
-#   mybool=$(timeout 1s xset q | grep -c Screen)
-#   echo "==> mybool = $mybool"
-#   if [[ "$mybool" != "0" ]]; then
-#     echo "X11 not working, attempting to fix..."
-#     add_to_xauth="false"
-#     # No X11
-#     # 1. Sync up .Xauthority if it exists, or create it.
-#     # 2. Print a message about running vcxsrv on win10.
-#     if ! [[ -f $HOME/.Xauthority ]]; then
-#       echo "No ~/.Xauthority file found."
-#       # create .Xauthority
-#       touch $HOME/.Xauthority
-#       add_to_xauth="true"
-#     elif [[ $(xauth list | head -n 1 | awk '{ print $1 }') !=  "${DISPLAY}" ]]; then
-#       echo "Regenerating ~/.Xauthority."
-#       # rm "$HOME/.Xauthority" && touch $HOME/.Xauthority
-#       add_to_xauth="true"
-#     fi
-#     if [[ ${add_to_xauth} == "true" ]]; then
-#       echo "Creating .Xauthority. Please enter a passphrase:"
-#       read passphrase
-#       magiccookie=$(echo "$passphrase"|tr -d '\n\r'|md5sum|gawk '{print $1}')
-#       run "xauth add $DISPLAY . $magiccookie"
-#       unset magiccookie
-#       unset passphrase
-#     fi
-#     unset add_to_xauth
-#     #echo "Trying to sync .Xauthority file. Please provide your Windows USERNAME:"
-#     # read windowsusername
-#     userprofile=$(wslpath $(/mnt/c/Windows/System32/cmd.exe /C "echo %USERPROFILE%" 2>/dev/null | tr -d '\r\n'))
-#     if [[ -f $HOME/.Xauthority ]] && [[ $(diff $HOME/.Xauthority $userprofile/.Xauthority) ]]; then
-#       run "cp $HOME/.Xauthority ${userprofile}/."
-#     fi
-#     # unset windowsusername
-#     # unset userprofile
-#     echo "On Win10, run \"vcxsrv.exe -multiwindow -clipboard -wgl -auth %USERPROFILE%\.Xauthority\""
-#     echo "You might need to exit from vcxsrv.exe and restart it with the proper options."
-#     echo -e "Optional: delete ~/.Xauthority and %USERPROFILE%\.Xauthority and try again.\n"
-#   fi
-# fi
-
 export LIBGL_ALWAYS_INDIRECT=1
 export VENDOR_DIR=~/vendors
 
-export DISPLAY
-
-# if test -n "${verbose}"; then
-#   echo "DISPLAY    = $DISPLAY"
-#   echo "TERM       = $TERM"
-#   echo "VENDOR_DIR = $VENDOR_DIR"
-#   echo "CXX        = $CXX"
-# fi
-
 # Enable docker
-
 export PATH=~/bin:$PATH
-
-#export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
-#export PATH="$PATH:/mnt/c/Program\ Files/Docker/Docker/resources/bin"
-#alias docker=docker.exe
-#alias docker-compose=docker-compose.exe
-#export PATH="$PATH:/mnt/c/Program\ Files/Git/usr/bin"
-
-# keychain
-
-# SSH keys --------------------------------------
-
-# Try to re-use authentication known by Pageant on the Windows host.
-# https://github.com/BlackReloaded/wsl2-ssh-pageant
-
-# export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
-# if ! [[ $(ss -a | grep -q "$SSH_AUTH_SOCK") ]]; then
-#   rm -f "$SSH_AUTH_SOCK"
-#   # wsp="$HOME/bin/wsl2-ssh-pageant.exe"
-#   wsp="/mnt/c/work/vendors64/bin/wsl2-ssh-pageant.exe"
-#   if [[ -x "$wsp" ]]; then
-#     (setsid nohup socat UNIX-LISTEN:"$SSH_AUTH_SOCK,fork" EXEC:"$wsp" >/dev/null 2>&1 &)
-#   else
-#     echo >&2 "WARNING: $wsl2_ssh_pageant_bin is not executable or not found."
-#   fi
-# fi
-
-# VPN tunnel for laptop -------------------------
-alias vpnkit='wsl.exe -d wsl-vpnkit --cd /app wsl-vpnkit'
-
-# Prompt ----------------------------------------
-
-# https://www.hanselman.com/blog/how-to-make-a-pretty-prompt-in-windows-terminal-with-powerline-nerd-fonts-cascadia-code-wsl-and-ohmyposh
-GOPATH=$HOME/go
-function _update_ps1() {
-    PS1="$($GOPATH/bin/powerline-go -error $?)"
-}
-if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
-    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-fi
-
-# proxy
-
 
 [[ "${verbose:-false}" == "true" ]] && echo "done with ~/.bash_wsl2"
 
