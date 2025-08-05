@@ -12,7 +12,6 @@ if [[ -f /etc/bashrc && `uname -n` =~ ccscs[1-9] ]]; then
   source /etc/bashrc
 fi
 
-
 # ------------------------------------------------------------------------------------------------ #
 # CCS-2 standard setup
 # ------------------------------------------------------------------------------------------------ #
@@ -45,17 +44,16 @@ case ${-} in
 
     target="`uname -n | sed -e s/[.].*//`"
     case ${target} in
-      t[rt]-fey[0-9] | t[rt]-login[0-9])
-        alias salloc='salloc --gres=craynetwork:0 --x11'
-        ;;
+      # ro-rfe*)
+      #   module unuse /opt/cray/pe/lmod/modulefiles/perftools/23.03.0
+      #   module unuse /opt/cray/pe/lmod/modulefiles/mix_compilers
+      # ;;
       *)
         modcmd=`declare -f module`
         # If not found, look for it in /usr/share/Modules (Toss)
         if [[ ! ${modcmd} ]]; then
           if [[ -f /usr/share/lmod/lmod/init/bash ]]; then
             source /usr/share/lmod/lmod/init/bash
-#          else
-#            echo "ERROR: The module command was not found. No modules will be loaded."
           fi
         fi
         modcmd=`declare -f module`
@@ -73,20 +71,11 @@ if [[ "$INTERACTIVE" == "true" ]]; then
 
   # home, scratchdir, modulefiles
   export CDPATH=.:$HOME
-  extra_dirs="/scratch /scratch/$USER /lustre/ttscratch1"
+  extra_dirs="/scratch /scratch/$USER"
   for dir in $extra_dirs; do
     if [[ -d $dir ]]; then export CDPATH=$CDPATH:$dir; fi
   done
-  add_to_path $HOME/bin PATH
-  case $target in
-    ccscs*)
-    add_to_path /ccs/opt/keychain-2.8.5 PATH
-    rm_from_path /home/kellyt/.composer/vendor/bin PATH
-    rm_from_path /usr/lib64/qt-3.3/bin PATH
-    rm_from_path /opt/rh/php55/root/usr/bin PATH
-    rm_from_path /opt/rh/php55/root/usr/sbin PATH
-    ;;
-  esac
+
   if [[ "${verbose}" == "true" ]]; then echo "done with $HOME/.bashrc"; fi
 fi
 

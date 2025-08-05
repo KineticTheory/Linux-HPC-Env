@@ -20,7 +20,7 @@ verbose=
 case ${-} in
   *i*)
     export INTERACTIVE=true
-    if test -n "${verbose}"; then echo "in ~/.bash_profile"; fi
+    [[ "${verbose:=false}" == "true" ]] &&  echo "in ~/.bash_profile"
     ;;
   *)
     # Not an interactive shell
@@ -49,11 +49,6 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
 
   umask 0007
 
-  export USERNAME=kellyt
-  export NAME="Kelly (KT) Thompson"
-  export EDITOR="emacs -nw"
-  export LPDEST=gumibears
-
   # Silence warnings from GTK/Gnome
   export NO_AT_BRIDGE=1
   export LIBGL_ALWAYS_INDIRECT=1
@@ -80,43 +75,17 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
     fi
   fi
 
-  # SSH keys ----------------------------------------------------------- #
-  # case $target in
-  #   nid* | cn*  ) ;;
-  #   *) [[ -z $SLURM_NODELIST ]] && reloadkeys ;;
-  # esac
-
-  # Set terminal title
-  # echo -ne "\033]0;${nodename}\007"
-
   # shopt options -------------------------------------------------------------#
   # https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
 
-  shopt -s cdspell # attempt to fix mispelled directory names
+  shopt -s cdspell # attempt to fix misspelled directory names
   case ${nodename} in
     # do not escape env variables when doing tab completion.
     ve* | ro* | darwin* | cn*) shopt -s direxpand ;;
   esac
 
-  # LaTeX -------------------------------------------------------------------- #
-
-  # extradirs="$HOME/dracodoc/latex"
-  # for mydir in ${extradirs}; do
-  #   if test -z "`echo $TEXINPUTS | grep $mydir`" && test -d $mydir; then
-  #     export TEXINPUTS=$mydir:$TEXINPUTS
-  #   fi
-  # done
-
   # Special setup per platform ------------------------------------------------- #
   case ${nodename} in
-    #darwin* | cn*)
-      # todo: move this into ~/privatemodules
-      export SPACK_ROOT=/projects/draco/vendors/spack.20181002
-      export PATH=$SPACK_ROOT/bin:$PATH
-      ;;
-    fg-rfe* | cy-fe*)
-      ulimit -Sc unlimited
-      ;;
     darwin-fe*)
       add_to_path /projects/draco/vendors/bin PATH
       GOPATH=/projects/draco/vendors
@@ -138,9 +107,11 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
   if test -n "${verbose}"; then echo "in ~/.bash_profile ... done"; fi
 fi # if test "$INTERACTIVE" = "true"
 
+# Added by LM Studio CLI (lms)
+if [[ -d /home/kellyt/.lmstudio/bin ]]; then
+  export PATH="$PATH:/home/kellyt/.lmstudio/bin"
+fi
+
 # ------------------------------------------------------------------------------------------------ #
 # end ~/.bash_profile
 # ------------------------------------------------------------------------------------------------ #
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/home/kellyt/.lmstudio/bin"
