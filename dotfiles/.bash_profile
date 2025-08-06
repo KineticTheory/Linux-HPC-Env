@@ -6,7 +6,7 @@
 [[ "$(umask)" == "0000" ]] && umask 0007
 
 # Making this next line active may break some commands (like scp) due to the extra verbosity.
-verbose=
+# verbose=
 
 # ------------------------------------------------------------------------------------------------ #
 # CCS-2 standard setup
@@ -79,7 +79,7 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
   fi
 
   # Oh-my-posh Prompt
-  if [[ -x /home/kellyt/bin/oh-my-posh ]]; then
+  if [[ -x ${HOME}/bin/oh-my-posh ]]; then
     #  cd $HOME && curl -s https://ohmyposh.dev/install.sh | bash -s
     export PATH="${HOME}/bin:$PATH"
     export OHMYPOSH_THEME_DIR="${HOME}/.cache/oh-my-posh/themes"

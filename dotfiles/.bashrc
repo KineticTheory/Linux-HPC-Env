@@ -3,8 +3,7 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc) for examples
 # ------------------------------------------------------------------------------------------------ #
 
-# Making this next line active may break some commands (like scp) due to the
-# extra verbosity.
+# Making this next line active may break some commands (like scp) due to the extra verbosity.
 verbose=true
 
 if [[ -f /etc/bashrc && `uname -n` =~ ccscs[1-9] ]]; then
@@ -68,7 +67,7 @@ if [[ "$INTERACTIVE" == "true" ]]; then
     if [[ -d $dir ]]; then export CDPATH=$CDPATH:$dir; fi
   done
 
-  if [[ "${verbose}" == "true" ]]; then echo "done with $HOME/.bashrc"; fi
+  if [[ "${verbose}" == "true" ]]; then echo "in $HOME/.bashrc ... done"; fi
 fi
 
 # ------------------------------------------------------------------------------------------------ #
