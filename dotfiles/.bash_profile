@@ -88,6 +88,8 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
     echo "==> consider installing oh-my-posh for fancy prompt management."
     echo "    cd $HOME && curl -s https://ohmyposh.dev/install.sh | bash -s"
     echo "==> exit and log back in."
+    # Alternately, do this on darwin then
+    # cd $HOME && scp bin/oh-my-posh ro-rfe:bin/. && scp -r .cache/oh-my-posh ro-rfe:.cache/.
   fi 
 
   [[ -n "${verbose}" ]] && echo "in ~/.bash_profile ... done"
