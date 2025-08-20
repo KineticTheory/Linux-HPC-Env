@@ -89,6 +89,8 @@ export VENDOR_DIR=~/vendors
 # Enable docker
 export PATH=~/bin:$PATH
 
+keychain
+
 [[ "${verbose:-false}" == "true" ]] && echo "done with ~/.bash_wsl2"
 
 # ------------------------------------------------------------------------------------------------ #

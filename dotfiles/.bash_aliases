@@ -33,7 +33,7 @@ if [[ `alias bash_aliases_pragma_once 2>&1 | grep -c "bash: alias"` != 0 ]]; the
   alias emacs='emacs -g 110x70' #  -fn Inconsolata &> $HOME/emacs.log
   alias gitk='gitk --all'
   alias gittrigger='git commit --allow-empty -m "trigger pipeline" && git push'
-  alias gitup='git fetch --all --prune; remote=`[[ $(git remote -v | grep -c upstream) ]] || echo "upstream" && echo "origin"`; git merge ${remote}/$(git rev-parse --abbrev-ref HEAD)'
+  # alias gitup='git fetch --all --prune; remote=`[[ $(git remote -v | grep -c upstream) ]] || echo "upstream" && echo "origin"`; git merge ${remote}/$(git rev-parse --abbrev-ref HEAD)'
   alias moduel='module'
   alias mpiruntv='mpirun -tv $* 2>/dev/null'
   alias qtcreator='qtcreator -noload Welcome'
