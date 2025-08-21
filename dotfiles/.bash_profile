@@ -62,7 +62,7 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
   shopt -s cdspell # attempt to fix misspelled directory names
   case ${nodename} in
     # do not escape env variables when doing tab completion.
-    ve* | ro* | darwin* | cn*) shopt -s direxpand ;;
+    ro* | darwin* | cn*) shopt -s direxpand ;;
   esac
 
   # Added by LM Studio CLI (lms)
@@ -84,6 +84,7 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
     export PATH="${HOME}/bin:$PATH"
     export OHMYPOSH_THEME_DIR="${HOME}/.cache/oh-my-posh/themes"
     eval "$(oh-my-posh init bash --config ${OHMYPOSH_THEME_DIR}/marcduiker.omp.json)"
+    # Disable: bash --noprofile --norc
   else
     echo "==> consider installing oh-my-posh for fancy prompt management."
     echo "    cd $HOME && curl -s https://ohmyposh.dev/install.sh | bash -s"
