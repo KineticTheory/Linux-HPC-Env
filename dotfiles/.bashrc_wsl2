@@ -34,40 +34,48 @@ set show-all-if-ambiguous on
 # Fix Kerberos
 export KRB5CCNAME=FILE:/tmp/tgt
 
+# Modules
+source /usr/share/lmod/lmod/init/bash || echo "ERROR: lmod not installed."
+
 # ------------------------------------------------------------------------------------------------ #
 # Vendors, etc.
 # ------------------------------------------------------------------------------------------------ #
 
-export SPACK_ROOT=~/devops-2025-05-15/dracose/spack
+# export SPACK_ROOT=~/devops-2025-05-15/dracose/spack
+export SPACK_ROOT=${HOME}/dracose-tac/spack
 export SPACK_USER_CACHE_PATH=${SPACK_ROOT}/.spack
 export SPACK_DISABLE_LOCAL_CONFIG=true
+export PYTHONDONTWRITEBYTECODE=1
+export SPACK_COLOR=always
+export SI_ARGS=-"-no-check-signature --use-buildcache auto"
+export MIRROR_DIR=${HOME}/spack-mirror
 
 if [[ -d $SPACK_ROOT ]]; then
-  echo "==> found spack_root"
+  echo "==> found dracose-tac. Loading modules..."
   source $SPACK_ROOT/share/spack/setup-env.sh
-  MODULES_HOME=`spack location -i lmod`
-  if [[ -d $MODULES_HOME ]]; then
-    echo "==> found modules_home"
-    source $MODULES_HOME/lmod/lmod/init/bash
-    module use `\ls -d $SPACK_ROOT/share/spack/lmod/*/Core`
-    module load random123 numdiff ack htop lcov mscgen doxygen graphviz 
-    module load py-fprettify py-autopep8 py-cmake-format py-six
-    module load gsl metis openblas ninja python boost catch2 fmt spdlog
-    module load eospac ndi
-    module load openmpi hwloc hdf5 hypre 
-    module load njoy-acetk njoy-fast-float njoy-tools ndatk mpark-variant avalanche shacl-physics shacl-storm 
-    module load parmetis libquo caliper superlu-dist trilinos xtl xsimd xtensor xtensor-blas lua
-    module load ghostscript git gmake py-flake8 py-sphinx py-sphinx-rtd-theme qt valgrind
-    module load llvm
-    # clang-format and clang-format-diff.py
-    export PATH=$PATH:$(spack location -i llvm)/bin
-    export PATH=$PATH:$(spack location -i llvm)/share/clang
-    export SESAMEPATH=$HOME/physical_data/eos
-  fi
+  module use `\ls -d $SPACK_ROOT/share/spack/lmod/*/Core`
+  module load ack catch2 cmake doxygen fmt ghostscript git gmake graphviz htop lcov mscgen ninja
+  module load numdiff python qt random123 scnlib spdlog
+  module load py-fprettify py-autopep8 py-cmake-format py-six py-flake8 py-sphinx
+  module load py-sphinx-rtd-theme
 fi
-export CXX=$(which clang++)
-export CC=$(which clang)
-export FC=$(which gfortran)
+export SPACK_ROOT=${HOME}/dracose/spack
+if [[ -d $SPACK_ROOT ]]; then
+  echo "==> found dracose. Loading modules..."
+  module use `\ls -d $SPACK_ROOT/share/spack/lmod/*/Core`
+   # if [[ -n $(spack find llvm2 2>/dev/null) ]] ; then     echo "yes"; else     echo "no"; fi
+  module load llvm
+  module load boost eospac gsl hwloc lua metis openblas openmpi xsimd/8.0.5 xtensor-blas
+  module load xtensor xtl caliper hdf5 hypre parmetis superlu-dist trilinos valgrind
+  # module load ndi njoy-acetk njoy-fast-float njoy-tools ndatk mpark-variant avalanche
+  # module load shacl-physics shacl-storm libquo
+
+  # Keep access to clang-format and clang-format-diff.py even if llvm is unloaded.
+  export PATH=$PATH:$(spack location -i llvm)/bin
+  export PATH=$PATH:$(spack location -i llvm)/share/clang
+  export SESAMEPATH=$HOME/physical_data/eos
+fi
+
 export OMP_NUM_THREADS=4
 
 if [[ $(declare -f run &> /dev/null) != 0 ]]; then

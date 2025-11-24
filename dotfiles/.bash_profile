@@ -83,7 +83,8 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
     #  cd $HOME && curl -s https://ohmyposh.dev/install.sh | bash -s
     export PATH="${HOME}/bin:$PATH"
     export OHMYPOSH_THEME_DIR="${HOME}/.cache/oh-my-posh/themes"
-    eval "$(oh-my-posh init bash --config ${OHMYPOSH_THEME_DIR}/marcduiker.omp.json)"
+    # eval "$(oh-my-posh init bash --config ${OHMYPOSH_THEME_DIR}/marcduiker.omp.json)"
+    eval "$(oh-my-posh init bash --config ${OHMYPOSH_THEME_DIR}/jv_sitecorian.omp.json)"
     # Disable: bash --noprofile --norc
   else
     echo "==> consider installing oh-my-posh for fancy prompt management."
