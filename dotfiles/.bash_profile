@@ -79,20 +79,24 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
   fi
 
   # Oh-my-posh Prompt
-  if [[ -x ${HOME}/bin/oh-my-posh ]]; then
+  if ! command -v oh-my-posh >/dev/null 2>&1 && [[ -x "${HOME}/bin/oh-my-posh" ]]; then
     #  cd $HOME && curl -s https://ohmyposh.dev/install.sh | bash -s
-    export PATH="${HOME}/bin:$PATH"
+    if [[ ":$PATH:" != *":$HOME/bin:"* ]]; then
+      export PATH="${HOME}/bin:$PATH"
+    fi
     export OHMYPOSH_THEME_DIR="${HOME}/.cache/oh-my-posh/themes"
-    # eval "$(oh-my-posh init bash --config ${OHMYPOSH_THEME_DIR}/marcduiker.omp.json)"
-    eval "$(oh-my-posh init bash --config ${OHMYPOSH_THEME_DIR}/jv_sitecorian.omp.json)"
-    # Disable: bash --noprofile --norc
-  else
+  fi
+  if ! command -v oh-my-posh >/dev/null 2>&1; then
     echo "==> consider installing oh-my-posh for fancy prompt management."
     echo "    cd $HOME && curl -s https://ohmyposh.dev/install.sh | bash -s"
     echo "==> exit and log back in."
     # Alternately, do this on darwin then
     # cd $HOME && scp bin/oh-my-posh ro-rfe:bin/. && scp -r .cache/oh-my-posh ro-rfe:.cache/.
-  fi 
+  else
+    # eval "$(oh-my-posh init bash --config ${OHMYPOSH_THEME_DIR}/marcduiker.omp.json)"
+    eval "$(oh-my-posh init bash --config ${OHMYPOSH_THEME_DIR}/jv_sitecorian.omp.json)"
+    # Disable: bash --noprofile --norc
+  fi
 
   [[ -n "${verbose}" ]] && echo "in ~/.bash_profile ... done"
 fi # if test "$INTERACTIVE" = "true"
