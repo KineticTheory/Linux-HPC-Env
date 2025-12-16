@@ -79,10 +79,16 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
   fi
 
   # Oh-my-posh Prompt
-  if ! command -v oh-my-posh >/dev/null 2>&1 && [[ -x "${HOME}/bin/oh-my-posh" ]]; then
-    #  cd $HOME && curl -s https://ohmyposh.dev/install.sh | bash -s
-    if [[ ":$PATH:" != *":$HOME/bin:"* ]]; then
-      export PATH="${HOME}/bin:$PATH"
+  if ! command -v oh-my-posh >/dev/null 2>&1; then
+    if [[ -x "${HOME}/bin/oh-my-posh" ]]; then
+      #  cd $HOME && curl -s https://ohmyposh.dev/install.sh | bash -s
+      if [[ ":$PATH:" != *":$HOME/bin:"* ]]; then
+        export PATH="${HOME}/bin:$PATH"
+      fi
+    elif [[ -x "${HOME}/.local/bin/oh-my-posh" ]]; then
+      if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+        export PATH="${HOME}/.local/bin:$PATH"
+      fi
     fi
     export OHMYPOSH_THEME_DIR="${HOME}/.cache/oh-my-posh/themes"
   fi
