@@ -1,43 +1,48 @@
 #!/bin/bash
 
+# verbose=true
 if test "$INTERACTIVE" = true; then
-
-
-  if [[ $(uname -m) == "x86_64" ]]; then
-    plg="powerline-go"
-  elif [[ $(uname -m) == "aarch64" ]]; then
-    plg="powerline-go-linux-arm64"
-  else
-    plg="unknown"
-  fi
-
-  if [[ "${plg}" != "unknown" ]]; then
 
   # pragma once
   if [[ `type bash_prompt_pragma_once 2>&1 | grep -c "bash: type: "` != 0 ]]; then
     function bash_prompt_pragma_once () {
       echo "bppo"
     }
+
     [[ "${verbose:=false}" == "true" ]] && echo "in ~/.bash_prompt"
-  fi
 
-  #------------------------------------------------------------------------------#
-
-  if [[ -x /usr/projects/draco/vendors/go/bin/${plg} ]]; then
-    GOPATH=/usr/projects/draco/vendors/go
-    function _update_ps1() {
-      # see options by running 'powerline-go -h'
-      # https://github.com/justjanne/powerline-go
-      # theme opts: {default, low-contrast, gruvbox, solarized-dark16, solarized-light16}
-      # might need '-mode compatible
-      PS1="$($GOPATH/bin/${plg} -theme default -error $?)"
-    }
-    if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
-      PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+    # Oh-my-posh Prompt
+    export OHMYPOSH_THEME_DIR="${HOME}/.cache/oh-my-posh/themes"
+    if ! command -v oh-my-posh >/dev/null 2>&1; then
+      if [[ -x "${HOME}/bin/oh-my-posh" ]]; then
+        #  cd $HOME && curl -s https://ohmyposh.dev/install.sh | bash -s
+        if [[ ":$PATH:" != *":$HOME/bin:"* ]]; then
+          export PATH="${HOME}/bin:$PATH"
+        fi
+      elif [[ -x "${HOME}/.local/bin/oh-my-posh" ]]; then
+        if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+          export PATH="${HOME}/.local/bin:$PATH"
+        fi
+      fi
     fi
-  fi
+    if ! command -v oh-my-posh >/dev/null 2>&1; then
+      echo "==> consider installing oh-my-posh for fancy prompt management."
+      echo "    cd $HOME && curl -s https://ohmyposh.dev/install.sh | bash -s"
+      echo "==> exit and log back in."
+      # Alternately, do this on darwin then
+      # cd $HOME && scp bin/oh-my-posh ro-rfe:bin/. && scp -r .cache/oh-my-posh ro-rfe:.cache/.
+    else
+      # eval "$(oh-my-posh init bash --config ${OHMYPOSH_THEME_DIR}/marcduiker.omp.json)"
+      eval "$(oh-my-posh init bash --config ${OHMYPOSH_THEME_DIR}/jv_sitecorian.omp.json)"
+      # Disable: bash --noprofile --norc
+      # Tab title with machine name: edit jv_sitecorian.omp.json...
+      #   "console_title": true,
+      #   "console_title_style": "template",
+      #   "console_title_template": "{{.HostName}} :: {{.Folder}}{{if .Root}} :: root{{end}}",
+      #   "final_space": true,
+    fi
 
-#------------------------------------------------------------------------------#
     [[ "${verbose:=false}" == "true" ]] && echo "in ~/.bash_prompt ... done"
-  fi
-fi
+
+  fi # pragma once
+fi # INTERACTIVE

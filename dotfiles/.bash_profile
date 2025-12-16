@@ -6,7 +6,7 @@
 [[ "$(umask)" == "0000" ]] && umask 0007
 
 # Making this next line active may break some commands (like scp) due to the extra verbosity.
-# verbose=
+# verbose=1
 
 # ------------------------------------------------------------------------------------------------ #
 # CCS-2 standard setup
@@ -56,6 +56,8 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
   source ~/.bash_aliases
   source ~/.bash_functions
 
+  if [[ -f $HOME/.ssh/secrets.sh ]]; then source ~/.ssh/secrets.sh; fi
+
   # shopt options -------------------------------------------------------------#
   # https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#The-Shopt-Builtin
 
@@ -70,39 +72,14 @@ if [[ "${INTERACTIVE:-false}" = true ]]; then
     export PATH="$PATH:/home/kellyt/.lmstudio/bin"
   fi
 
-  # Prompt ----------------------------------------------------------------------#
-  #if [[ -f $HOME/.bash_prompt ]]; then source ~/.bash_prompt; fi
   if [[ `uname -r` =~ "Microsoft" || `uname -r` =~ "microsoft" ]] ; then
     if [[ -f ~/.bashrc_wsl2 ]]; then
       source ~/.bashrc_wsl2;
     fi
   fi
 
-  # Oh-my-posh Prompt
-  if ! command -v oh-my-posh >/dev/null 2>&1; then
-    if [[ -x "${HOME}/bin/oh-my-posh" ]]; then
-      #  cd $HOME && curl -s https://ohmyposh.dev/install.sh | bash -s
-      if [[ ":$PATH:" != *":$HOME/bin:"* ]]; then
-        export PATH="${HOME}/bin:$PATH"
-      fi
-    elif [[ -x "${HOME}/.local/bin/oh-my-posh" ]]; then
-      if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
-        export PATH="${HOME}/.local/bin:$PATH"
-      fi
-    fi
-    export OHMYPOSH_THEME_DIR="${HOME}/.cache/oh-my-posh/themes"
-  fi
-  if ! command -v oh-my-posh >/dev/null 2>&1; then
-    echo "==> consider installing oh-my-posh for fancy prompt management."
-    echo "    cd $HOME && curl -s https://ohmyposh.dev/install.sh | bash -s"
-    echo "==> exit and log back in."
-    # Alternately, do this on darwin then
-    # cd $HOME && scp bin/oh-my-posh ro-rfe:bin/. && scp -r .cache/oh-my-posh ro-rfe:.cache/.
-  else
-    # eval "$(oh-my-posh init bash --config ${OHMYPOSH_THEME_DIR}/marcduiker.omp.json)"
-    eval "$(oh-my-posh init bash --config ${OHMYPOSH_THEME_DIR}/jv_sitecorian.omp.json)"
-    # Disable: bash --noprofile --norc
-  fi
+  # Prompt
+  if [[ -f $HOME/.bash_prompt ]]; then source ~/.bash_prompt; fi
 
   [[ -n "${verbose}" ]] && echo "in ~/.bash_profile ... done"
 fi # if test "$INTERACTIVE" = "true"
