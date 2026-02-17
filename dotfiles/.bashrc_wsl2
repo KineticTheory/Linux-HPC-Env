@@ -62,18 +62,27 @@ fi
 export SPACK_ROOT=${HOME}/dracose/spack
 if [[ -d $SPACK_ROOT ]]; then
   echo "==> found dracose. Loading modules..."
+  source $SPACK_ROOT/share/spack/setup-env.sh
   module use `\ls -d $SPACK_ROOT/share/spack/lmod/*/Core`
-   # if [[ -n $(spack find llvm2 2>/dev/null) ]] ; then     echo "yes"; else     echo "no"; fi
-  module load llvm
-  module load boost eospac gsl hwloc lua metis openblas openmpi xsimd/8.0.5 xtensor-blas
-  module load xtensor xtl caliper hdf5 hypre parmetis superlu-dist trilinos valgrind
+
+  module load llvm/20.1.8
+  module load boost eospac gsl lua metis openblas xsimd/8.0.5 xtensor-blas xtensor xtl
+
+  module load openmpi
+  module load caliper hdf5 hypre libquo parmetis superlu-dist trilinos valgrind
+
   # module load ndi njoy-acetk njoy-fast-float njoy-tools ndatk mpark-variant avalanche
   # module load shacl-physics shacl-storm libquo
 
   # Keep access to clang-format and clang-format-diff.py even if llvm is unloaded.
-  export PATH=$PATH:$(spack location -i llvm)/bin
-  export PATH=$PATH:$(spack location -i llvm)/share/clang
+  export PATH=$PATH:$(spack location -i llvm@20.1.8)/bin
+  export PATH=$PATH:$(spack location -i llvm@20.1.8)/share/clang
   export SESAMEPATH=$HOME/physical_data/eos
+
+#   module load ack catch2 cmake doxygen fmt ghostscript git gmake graphviz htop lcov mscgen ninja
+#   module load numdiff python qt random123 scnlib spdlog
+#   module load py-fprettify py-autopep8 py-cmake-format py-six py-flake8 py-sphinx
+#   module load py-sphinx-rtd-theme
 fi
 
 export OMP_NUM_THREADS=4
